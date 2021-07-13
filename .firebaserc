@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "da-quikwik-dev",
+    "dev": "da-quikwik-dev",
+    "prod": "da-quikwik-prod"
+  }
+}
