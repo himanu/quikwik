@@ -6,7 +6,7 @@
 	import LobbyScreen from './LobbyScreen.svelte';
     import ReadySetGo from './ReadySetGo.svelte';
     import Game from './Game.svelte';
-    import DoVoting from './DoVoting.svelte';
+    import DoVoting from './DoVotingTest.svelte';
     import LeaderBoard from './LeaderBoard.svelte';
     import Notifications from './Notification.svelte';
     import {info} from './Notifier';

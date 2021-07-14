@@ -448,9 +448,15 @@
             </div>
         </div>
     </div>
-    {#if isHost === true}
-        <CustomButton disableBtn = {false} btnText = {btnText} on:click = {handleNextQuestion}/>
-    {/if}
+    <div class="buttonContainer">
+        {#if isHost === true}
+            <CustomButton disableBtn = {false} btnText = {btnText} on:click = {handleNextQuestion}/>
+        {/if}
+        {#if voter}
+            <CustomButton disableBtn = {false} btnText = {"Vote"} on:click = {handleNextQuestion}/>
+        {/if}
+    </div>
+    
 </main>
 <style>
     main {
@@ -517,8 +523,8 @@
         background-color: #A84480;
         box-shadow: 3px 4px 0px #F980C9;
     }
-    .firstAnswerContainer:hover .firstAnswer,.secondAnswerContainer:hover .secondAnswer {
-        transform: scale(1.1);
+    .firstAnswerContainer:hover,.secondAnswerContainer:hover {
+        transform: scale(1.05);
     }
     .firstAnswer {
         color : #fff;
@@ -571,5 +577,8 @@
         font-family : 'Padauk';
         font-weight : 700;
         font-size : 0.5rem; 
+    }
+    .buttonContainer {
+        display : flex;
     }
 </style>

@@ -560,7 +560,7 @@ exports.updateQuestionNumberOnCompleteVoting = functions.database.ref('/quikwik/
     console.log('No of Voters Remaining ',noOfVotersRemaining);
     if(noOfVotersRemaining === 0) {
       let votingTimerRef = change.after.ref.parent.child('voteTimer');
-      votingTimerRef.set(Date.now() + 6000);
+      votingTimerRef.set(Date.now() + 11000);
       //Now we give the points to winner of current question
       let currentQuestionNumberRef = change.after.ref.parent.child('currentQuestionNumber');
       let currentQuestionNumber,currentQuestionNumberSnap;
@@ -600,17 +600,6 @@ exports.updateQuestionNumberOnCompleteVoting = functions.database.ref('/quikwik/
           }
           console.log('Total Number Of question ',totalNumberOfQuestions);
 
-          firstUserScore = scoreOfUsers[firstUserId];
-          if(!firstUserScore) {
-            firstUserScore = 0;
-          }
-          secondUserScore = scoreOfUsers[secondUserId];
-          if(!secondUserScore) {
-            secondUserScore = 0;
-          }
-          console.log('FirstUserScore ',firstUserScore);
-          console.log('SecondUserScore ',secondUserScore);
-
           setTimeout(async()=>{
             votingTimerRef.remove();
             i = 0;
@@ -628,6 +617,7 @@ exports.updateQuestionNumberOnCompleteVoting = functions.database.ref('/quikwik/
                   firstUserVotes = allAnswers[currentQuestionId][userId]['votedBy'].length;
                   console.log('FirstUserVotes ',firstUserVotes);
                 }
+                firstUserScore = scoreOfUsers[firstUserId];
               }
               else if(i === 1) {
                 secondUserId = userId;
@@ -636,9 +626,12 @@ exports.updateQuestionNumberOnCompleteVoting = functions.database.ref('/quikwik/
                   secondUserVotes = allAnswers[currentQuestionId][userId]['votedBy'].length;
                   console.log('SecondUserVotes ',secondUserVotes);
                 }
+                secondUserScore = scoreOfUsers[secondUserId];
               }
               i++;
             }
+            console.log('FirstUserScore ',firstUserScore);
+            console.log('SecondUserScore ',secondUserScore);
             console.log('Change the question');
             new Promise((res,rej)=>{
               if(firstUserVotes > secondUserVotes) {
@@ -698,7 +691,7 @@ exports.updateQuestionNumberOnCompleteVoting = functions.database.ref('/quikwik/
               console.log('Some error occure while updating the score of users');
               resolve();
             })
-          },6000);
+          },11000);
         })
         .catch(()=>{
           console.log('Unable to get allAnswers or currentQuestionNumber');

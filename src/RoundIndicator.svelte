@@ -43,7 +43,6 @@
 	.round {
 		color : #fff;
 		padding : 20px;
-		transform : rotate(-9deg);
         font-family : 'Padauk';
         font-weight : 700;
         font-size : 3rem;

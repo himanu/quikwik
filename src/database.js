@@ -76,6 +76,7 @@ export const dbUsersWhoAnswered = ()=> dbGameSessionRound().child('usersWhoAnswe
 export const dbNoOfUsersWhoHaveNotAnswered = ()=> dbGameSessionRound().child('noOfUsersWhoHaveNotAnswered');
 export const dbCurrentQuestionNumber = ()=> dbGameSessionRound().child('currentQuestionNumber');
 export const dbCurrentQuestionVoters = ()=> dbGameSessionRound().child('currentQuestionVoters');
+export const dbNoOfVotersRemaining = ()=> dbGameSessionRound().child('noOfVotersRemaining');
 
 export function listenFirebaseKey(key,callback) {
     roundTimeValuePromise.then(()=>{

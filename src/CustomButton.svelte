@@ -35,6 +35,7 @@
 		align-items: center;
 		cursor : pointer;
 		margin : 1rem;
+		margin-top : 0;
 	}
 	.disabledBtn {
 		background: #FFFFFF;
@@ -47,6 +48,7 @@
 		cursor : not-allowed;
 		opacity: 0.5;
 		margin : 1rem;
+		margin-top : 0;
 	}
 	.startBtn:hover {
 		box-shadow: 0px 4px 4px#98C8E2;
