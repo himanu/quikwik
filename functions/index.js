@@ -753,18 +753,18 @@ exports.startTimer = functions.https.onRequest((req, res) => {
   const page = db.ref(`/quikwik/${data.gameSessionId}/rounds/${data.roundValue}/page`);
   const round = db.ref(`/quikwik/${data.gameSessionId}/rounds/${data.roundValue}`);
   const noOfOnlinePlayers = db.ref(`/quikwik/${data.gameSessionId}/rounds/${data.roundValue}/noOfOnlinePlayers`);
-  round.child('timer').set(Date.now() + 66000);
-  setTimeout(() => {
-    page.set('Do Voting');
-    round.child('timer').remove();
-  },65000);
+  // round.child('timer').set(Date.now() + 66000).then(()=>{
+  //   console.log('Timer is set');
+  // });
   //Add allQuestions field in database
   let usersArray = data.onlineUsersArray;
   let questionId = data.questionId;
   let allQuestionObject = {};
   let i = 0;
   let numberOfUser = usersArray.length;
-  noOfOnlinePlayers.set(numberOfUser);
+  // noOfOnlinePlayers.set(numberOfUser).then(()=>{
+  //   console.log('No of online players is set');
+  // });
   shuffle(questionId);
   for(i; i<usersArray.length-1 ; i++) {
       allQuestionObject[usersArray[i].id] = [questionId[i],questionId[i + 1]];
@@ -772,18 +772,26 @@ exports.startTimer = functions.https.onRequest((req, res) => {
   allQuestionObject[usersArray[i].id] = [questionId[numberOfUser - 1], questionId[0]];
   round.update({
     allQuestions : allQuestionObject,
-    noOfUsersWhoHaveNotAnswered : usersArray.length
+    noOfUsersWhoHaveNotAnswered : usersArray.length,
+    timer : Date.now() + 66000,
+    noOfOnlinePlayers : numberOfUser
+  }).then(()=>{
+    console.log('All the required values are set');
   })
-  res.set('Access-Control-Allow-Origin', '*');
-  if (req.method === 'OPTIONS') {
-    // Send response to OPTIONS requests
-    res.set('Access-Control-Allow-Methods', 'GET');
-    res.set('Access-Control-Allow-Headers', 'Content-Type');
-    res.set('Access-Control-Max-Age', '3600');
-    res.status(204).json({'text': ''});
-  } else {
-    res.json({'text':'Hello World!'});
-  }
+  setTimeout(() => {
+    page.set('Do Voting');
+    round.child('timer').remove();
+    res.set('Access-Control-Allow-Origin', '*');
+    if (req.method === 'OPTIONS') {
+      // Send response to OPTIONS requests
+      res.set('Access-Control-Allow-Methods', 'GET');
+      res.set('Access-Control-Allow-Headers', 'Content-Type');
+      res.set('Access-Control-Max-Age', '3600');
+      res.status(204).json({'text': ''});
+    } else {
+      res.json({'text':'Hello World!'});
+    }
+  },65000);
 });
 
 function compare( a, b ) {

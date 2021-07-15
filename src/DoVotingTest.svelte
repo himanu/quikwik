@@ -240,7 +240,7 @@
         else {
             if(isThisVoted) {
                 if(firstAnswerVoters.includes(userId)) {
-                    firstAnswerContainerBackground = "#A84480";
+                    firstAnswerContainerBackground = "#6C44A8";
                     firstAnswerTextColor = "#fff";
                     secondAnswerContainerBackground = "#fff";
                     secondAnswerTextColor = "#343E98";
@@ -256,7 +256,7 @@
                 if(secondAnswerVoters.includes(userId)) {
                     firstAnswerContainerBackground = "#fff";
                     firstAnswerTextColor = "#343E98";
-                    secondAnswerContainerBackground = "#6C44A8";
+                    secondAnswerContainerBackground = "#A84480";
                     secondAnswerTextColor = "#fff";
                 }
             }
@@ -276,7 +276,7 @@
         }
         firstAnswerVoted = true;
         secondAnswerVoted = false;
-        firstAnswerContainerBackground = "#A84480";
+        firstAnswerContainerBackground = "#6C44A8";
         firstAnswerTextColor = "#fff";
         secondAnswerTextColor = "#343E98";
         secondAnswerContainerBackground = "#fff";
@@ -289,7 +289,7 @@
         firstAnswerVoted = false;
         firstAnswerContainerBackground = "#fff";
         firstAnswerTextColor = "#343E98";
-        secondAnswerContainerBackground = "#6C44A8"
+        secondAnswerContainerBackground = "#A84480";
         secondAnswerTextColor = "#fff";
     }
     function registerVote() {
@@ -606,10 +606,10 @@
         flex : 1;
     }
     .firstAnswerContainer,.disabledFirstAnswerContainer {
-        box-shadow : -5px -5px #CF017D;
+        box-shadow : -5px -5px #441291;
     }
     .secondAnswerContainer,.disabledSecondAnswerContainer {
-        box-shadow: -5px -5px #441291;
+        box-shadow: -5px -5px #CF017D;
     }
     .firstAnswerContainer,.secondAnswerContainer {
         padding : 1rem;
@@ -628,22 +628,22 @@
         transform: scale(1.05);
     }
     .firstAnswerContainer:hover {
-        background : #A84480;
+        background : #6C44A8;
     }
     .firstAnswerContainer:hover .firstAnswer{
         color : #fff;
     }
     .firstAnswerContainer:hover .upperSvg path {
-        fill :#A84480;
+        fill :#6C44A8;
     }
     .secondAnswerContainer:hover {
-        background: #6C44A8;
+        background: #A84480;
     }
     .secondAnswerContainer:hover .secondAnswer {
         color : #fff;
     }
     .secondAnswerContainer:hover .downSvg path {
-        fill : #6C44A8;
+        fill : #A84480;
     }
     .firstAnswer {
         font-family : 'Manrope';
@@ -703,12 +703,12 @@
     }
     .upperSvg {
         position : absolute;
-        top : 100%;
-        left : 1rem;
+        top : 70%;
+        left : -0.7rem;
     }
     .downSvg {
         position : absolute;
-        bottom : 100%;
-        right : 1rem;
+        top : 70%;
+        right : -0.7rem;
     }
 </style>
