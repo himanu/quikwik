@@ -57,6 +57,9 @@
         if(hostId === getParams('userId')) {
             isHost = true;
         }
+        else {
+            isHost = false;
+        }
     })
     dbGameSessionRoundValue.on('value',(snap)=>{
         if(!snap.exists()) {
