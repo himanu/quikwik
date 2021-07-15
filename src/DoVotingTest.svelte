@@ -471,9 +471,10 @@
             </div>
             <div class = 'answers'>
                 <div class:firstAnswerContainer = {voter && !isThisVoted} style="--backgroundColor: {firstAnswerContainerBackground}" class:disabledFirstAnswerContainer = {spectator || isThisVoted} on:click = {voteFirstAnswer}>                      
-                    <svg class = 'upperSvg' width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 15L0 0H15V15Z" fill={firstAnswerContainerBackground}/>
+                    <svg class = 'upperSvg' width="32" height="26" viewBox="0 0 32 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 25.5L20 0L31.5 13.5L0 25.5Z" fill={firstAnswerContainerBackground}/>
                     </svg>
+
                     <div class="firstAnswer" style = "--textColor : {firstAnswerTextColor}"> {firstAnswer} </div>
                     {#if isThisVoted || spectator}
                         <div class = 'author'>- {currentQuestionFirstUserName}</div>
@@ -481,9 +482,11 @@
                 </div>
                 
                 <div class:secondAnswerContainer = {voter && !isThisVoted} style="--backgroundColor: {secondAnswerContainerBackground}" class:disabledSecondAnswerContainer = {spectator || isThisVoted} on:click = {voteSecondAnswer}>  
-                    <svg class = 'downSvg' width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 0L15 15H0V0Z" fill={secondAnswerContainerBackground}/>
-                    </svg> 
+                    
+                    <svg class = 'downSvg' width="32" height="26" viewBox="0 0 32 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M31.5 25.5L11.5 0L0 13.5L31.5 25.5Z" fill={secondAnswerContainerBackground}/>
+                    </svg>
+
                     <div class="secondAnswer" style = "--textColor : {secondAnswerTextColor}"> {secondAnswer} </div>
                     {#if isThisVoted || spectator}
                         <div class = 'author'>- {currentQuestionSecondUserName}</div>
@@ -601,6 +604,12 @@
         flex-direction: column;
         justify-content: center;
         flex : 1;
+    }
+    .firstAnswerContainer,.disabledFirstAnswerContainer {
+        box-shadow : -5px -5px #CF017D;
+    }
+    .secondAnswerContainer,.disabledSecondAnswerContainer {
+        box-shadow: -5px -5px #441291;
     }
     .firstAnswerContainer,.secondAnswerContainer {
         padding : 1rem;
