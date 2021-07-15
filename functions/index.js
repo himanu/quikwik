@@ -772,7 +772,7 @@ exports.startTimer = functions.https.onRequest((req, res) => {
   allQuestionObject[usersArray[i].id] = [questionId[numberOfUser - 1], questionId[0]];
   round.update({
     allQuestions : allQuestionObject,
-    noOfUsersWhoHaveNotAnswered : usersArray.length,
+    noOfUsersWhoHaveNotAnswered : numberOfUser,
     timer : Date.now() + 66000,
     noOfOnlinePlayers : numberOfUser
   }).then(()=>{
