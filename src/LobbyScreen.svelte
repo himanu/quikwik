@@ -8,7 +8,7 @@
     let questionId = [];
     let gameSessionId;
     let roundValue;
-    let scoreOfUser;
+    let scoreOfUser = 0;
     let onlineUsersArray = [];
     
 

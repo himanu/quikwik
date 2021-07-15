@@ -101,8 +101,10 @@
             console.log('I am getting called');
             secondAnswerVoted = false;
             firstAnswerVoted = false;
-            firstAnswerContainerBackground = "gray";
-            secondAnswerContainerBackground = "gray";
+            firstAnswerContainerBackground = "#fff";
+            firstAnswerTextColor = "#343E98";
+            secondAnswerContainerBackground = "#fff";
+            secondAnswerTextColor = "#343E98";
             time = 0;
             setTimeout(()=>{
                 time = time + 1;
@@ -220,10 +222,14 @@
     let message;
     $:{
         if(voter) {
-            message = 'VOTE THE ANSWER';
+            if(!isThisVoted)
+                message = 'VOTE ONE OF THE ANSWER';
+            else {
+                message = 'WAITING FOR OTHER VOTERS TO VOTE'
+            }
         }
         else if(spectator) {
-            message = 'PLAYERS ARE VOTING...'
+            message = 'WAITING FOR VOTERS TO VOTE';
         }
     }
     let firstUserVotes = 0,secondUserVotes = 0;
@@ -235,7 +241,9 @@
             if(isThisVoted) {
                 if(firstAnswerVoters.includes(userId)) {
                     firstAnswerContainerBackground = "#A84480";
-                    secondAnswerContainerBackground = "gray";
+                    firstAnswerTextColor = "#fff";
+                    secondAnswerContainerBackground = "#fff";
+                    secondAnswerTextColor = "#343E98";
                 }
             }
             firstUserVotes = firstAnswerVoters.length;
@@ -246,8 +254,10 @@
         else {
             if(isThisVoted) {
                 if(secondAnswerVoters.includes(userId)) {
-                    firstAnswerContainerBackground = "gray";
+                    firstAnswerContainerBackground = "#fff";
+                    firstAnswerTextColor = "#343E98";
                     secondAnswerContainerBackground = "#6C44A8";
+                    secondAnswerTextColor = "#fff";
                 }
             }
             secondUserVotes = secondAnswerVoters.length;
@@ -258,7 +268,8 @@
         console.log('second Answer Voters ',secondAnswerVoters)
     }
     let firstAnswerVoted = false,secondAnswerVoted = false;
-    let secondAnswerContainerBackground = "gray",firstAnswerContainerBackground = "gray";
+    let firstAnswerTextColor = "#343E98", secondAnswerTextColor = "#343E98";
+    let secondAnswerContainerBackground = "#fff",firstAnswerContainerBackground = "#fff";
     function voteFirstAnswer() {
         if(spectator || isThisVoted) {
             return;
@@ -266,7 +277,9 @@
         firstAnswerVoted = true;
         secondAnswerVoted = false;
         firstAnswerContainerBackground = "#A84480";
-        secondAnswerContainerBackground = "gray";
+        firstAnswerTextColor = "#fff";
+        secondAnswerTextColor = "#343E98";
+        secondAnswerContainerBackground = "#fff";
     }
     function voteSecondAnswer() {
         if(spectator || isThisVoted) {
@@ -274,8 +287,10 @@
         }
         secondAnswerVoted = true;
         firstAnswerVoted = false;
-        firstAnswerContainerBackground = "gray";
+        firstAnswerContainerBackground = "#fff";
+        firstAnswerTextColor = "#343E98";
         secondAnswerContainerBackground = "#6C44A8"
+        secondAnswerTextColor = "#fff";
     }
     function registerVote() {
         if(!firstAnswerVoted && !secondAnswerVoted) {
@@ -418,6 +433,7 @@
                 votingTimerHasStarted = true;
             });
             setTimeout(()=>{
+                votingTimerHasStarted = false;
                 updateScore();
                 dbVoteTimerRef.remove();
             },11000);
@@ -458,7 +474,7 @@
                     <svg class = 'upperSvg' width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15 15L0 0H15V15Z" fill={firstAnswerContainerBackground}/>
                     </svg>
-                    <div class="firstAnswer"> {firstAnswer} </div>
+                    <div class="firstAnswer" style = "--textColor : {firstAnswerTextColor}"> {firstAnswer} </div>
                     {#if isThisVoted || spectator}
                         <div class = 'author'>- {currentQuestionFirstUserName}</div>
                     {/if}
@@ -468,7 +484,7 @@
                     <svg class = 'downSvg' width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M0 0L15 15H0V0Z" fill={secondAnswerContainerBackground}/>
                     </svg> 
-                    <div class="secondAnswer"> {secondAnswer} </div>
+                    <div class="secondAnswer" style = "--textColor : {secondAnswerTextColor}"> {secondAnswer} </div>
                     {#if isThisVoted || spectator}
                         <div class = 'author'>- {currentQuestionSecondUserName}</div>
                     {/if}
@@ -561,7 +577,7 @@
         margin : auto;
     }
     .leaderMsg {
-        color : #fff;
+        color : #B49BFF;
         font-family : 'Manrope';
         font-weight : 900;
         font-size : 1.25rem;
@@ -605,32 +621,38 @@
     .firstAnswerContainer:hover {
         background : #A84480;
     }
+    .firstAnswerContainer:hover .firstAnswer{
+        color : #fff;
+    }
     .firstAnswerContainer:hover .upperSvg path {
         fill :#A84480;
     }
     .secondAnswerContainer:hover {
         background: #6C44A8;
     }
+    .secondAnswerContainer:hover .secondAnswer {
+        color : #fff;
+    }
     .secondAnswerContainer:hover .downSvg path {
         fill : #6C44A8;
     }
     .firstAnswer {
-        color : #fff;
         font-family : 'Manrope';
         font-weight : 900;
         font-size : 0.9rem;
         letter-spacing: 1.25px;
         line-height: 1.25rem;
         word-break: break-all;
+        color : var(--textColor);
     }
     .secondAnswer {
-        color : #fff;
         font-family : 'Manrope';
         font-weight : 900;
         font-size : 0.9rem;
         letter-spacing: 1.25px;
         line-height: 1.25rem;
         word-break : break-all;
+        color : var(--textColor);
     }
     .author {
         font-family : 'Manrope';

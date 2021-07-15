@@ -160,6 +160,10 @@
     </div>
     {#if isHost === true}
         <CustomButton btnText = 'Next Round' disableBtn = {false} on:click = {handleNextRoundBtn}/>
+    {:else}
+        <div class = 'waitingForOtherAnswer'>
+            Waiting for host to continue the game.
+        </div>
     {/if}
 </main>
 
@@ -235,7 +239,15 @@
         background-color: #fff;
         margin : auto;
     }
-    
+    .waitingForOtherAnswer {
+        color : #fff;
+        font-family : 'Padauk';
+        font-weight : 900;
+        font-size : 0.9rem;
+        letter-spacing: 0.5px;
+        line-height: 1.5rem;
+        margin : 1rem;
+    }
     @media screen and (max-width : 1100px) {
         .usersContainer {
             width : 30%;

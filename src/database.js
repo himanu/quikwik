@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/database";
 import 'firebase/functions';
-import { getGameSessionId, getParams,questionArray} from "./utils";
+import { getGameSessionId, getParams} from "./utils";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCEGBePNguj6IVlDbRdp1Mo135AK7wXsKo",
@@ -13,36 +13,36 @@ const firebaseConfig = {
     appId: "1:502922511832:web:d23f92c33f6aa2620d5ead"
 };
 firebase.initializeApp(firebaseConfig);
-var firebaseEmulators = {
-    "database": {
-      "host": "localhost",
-      "port": 9000
-    },
-    "functions": {
-      "host": "localhost",
-      "port": 5001
-    }
-  };
-if (firebaseEmulators) {
-    console.log("Automatically connecting Firebase SDKs to running emulators:");
-    Object.keys(firebaseEmulators).forEach(function(key) {
-    console.log('\t' + key + ': http://' +  firebaseEmulators[key].host + ':' + firebaseEmulators[key].port );
-    });
-    if (firebaseEmulators.database && typeof firebase.database === 'function') {
-    firebase.database().useEmulator(firebaseEmulators.database.host, firebaseEmulators.database.port);
-    }
-    if (firebaseEmulators.firestore && typeof firebase.firestore === 'function') {
-    firebase.firestore().useEmulator(firebaseEmulators.firestore.host, firebaseEmulators.firestore.port);
-    }
-    if (firebaseEmulators.functions && typeof firebase.functions === 'function') {
-    firebase.functions().useEmulator(firebaseEmulators.functions.host, firebaseEmulators.functions.port);
-    }
-    if (firebaseEmulators.auth && typeof firebase.auth === 'function') {
-    firebase.auth().useEmulator('http://' + firebaseEmulators.auth.host + ':' + firebaseEmulators.auth.port);
-    }
-} else {
-    console.log("To automatically connect the Firebase SDKs to running emulators, replace '/__/firebase/init.js' with '/__/firebase/init.js?useEmulator=true' in your index.html");
-}
+// var firebaseEmulators = {
+//     "database": {
+//       "host": "localhost",
+//       "port": 9000
+//     },
+//     "functions": {
+//       "host": "localhost",
+//       "port": 5001
+//     }
+//   };
+// if (firebaseEmulators) {
+//     console.log("Automatically connecting Firebase SDKs to running emulators:");
+//     Object.keys(firebaseEmulators).forEach(function(key) {
+//     console.log('\t' + key + ': http://' +  firebaseEmulators[key].host + ':' + firebaseEmulators[key].port );
+//     });
+//     if (firebaseEmulators.database && typeof firebase.database === 'function') {
+//     firebase.database().useEmulator(firebaseEmulators.database.host, firebaseEmulators.database.port);
+//     }
+//     if (firebaseEmulators.firestore && typeof firebase.firestore === 'function') {
+//     firebase.firestore().useEmulator(firebaseEmulators.firestore.host, firebaseEmulators.firestore.port);
+//     }
+//     if (firebaseEmulators.functions && typeof firebase.functions === 'function') {
+//     firebase.functions().useEmulator(firebaseEmulators.functions.host, firebaseEmulators.functions.port);
+//     }
+//     if (firebaseEmulators.auth && typeof firebase.auth === 'function') {
+//     firebase.auth().useEmulator('http://' + firebaseEmulators.auth.host + ':' + firebaseEmulators.auth.port);
+//     }
+// } else {
+//     console.log("To automatically connect the Firebase SDKs to running emulators, replace '/__/firebase/init.js' with '/__/firebase/init.js?useEmulator=true' in your index.html");
+// }
   
 
 let roundValue = 1;
@@ -131,17 +131,17 @@ dbUser.update({
 });
 
 //Code for adding all questions and allquestionId
-function addQuestionAndIdToDatabase() {
-    var totalQuestions = questionArray.length;
+// function addQuestionAndIdToDatabase() {
+//     var totalQuestions = questionArray.length;
 
-    var allQuikWikQuestionId = [];
-    var allQuikWikQuestion = {};
-    var  i = 0;
-    for(i; i<totalQuestions ; i++) {
-        allQuikWikQuestionId.push(i);
-        allQuikWikQuestion[i] = questionArray[i];
-    }
-    dbQuestions.set(allQuikWikQuestion);
-    dbQuestionsId.set(allQuikWikQuestionId);
-}
-addQuestionAndIdToDatabase();
+//     var allQuikWikQuestionId = [];
+//     var allQuikWikQuestion = {};
+//     var  i = 0;
+//     for(i; i<totalQuestions ; i++) {
+//         allQuikWikQuestionId.push(i);
+//         allQuikWikQuestion[i] = questionArray[i];
+//     }
+//     dbQuestions.set(allQuikWikQuestion);
+//     dbQuestionsId.set(allQuikWikQuestionId);
+// }
+// addQuestionAndIdToDatabase();

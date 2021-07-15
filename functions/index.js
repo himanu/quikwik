@@ -237,7 +237,7 @@ exports.addNewUserToVoterListAndIncrementNumberOfVotersLeft = functions.database
         console.log('Unable to set no of voters remaining and current question voters');
       })
     }
-    catch{
+    catch(e) {
       console.log('Something went wrong');
       return null;
     }
