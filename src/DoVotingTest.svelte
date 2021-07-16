@@ -59,7 +59,7 @@
             votingTimerHasStarted = true;
             setTimeout(()=>{
                 votingTimerHasStarted = false;
-            },10000);
+            },5000);
         })
     })
     dbScoreOfUser.on('value',(snap)=>{
@@ -299,7 +299,7 @@
             noOfVotersRemaining = 0;
             setTimeout(()=>{
                 noOfVotersRemaining = 1;
-            },10000)
+            },5000)
         }
         listenFirebaseKey(dbCurrentQuestionVoters,(dbCurrentQuestionVotersRef)=>{
             dbCurrentQuestionVotersRef.child(userId).set(true);
@@ -427,17 +427,17 @@
             return ;
         }
         listenFirebaseKey(dbVoteTimer,(dbVoteTimerRef)=>{
-            dbVoteTimerRef.set(Date.now() + 11000).then(()=>{
+            dbVoteTimerRef.set(Date.now() + 6000).then(()=>{
                 votingTimerHasStarted = true;
             });
             setTimeout(()=>{
                 votingTimerHasStarted = false;
                 noOfVotersRemaining = 1;
-            },10000)
+            },5000)
             setTimeout(()=>{
                 updateScore();
                 dbVoteTimerRef.remove();
-            },11000);
+            },6000);
         })
     }
     
