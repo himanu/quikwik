@@ -51,7 +51,7 @@
                 return;
             }
             if(snap.val() < 3 && page === 'Game Screen') {
-                info(`Game can't be continued due to less number of online players`);
+                info(`Game can't be continued due to less number of online players`,'RoundChanged',5000);
             }
         })
     })
@@ -70,20 +70,20 @@
                 
                 if(users[id].isOnline === false) {
                     if(id === userId) {
-                        info('You have been disconnected, please check your internet connection',5000);
+                        info('You have been disconnected, please check your internet connection','Disconnected',5000);
                     }
                     else {
-                        info(`${users[id]['userName']} is disconnected. Waiting for ${users[id]['userName']} to connect again`);
+                        info(`${users[id]['userName']} is disconnected. Waiting for ${users[id]['userName']} to connect again`,'Disconnected',5000);
                     }
                     usersOnlineStatus[id] = false;
                 }
                 else {
                     if((id in usersOnlineStatus) && usersOnlineStatus[id] === false) {
                         if(id === userId) {
-                            info('You are reconnected');
+                            info('You are reconnected','Reconnected',5000);
                         }
                         else {
-                            info(`${users[id]['userName']} is reconnected`)
+                            info(`${users[id]['userName']} is reconnected`,'Reconnected',5000);
                         }
                     }
                     usersOnlineStatus[id] = true;
@@ -106,7 +106,7 @@
         if(user && allQuestions) {
             if(! (user.id in allQuestions) ) {
                 if( user.id === getParams('userId') ) {
-                    info('You are spectator, you can do voting only.');
+                    info('You are spectator, you can do voting only.','Reconnected',5000);
                 }
             }
         }
@@ -129,7 +129,7 @@
 					message = `${oldHostName || "Old Host"} has left the game and new host has been assigned`;
 				}
 			}
-            info(message,5000);
+            info(message,"HostDisconnected",5000);
         }
         hostId = snap.val();
     })
@@ -139,7 +139,7 @@
         }
         noOfOnlineUsers = snap.val();
         if((noOfOnlineUsers < 3 && (page === 'Do Voting')) || (!noOfOnlineUsers && page === 'Leaderboard Screen')) {
-            info(`Game can't be continued due to less number of online players`);
+            info(`Game can't be continued due to less number of online players`,'RoundChanged',5000);
         }
     })
 	function handleClick() {

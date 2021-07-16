@@ -21,7 +21,6 @@
     import QuikWikSmallIcon from './QuikWikSmallIcon.svelte';
     import CustomButton from './CustomButton.svelte';
     import ScorecardIcon from './ScorecardIcon.svelte';
-    import {info} from './Notifier';
 
     // addNotification()
     let mapToStringNumber = {

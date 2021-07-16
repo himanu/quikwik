@@ -1,6 +1,9 @@
 <script>
 	import { notification } from "./store.js";
 	import { onDestroy } from "svelte";
+	import DisconnectedSvg from './svg/DisconnectedSvg.svelte';
+	import ReconnectedSvg from './svg/ReconnectedSvg.svelte';
+	import HostDisconnected from './svg/HostDisconnected.svelte';
 	export let themes = {
 		danger: "#bb2124",
 		success: "#22bb33",
@@ -8,7 +11,7 @@
 		info: "#5E576A",
 		default: "#aaaaaa",
 	};
-	export let timeout = 3000;
+	export let timeout = 5000;
 	let count = 0;
 	let toasts = [];
 	let unsubscribe;
@@ -28,7 +31,7 @@
 			css: t => `opacity: ${(t - 0.7) * 1}; transform-origin: top right;`,
 		};
 	}
-	function createToast(msg, theme, to) {
+	function createToast(msg, theme, to,typeOfNotification) {
 		const background = themes[theme] || themes["default"];
 		toasts = [
 			{
@@ -37,6 +40,7 @@
 				background,
 				timeout: to || timeout,
 				width: "100%",
+				typeOfNotification
 			},
 			...toasts,
 		];
@@ -46,7 +50,7 @@
 		if (!value) {
 			return;
 		}
-		createToast(value.message, value.type, value.timeout);
+		createToast(value.message, value.type, value.timeout,value.typeOfNotification);
 		notification.set();
 	});
 	onDestroy(unsubscribe);
@@ -58,7 +62,16 @@
 	{#each toasts as toast (toast.id)}
 		<li class="toast" style="background: {toast.background};" out:animateOut>
 			<div class="content">
-				{toast.msg}
+				{#if toasts.typeOfNotification === 'Disconnected'}
+					<DisconnectedSvg/>
+				{:else if toasts.typeOfNotification === 'Reconnected'}
+					<ReconnectedSvg/>
+				{:else if toasts.typeOfNotification === 'HostDisconnected'}
+					<HostDisconnected/>
+				{/if}
+				<div class="contentMsg">
+					{toast.msg}
+				</div>
 			</div>
 			<div
 				class="progress"
@@ -90,10 +103,14 @@
 	}
 	:global(.toasts) > .toast > .content {
 		padding: 1vw;
-		display: block;
+		display: flex;
+		align-items: center;
+	}
+	.contentMsg {
 		font-weight: 700;
         font-family : 'Padauk';
         font-size : 1rem;
+		margin-left : 0.5rem;
 	}
 	:global(.toasts) > .toast > .progress {
 		position: absolute;
