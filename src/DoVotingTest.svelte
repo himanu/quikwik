@@ -13,7 +13,7 @@
     let allQuikWikQuestions;
     let currentQuestionId;
     let currentQuestion = 'Loading ...';
-    let spectator = true;
+    let spectator = false;
     let voter = false;
     let users;
     let userId = getParams('userId');
@@ -490,7 +490,7 @@
 
                     <div class="secondAnswer" style = "--textColor : {secondAnswerTextColor}"> {secondAnswer} </div>
                     {#if isThisVoted || spectator}
-                        <div class = 'author'>- {currentQuestionSecondUserName}</div>
+                        <div class = 'author' style = "color: {isThisVoted === true?"#fff":"#000"}">- {currentQuestionSecondUserName}</div>
                     {/if}
                 </div>
             </div>
@@ -667,7 +667,7 @@
     .author {
         font-family : 'Manrope';
         font-size : 0.6rem;
-        color : #B49BFF;
+        color : #000;
         text-align: right;
         font-style: italic;
     }
