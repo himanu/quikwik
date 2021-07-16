@@ -426,6 +426,18 @@
         if(isHost !== true) {
             return ;
         }
+        firstUserVotes = firstAnswerVoters.length;
+        secondUserVotes = secondAnswerVoters.length;
+        if(firstUserVotes > secondUserVotes) {
+            leadingMsg = `${currentQuestionFirstUserName} is leading`;
+        }
+        else if(firstUserVotes < secondUserVotes) {
+            leadingMsg = `${currentQuestionSecondUserName} is leading`;
+        }
+        else if(firstUserVotes === secondUserVotes){
+            leadingMsg = `Both answer gets the equal vote`;
+        }
+        console.log('leadingMsg ',leadingMsg);
         listenFirebaseKey(dbVoteTimer,(dbVoteTimerRef)=>{
             dbVoteTimerRef.set(Date.now() + 6000).then(()=>{
                 votingTimerHasStarted = true;
