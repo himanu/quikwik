@@ -49,30 +49,19 @@
             noOfVotersRemaining = snap.val();
         })
     })
-    // listenFirebaseKey(dbVoteTimer,(dbVoteTimerRef)=>{
-    //     dbVoteTimerRef.on('value',(snap)=>{
-    //         if(!snap.exists()) {
-    //             votingTimerHasStarted = false;
-    //             console.log('TImer not exists ',snap.val());
-    //             return;
-    //         }
-    //         votingTimerHasStarted = true;
-    //         console.log('voting timer has started');
-    //         timer = snap.val();
-    //         interval = setInterval(()=>{
-    //             leftTime = Math.floor((timer - Date.now())/1000);
-    //             if(leftTime <= 0) {
-    //                 console.log('Clear the interval');
-    //                 leftTime = 0;
-    //                 clearInterval(interval);
-    //                 votingTimerHasStarted = false;
-    //             }
-    //             else if(leftTime > 5) {
-    //                 leftTime = 5;
-    //             }
-    //         },100);
-    //     })
-    // })
+    listenFirebaseKey(dbVoteTimer,(dbVoteTimerRef)=>{
+        dbVoteTimerRef.on('value',(snap)=>{
+            if(!snap.exists()) {
+                votingTimerHasStarted = false;
+                console.log('TImer not exists ',snap.val());
+                return;
+            }
+            votingTimerHasStarted = true;
+            setTimeout(()=>{
+                votingTimerHasStarted = false;
+            },10000);
+        })
+    })
     dbScoreOfUser.on('value',(snap)=>{
         if(!snap.exists()) {
             myScore = 0;
@@ -114,7 +103,7 @@
     })
     $: {
         if(time === 0) {
-            opacityOfContainer = 0.5;
+            opacityOfContainer = 0.8;
         }
         else if(time) {
             opacityOfContainer = 1;
@@ -249,6 +238,8 @@
                     firstAnswerTextColor = "#fff";
                     secondAnswerContainerBackground = "#fff";
                     secondAnswerTextColor = "#343E98";
+                    firstAnswerVoted = true;
+                    secondAnswerVoted = false;
                 }
             }
             firstUserVotes = firstAnswerVoters.length;
@@ -263,6 +254,8 @@
                     firstAnswerTextColor = "#343E98";
                     secondAnswerContainerBackground = "#A84480";
                     secondAnswerTextColor = "#fff";
+                    firstAnswerVoted = false;
+                    secondAnswerVoted = true;
                 }
             }
             secondUserVotes = secondAnswerVoters.length;
@@ -304,6 +297,9 @@
         isThisVoted = true;
         if(noOfVotersRemaining === 1) {
             noOfVotersRemaining = 0;
+            setTimeout(()=>{
+                noOfVotersRemaining = 1;
+            },10000)
         }
         listenFirebaseKey(dbCurrentQuestionVoters,(dbCurrentQuestionVotersRef)=>{
             dbCurrentQuestionVotersRef.child(userId).set(true);
@@ -437,6 +433,8 @@
             setTimeout(()=>{
                 votingTimerHasStarted = false;
                 noOfVotersRemaining = 1;
+            },10000)
+            setTimeout(()=>{
                 updateScore();
                 dbVoteTimerRef.remove();
             },11000);
@@ -480,7 +478,7 @@
 
                     <div class="firstAnswer" style = "--textColor : {firstAnswerTextColor}"> {firstAnswer} </div>
                     {#if isThisVoted || spectator}
-                        <div class = 'author' style = "color: {isThisVoted === true && secondAnswerVoted === true?"#fff":"#000"}" >- {currentQuestionFirstUserName}</div>
+                        <div class = 'author' style = "color: {isThisVoted === true && firstAnswerVoted === true?"#fff":"#000"}" >- {currentQuestionFirstUserName}</div>
                     {/if}
                 </div>
                 
@@ -597,7 +595,7 @@
     }
     .disabledFirstAnswerContainer,.disabledSecondAnswerContainer {
         cursor : text;
-        opacity : 0.5;
+        opacity : 0.8;
         padding : 1rem;
         position : relative;
         margin: 1rem;
@@ -689,7 +687,7 @@
         margin : 5px;
     }
     .disabledVoter {
-        opacity : 0.5;
+        opacity : 0.8;
     }
     .waitingForOtherAnswer {
         color : #fff;
