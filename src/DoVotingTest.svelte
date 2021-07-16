@@ -153,6 +153,7 @@
             console.log("voter ",voter);
             if(voter === true)
             {
+                console.log('he is voter');
                 isThisVoted = currentQuestionVoters[userId];
                 spectator = false;
             }
@@ -435,6 +436,7 @@
             });
             setTimeout(()=>{
                 votingTimerHasStarted = false;
+                noOfVotersRemaining = 1;
                 updateScore();
                 dbVoteTimerRef.remove();
             },11000);

@@ -775,8 +775,7 @@ exports.startTimer = functions.runWith(runtimeOpts).https.onRequest((req, res) =
     allQuestions : allQuestionObject,
     noOfUsersWhoHaveNotAnswered : numberOfUser,
     timer : Date.now() + 66000,
-    noOfOnlinePlayers : numberOfUser,
-    currentQuestionNumber : 0
+    noOfOnlinePlayers : numberOfUser
   }).then(()=>{
     console.log('All the required values are set');
   })
@@ -784,6 +783,9 @@ exports.startTimer = functions.runWith(runtimeOpts).https.onRequest((req, res) =
   setTimeout(() => {
     page.set('Do Voting');
     round.child('timer').remove();
+    round.update({
+    currentQuestionNumber : 0
+    })
     res.set('Access-Control-Allow-Origin', '*');
     if (req.method === 'OPTIONS') {
       // Send response to OPTIONS requests
