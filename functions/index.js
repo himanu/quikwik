@@ -5,8 +5,7 @@ const { user } = require('firebase-functions/lib/providers/auth');
 admin.initializeApp();
 const db = admin.database();
 const runtimeOpts = {
-  timeoutSeconds: 300,
-  memory: '1GB'
+  timeoutSeconds: 200
 }
 exports.updateIsOnlineKey = functions.database.ref('/quikwik/{gameSessionId}/users/{userId}/online')
   .onUpdate((change,context)=>{
@@ -750,7 +749,7 @@ exports.hostDelete = functions.database.ref("/quikwik/{gameSessionId}/host")
       }
     })
   });
-exports.startTimer = functions.https.onRequest((req, res) => {
+exports.startTimer = functions.runWith(runtimeOpts).https.onRequest((req, res) => {
   const data = req.body;
   const page = db.ref(`/quikwik/${data.gameSessionId}/rounds/${data.roundValue}/page`);
   const round = db.ref(`/quikwik/${data.gameSessionId}/rounds/${data.roundValue}`);
