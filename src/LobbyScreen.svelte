@@ -10,6 +10,7 @@
     let roundValue;
     let scoreOfUser = 0;
     let onlineUsersArray = [];
+    let hostName;
     
 
     import {listenFirebaseKey,dbGameSessionRound,dbGameSessionRoundValue,dbUsers,dbUser,dbQuestionsId,dbScoreOfUser,dbHost} from './database';
@@ -52,6 +53,9 @@
 			// 	}
 			// }
             // info(message);
+        }
+        if(usersArray) {
+            usersArray = usersArray;
         }
         hostId = snap.val();
         if(hostId === getParams('userId')) {
@@ -97,6 +101,16 @@
         onlineUsersArray = [];
         for(const id in users) {
             let currUser = users[id];
+            if(id === hostId) {
+                console.log('Het i am run');
+                let name = currUser.userName;
+                let fname = name?.split(" ")[0];
+                if(fname?.length > 10)
+                {
+                    fname = name?.split(" ")[0].toUpperCase() + name?.split(" ")[0].toUpperCase();
+                }
+                hostName = fname + " (Host)";
+            }
             usersArray.push(currUser);
             if(currUser.isOnline){
                 onlineUsersArray.push(currUser);
@@ -156,13 +170,13 @@
         let fname = name?.split(" ")[0];
         if(fname?.length > 10)
         {
-            fname = fname.slice(0,8) + "...";
+            fname = name?.split(" ")[0].toUpperCase() + name?.split(" ")[0].toUpperCase();
         }
-        if(user.id === userId) {
-            if(isHost) {
-                fname = fname + " (Host) "
-            }
-            else {
+        if(user.id === hostId) {
+            fname = fname + " (Host)";
+        }
+        else if(user.id === userId) {
+            if(!isHost) {
                 fname = fname + " (You)";
             }
         }
@@ -233,9 +247,15 @@
                             {:else}
                                 <div class="fakeProfilePicture"> {currUser.userName[0].toUpperCase()} </div>
                             {/if}
-                            <div class = "name">
-                                {processName(currUser)} 
-                            </div>
+                            {#if currUser.id === hostId}
+                                <div class = "name">
+                                    {hostName}
+                                </div>
+                            {:else}
+                                <div class = "name">
+                                    {processName(currUser)} 
+                                </div>
+                            {/if}
                         </div>
                         {#if currUser.isOnline}
                             {#if currUser.online === true}

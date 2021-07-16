@@ -666,7 +666,7 @@
     .author {
         font-family : 'Manrope';
         font-size : 0.6rem;
-        color : #fff;
+        color : #B49BFF;
         text-align: right;
         font-style: italic;
     }

@@ -560,7 +560,9 @@ exports.updateQuestionNumberOnCompleteVoting = functions.database.ref('/quikwik/
     console.log('No of Voters Remaining ',noOfVotersRemaining);
     if(noOfVotersRemaining === 0) {
       let votingTimerRef = change.after.ref.parent.child('voteTimer');
-      votingTimerRef.set(Date.now() + 11000);
+      votingTimerRef.set(Date.now() + 11000).then(()=>{
+        console.log('Voting timer is set');
+      });
       //Now we give the points to winner of current question
       let currentQuestionNumberRef = change.after.ref.parent.child('currentQuestionNumber');
       let currentQuestionNumber,currentQuestionNumberSnap;
@@ -778,6 +780,7 @@ exports.startTimer = functions.https.onRequest((req, res) => {
   }).then(()=>{
     console.log('All the required values are set');
   })
+
   setTimeout(() => {
     page.set('Do Voting');
     round.child('timer').remove();
@@ -792,6 +795,7 @@ exports.startTimer = functions.https.onRequest((req, res) => {
       res.json({'text':'Hello World!'});
     }
   },65000);
+
 });
 
 function compare( a, b ) {
