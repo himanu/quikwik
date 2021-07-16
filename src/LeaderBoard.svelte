@@ -14,6 +14,7 @@
 
     dbHost.on('value',(snap)=>{
         if(!snap.exists()) {
+            isHost = false;
             return;
         }
         hostId = snap.val();

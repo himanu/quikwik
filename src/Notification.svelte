@@ -63,13 +63,13 @@
 	{#each toasts as toast (toast.id)}
 		<li class="toast" style="background: {toast.background};" out:animateOut>
 			<div class="content">
-				{#if toasts.typeOfNotification === 'Disconnected'}
+				{#if toast.typeOfNotification === 'Disconnected'}
 					<DisconnectedSvg/>
-				{:else if toasts.typeOfNotification === 'Reconnected'}
+				{:else if toast.typeOfNotification === 'Reconnected'}
 					<ReconnectedSvg/>
-				{:else if toasts.typeOfNotification === 'HostDisconnected'}
+				{:else if toast.typeOfNotification === 'HostDisconnected'}
 					<HostDisconnected/>
-				{:else if toasts.typeOfNotification === 'RoundChanged'}
+				{:else if toast.typeOfNotification === 'RoundChanged'}
 					<RoundChanged/>
 				{/if}
 				<div class="contentMsg">

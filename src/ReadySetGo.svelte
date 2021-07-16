@@ -64,6 +64,11 @@
             },100);
         })
     })
+    $: {
+        if(leftTime > 65) {
+            leftTime = 65;
+        }
+    }
 </script>
 <main>
     <QuikWikSmallIcon/>

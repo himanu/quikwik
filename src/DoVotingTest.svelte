@@ -422,21 +422,26 @@
             })
         }
     }
+    $: {
+        if(firstAnswerVoters && secondAnswerVoters) {
+            firstUserVotes = firstAnswerVoters.length;
+            secondUserVotes = secondAnswerVoters.length;
+            if(firstUserVotes > secondUserVotes) {
+                leadingMsg = `${currentQuestionFirstUserName} got the most votes`;
+            }
+            else if(firstUserVotes < secondUserVotes) {
+                leadingMsg = `${currentQuestionSecondUserName} got the most votes`;
+            }
+            else if(firstUserVotes === secondUserVotes){
+                leadingMsg = `Both got the equal votes`;
+            }
+        }
+    }
     function handleNextQuestion() {
         if(isHost !== true) {
             return ;
         }
-        firstUserVotes = firstAnswerVoters.length;
-        secondUserVotes = secondAnswerVoters.length;
-        if(firstUserVotes > secondUserVotes) {
-            leadingMsg = `${currentQuestionFirstUserName} is leading`;
-        }
-        else if(firstUserVotes < secondUserVotes) {
-            leadingMsg = `${currentQuestionSecondUserName} is leading`;
-        }
-        else if(firstUserVotes === secondUserVotes){
-            leadingMsg = `Both answer gets the equal vote`;
-        }
+        
         console.log('leadingMsg ',leadingMsg);
         listenFirebaseKey(dbVoteTimer,(dbVoteTimerRef)=>{
             dbVoteTimerRef.set(Date.now() + 6000).then(()=>{
