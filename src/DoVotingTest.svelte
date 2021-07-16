@@ -13,7 +13,7 @@
     let allQuikWikQuestions;
     let currentQuestionId;
     let currentQuestion = 'Loading ...';
-    let spectator = false;
+    let spectator = true;
     let voter = false;
     let users;
     let userId = getParams('userId');
