@@ -4,6 +4,7 @@
 	import DisconnectedSvg from './svg/DisconnectedSvg.svelte';
 	import ReconnectedSvg from './svg/ReconnectedSvg.svelte';
 	import HostDisconnected from './svg/HostDisconnected.svelte';
+	import RoundChanged from './svg/RoundChanged.svelte';
 	export let themes = {
 		danger: "#bb2124",
 		success: "#22bb33",
@@ -68,6 +69,8 @@
 					<ReconnectedSvg/>
 				{:else if toasts.typeOfNotification === 'HostDisconnected'}
 					<HostDisconnected/>
+				{:else if toasts.typeOfNotification === 'RoundChanged'}
+					<RoundChanged/>
 				{/if}
 				<div class="contentMsg">
 					{toast.msg}
