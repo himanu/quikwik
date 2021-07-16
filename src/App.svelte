@@ -21,12 +21,14 @@
     let noOfOnlineUsers;
 
     const isHost = getParams("isHost") === "true";
-	if (isHost) {
+	if (getParams("isHost") === "true") {
 		dbHost.get().then(snap => {
 			if (!snap.val()) {
 				dbHost.set(getParams('userId'));
 			}
-		});
+		}).catch(()=>{
+            dbHost.set(getParams('userId'));
+        });
 	}
     function processName(name) {
         let fname = name?.split(" ")[0];
@@ -83,7 +85,7 @@
                             info('You are reconnected','Reconnected',5000);
                         }
                         else {
-                            info(`${users[id]['userName']} is reconnected`,'Reconnected',5000);
+                            info(`${users[id]['userName']} is reconnected`,'Reconnected',50000);
                         }
                     }
                     usersOnlineStatus[id] = true;
