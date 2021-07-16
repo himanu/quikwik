@@ -201,9 +201,10 @@
             else if(firstUserVotes < secondUserVotes) {
                 leadingMsg = `${currentQuestionSecondUserName} is leading`;
             }
-            else {
+            else if(firstUserVotes === secondUserVotes){
                 leadingMsg = `Both answer gets the equal vote`;
             }
+            console.log('leadingMsg ',leadingMsg);
             console.log('firstAnswerVoters ',firstAnswerVoters);
             console.log('secondAnswerVoters ',secondAnswerVoters);
         }
