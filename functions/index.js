@@ -775,7 +775,8 @@ exports.startTimer = functions.runWith(runtimeOpts).https.onRequest((req, res) =
     allQuestions : allQuestionObject,
     noOfUsersWhoHaveNotAnswered : numberOfUser,
     timer : Date.now() + 66000,
-    noOfOnlinePlayers : numberOfUser
+    noOfOnlinePlayers : numberOfUser,
+    currentQuestionNumber : 0
   }).then(()=>{
     console.log('All the required values are set');
   })
