@@ -156,6 +156,9 @@
                 isThisVoted = currentQuestionVoters[userId];
                 spectator = false;
             }
+            else {
+                spectator = true;
+            }
         })
     })
     let currentQuestionUsers;
@@ -297,6 +300,7 @@
         if(!firstAnswerVoted && !secondAnswerVoted) {
             return ;
         }
+        isThisVoted = true;
         if(noOfVotersRemaining === 1) {
             noOfVotersRemaining = 0;
         }
@@ -351,11 +355,7 @@
             isThisLastQuestion = true;
         }
     }
-    $: {
-        if(voter === false) {
-            spectator = true;
-        }
-    }
+    
     function incrementFirstUserScore() {
         console.log('increment first user score');
         return new Promise((resolve,reject)=>{
@@ -478,7 +478,7 @@
 
                     <div class="firstAnswer" style = "--textColor : {firstAnswerTextColor}"> {firstAnswer} </div>
                     {#if isThisVoted || spectator}
-                        <div class = 'author'>- {currentQuestionFirstUserName}</div>
+                        <div class = 'author' style = "color: {isThisVoted === true && secondAnswerVoted === true?"#fff":"#000"}" >- {currentQuestionFirstUserName}</div>
                     {/if}
                 </div>
                 
@@ -490,7 +490,7 @@
 
                     <div class="secondAnswer" style = "--textColor : {secondAnswerTextColor}"> {secondAnswer} </div>
                     {#if isThisVoted || spectator}
-                        <div class = 'author' style = "color: {isThisVoted === true?"#fff":"#000"}">- {currentQuestionSecondUserName}</div>
+                        <div class = 'author' style = "color: {isThisVoted === true && secondAnswerVoted === true?"#fff":"#000"}" >- {currentQuestionSecondUserName}</div>
                     {/if}
                 </div>
             </div>
@@ -667,7 +667,6 @@
     .author {
         font-family : 'Manrope';
         font-size : 0.6rem;
-        color : #000;
         text-align: right;
         font-style: italic;
     }
