@@ -189,13 +189,13 @@
             currentQuestionFirstUserName = processName( users[currentQuestionFirstUser]);
             currentQuestionSecondUserName = processName( users[currentQuestionSecondUser]);
             if(firstUserVotes > secondUserVotes) {
-                leadingMsg = `${currentQuestionFirstUserName} is leading`;
+                leadingMsg = `${currentQuestionFirstUserName} got the most votes`;
             }
             else if(firstUserVotes < secondUserVotes) {
-                leadingMsg = `${currentQuestionSecondUserName} is leading`;
+                leadingMsg = `${currentQuestionSecondUserName} got the most votes`;
             }
             else if(firstUserVotes === secondUserVotes){
-                leadingMsg = `Both answer gets the equal vote`;
+                leadingMsg = `It's a draw`;
             }
             console.log('leadingMsg ',leadingMsg);
             console.log('firstAnswerVoters ',firstAnswerVoters);
@@ -217,9 +217,9 @@
     $:{
         if(voter) {
             if(!isThisVoted)
-                message = 'VOTE ONE OF THE ANSWER';
+                message = 'TIME TO VOTE';
             else {
-                message = 'WAITING FOR OTHER VOTERS TO VOTE'
+                message = 'WAITING FOR OTHERS TO VOTE'
             }
         }
         else if(spectator) {
@@ -433,7 +433,7 @@
                 leadingMsg = `${currentQuestionSecondUserName} got the most votes`;
             }
             else if(firstUserVotes === secondUserVotes){
-                leadingMsg = `Both got the equal votes`;
+                leadingMsg = `It's a draw`;
             }
         }
     }
@@ -539,19 +539,18 @@
                 {/if}
             {/if}
             {#if isHost === true && noOfVotersRemaining}
-                <CustomButton disableBtn = {false} btnText = {btnText} on:click = {handleNextQuestion}/>
+                <CustomButton disableBtn = {(voter === true && !isThisVoted)?true:false} btnText = {btnText} on:click = {handleNextQuestion}/>
             {/if}
         </div>
         {#if voter && !isThisVoted}
             <div class = 'waitingForOtherAnswer'>
-                Vote the answer which you likes the most
+                Vote the answer which you like the most
             </div>
         {/if}
         {#if (voter && isThisVoted) || (spectator)}
             {#if noOfVotersRemaining}
                 <div class = 'waitingForOtherAnswer'>
-                    All voters have not voted.<br/>
-                    Wait for them or {isHost?"":"ask host"} click next question
+                    All voters have not voted.
                 </div>
             {/if}
         {/if}
@@ -717,6 +716,7 @@
     }
     .buttonContainer {
         display : flex;
+        flex-direction: column;
     }
     .upperSvg {
         position : absolute;
