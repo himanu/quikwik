@@ -603,10 +603,10 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
 	::-webkit-scrollbar-thumb {
 			background: darkgray;;
 			border-radius : 10px;
-			border : 4px solid #fff;
+			border : 4px solid transparent;
 	}
 	::-webkit-scrollbar-thumb:hover {
-			background: #0e1346;
+			background: #333;
 	}
     main {
         width : 100%;
@@ -651,7 +651,7 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
 		max-width : 100%;
 		overflow-x : scroll;
 		margin : auto;
-		background : #fff;
+		background : transparent;
 		border-radius : 5px;
 		align-items : center;
         justify-content: center;
