@@ -70,6 +70,9 @@
 	.startBtn:active{
 		box-shadow: 0px 0px 0px;
 	}
+	.startBtn:hover .tooltip {
+		opacity: 1;
+	}
 	.tooltip {
 		position : absolute;
 		bottom : 130%;
@@ -79,6 +82,8 @@
 		font-size : 0.65rem;
 		padding : 0.1rem 0.5rem;
 		border-radius : 10px;
+		opacity : 0;
+		transition : opacity 0.3s;
 	}
 	.tooltip::after {
 		content: "";
