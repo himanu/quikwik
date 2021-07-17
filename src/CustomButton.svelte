@@ -1,8 +1,14 @@
 <script>
 	export let btnText;
 	export let disableBtn;
+	export let btnType = "";
 </script>
-<button class:startBtn = {!disableBtn} class:disabledBtn = {disableBtn} style = "opacity : {btnText === 'Next Question'?"0.8":"1"}" on:click title = "Do you want to continue without complete voting" >
+<button class:startBtn = {!disableBtn} class:disabledBtn = {disableBtn}  on:click>
+	{#if btnType === 'Next Question'}
+		<div class="tooltip">
+			All voters have not voted. Do you still want to continue? 
+		</div>
+	{/if}
     <div class = "text">{btnText} </div>
     <div class = "btnArrow">
         <svg width="23" height="15" viewBox="0 0 23 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,6 +42,7 @@
 		cursor : pointer;
 		margin : 1rem;
 		margin-top : 0;
+		position : relative;
 	}
 	.disabledBtn {
 		background: #FFFFFF;
@@ -49,6 +56,7 @@
 		opacity: 0.5;
 		margin : 1rem;
 		margin-top : 0;
+		position : relative;
 	}
 	.startBtn:hover {
 		box-shadow: 0px 4px 4px#98C8E2;
@@ -61,6 +69,26 @@
 	}
 	.startBtn:active{
 		box-shadow: 0px 0px 0px;
+	}
+	.tooltip {
+		position : absolute;
+		bottom : 130%;
+		background : #fff;
+		color : #333;
+		font-family: 'Padauk';
+		font-size : 0.65rem;
+		padding : 0.1rem 0.5rem;
+		border-radius : 10px;
+	}
+	.tooltip::after {
+		content: "";
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		margin-left: -5px;
+		border-width: 5px;
+		border-style: solid;
+		border-color: #fff transparent transparent transparent;
 	}
 	.text{
 		color: #343E98;

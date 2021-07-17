@@ -87,6 +87,7 @@
             ROUND {roundValue} | {message}
         </div>
     {/if}
+    
 </div>
 {/key}
 <style>

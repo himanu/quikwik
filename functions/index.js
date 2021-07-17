@@ -259,6 +259,7 @@ exports.changeRoundWhenThereAreLessThanThreeUsersInVotingScreen = functions.data
         return null;
       } 
       roundValue = roundValueSnap.val();
+      roundValue = parseInt(roundValue);
       console.log('roundValue',roundValue);
 
       pageRef = change.after.ref.parent.child('rounds').child(roundValue).child('page');
@@ -271,9 +272,7 @@ exports.changeRoundWhenThereAreLessThanThreeUsersInVotingScreen = functions.data
       console.log('Page ',page);
       if(page === 'Do Voting' && noOfOnlineUsers < 3) {
         console.log('Change round value');
-        return currentRoundValueRef.transaction((count)=>{
-          return count + 1;
-        })
+        return currentRoundValueRef.set(roundValue + 1)
         .then(()=>{
           console.log('Round Value is incremented');
         })
@@ -283,9 +282,7 @@ exports.changeRoundWhenThereAreLessThanThreeUsersInVotingScreen = functions.data
       }
       else if(page === 'Leaderboard Screen' && !noOfOnlineUsers) {
         console.log('Change round value when no online users in leaderboard screen');
-        return currentRoundValueRef.transaction((count)=>{
-          return count + 1;
-        })
+        return currentRoundValueRef.set(roundValue + 1)
         .then(()=>{
           console.log('Round Value is incremented');
         })

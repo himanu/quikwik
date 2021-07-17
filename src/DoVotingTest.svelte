@@ -568,7 +568,7 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
                 {/if}
             {/if}
             {#if isHost === true && noOfVotersRemaining}
-                <CustomButton disableBtn = {(voter === true && !isThisVoted)?true:false} btnText = {btnText} on:click = {handleNextQuestion}/>
+                <CustomButton disableBtn = {(voter === true && !isThisVoted)?true:false} btnText = {btnText} on:click = {handleNextQuestion} btnType = "Next Question"/>
             {/if}
         </div>
         {#if voter && !isThisVoted}
