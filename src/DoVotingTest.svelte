@@ -503,8 +503,6 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
                             <div class = "votingStatus">
                                 {#if currentQuestionVoters[voter]}
                                     <Tick/>
-                                {:else}
-                                    <LoadingSvg color = {"#fff"}/>
                                 {/if}
                             </div>
                         </div>
@@ -595,7 +593,7 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
 
 	/* Track */
 	::-webkit-scrollbar-track {
-			background: #fff;
+			background: transparent;
 			border-radius : 7px;
 	}
 
