@@ -49,8 +49,9 @@
             leftTimeString = leftTime.toString() + 's';
             strokeDashOffset = ((113*(maxTimeValue - leftTime))/maxTimeValue).toString() + 'px';
             interval = setInterval(()=>{
-                leftTime = Math.floor((timer - Date.now())/1000);
-                strokeDashOffset = ((113*(maxTimeValue - leftTime))/maxTimeValue).toString() + 'px';
+                let leftTimeReal = ((timer - Date.now())/1000);
+                strokeDashOffset = ((113*(maxTimeValue - leftTimeReal))/maxTimeValue).toString() + 'px';
+                leftTime = Math.floor(leftTimeReal);
                 leftTimeString = leftTime.toString() + 's';
                 if(leftTime <= 0) {
                     console.log('Clear the interval');
@@ -157,19 +158,11 @@
     }
     .timerCircle {
         stroke-dasharray: 113px;
+        stroke-dashoffset : var(--strokeDashOffset);
         stroke-linecap: round;
         stroke-width: 3px;
         stroke: #3FAB8B;
         fill: none;
-        animation : countdown var(--leftTimeString) linear;
     }
 
-    @keyframes countdown {
-        from {
-            stroke-dashoffset: var(--strokeDashOffset);
-        }
-        to {
-            stroke-dashoffset: 113px;
-        }
-    }
 </style>
