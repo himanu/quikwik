@@ -47,6 +47,8 @@
             strokeDashOffset = ((113*(maxTimeValue - leftTime))/maxTimeValue).toString() + 'px';
             interval = setInterval(()=>{
                 leftTime = Math.floor((timer - Date.now())/1000);
+                strokeDashOffset = ((113*(maxTimeValue - leftTime))/maxTimeValue).toString() + 'px';
+                leftTimeString = leftTime.toString() + 's';
                 if(leftTime <= 0) {
                     console.log('Clear the interval');
                     leftTime = 0;
