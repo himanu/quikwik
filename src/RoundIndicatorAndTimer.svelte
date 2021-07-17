@@ -5,7 +5,7 @@
     export let message;
     export let timerType;
     export let isThisLastQuestion;
-    export let round;
+    // export let round;
     let roundValue;
     let timer;
     let interval;

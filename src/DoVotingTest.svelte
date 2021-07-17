@@ -483,7 +483,7 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
     {/if}
     <QuikWikSmallIcon/>
     <ScorecardIcon score = {myScore*10} />
-        <RoundIndicatorAndTimer message = {message} round = {questionNumber + 1} timerType = {'votingScreenTimer'} isThisLastQuestion = {isThisLastQuestion}/>
+        <RoundIndicatorAndTimer message = {message}  timerType = {'votingScreenTimer'} isThisLastQuestion = {isThisLastQuestion}/>
         {#if votingTimerHasStarted || noOfVotersRemaining === 0}
             <div class="leaderMsg">
                 {leadingMsg}

@@ -771,7 +771,7 @@ exports.startTimer = functions.runWith(runtimeOpts).https.onRequest((req, res) =
   round.update({
     allQuestions : allQuestionObject,
     noOfUsersWhoHaveNotAnswered : numberOfUser,
-    timer : Date.now() + 66000,
+    timer : Date.now() + 65000,
     noOfOnlinePlayers : numberOfUser
   }).then(()=>{
     console.log('All the required values are set');
