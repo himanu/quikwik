@@ -6,6 +6,8 @@
     import {getParams} from './utils';
     import CustomButton from './CustomButton.svelte';
     import RoundIndicator from './RoundIndicator.svelte';
+import Tick from './Tick.svelte';
+import LoadingSvg from './svg/LoadingSvg.svelte';
 
     let allAnswers;
     let questionNumber;
@@ -131,13 +133,17 @@
             console.log('All answers ',allAnswers);
         })
     })
-    let currentQuestionVoters;
+    let currentQuestionVoters,currentQuestionVotersArray = [];
     listenFirebaseKey(dbCurrentQuestionVoters,(dbCurrentQuestionVotersRef)=>{
         dbCurrentQuestionVotersRef.on('value',(snap)=>{
             if(!snap.exists()) {
                 return;
             }
             currentQuestionVoters = snap.val();
+            currentQuestionVotersArray = [];
+            for(const id in currentQuestionVoters) {
+                currentQuestionVotersArray.push(id);
+            }
             voter = (getParams('userId') in currentQuestionVoters);
             console.log("voter ",voter);
             if(voter === true)
@@ -473,7 +479,7 @@
 </script>
 <main>
     {#if time === 0} 
-        <RoundIndicator roundValue = {roundValue}/>
+        <RoundIndicator roundValue = {questionNumber + 1}/>
     {/if}
     <QuikWikSmallIcon/>
     <ScorecardIcon score = {myScore*10} />
@@ -481,6 +487,29 @@
         {#if votingTimerHasStarted || noOfVotersRemaining === 0}
             <div class="leaderMsg">
                 {leadingMsg}
+            </div>
+        {/if}
+        {#if isThisVoted || spectator}
+            <div class = "votersContainer">
+                <div class="votersHeading">
+                    Voter List
+                </div> 
+                <div class="allvoters">
+                    {#each currentQuestionVotersArray as voter}
+                        <div class="voterContainer" title = "{currentQuestionVoters[voter] === true?"Have Voted":"Have not voted"}">
+                            <div class = "voterName">
+                                {processName(users[voter])}
+                            </div>
+                            <div class = "votingStatus">
+                                {#if currentQuestionVoters[voter]}
+                                    <Tick/>
+                                {:else}
+                                    <LoadingSvg color = {"#fff"}/>
+                                {/if}
+                            </div>
+                        </div>
+                    {/each}
+                </div>
             </div>
         {/if}
         <div class="container" style = 'opacity : {opacityOfContainer}'>
@@ -556,6 +585,25 @@
         {/if}
 </main>
 <style>
+    ::-webkit-scrollbar {
+        width: 14px;
+    }
+
+	/* Track */
+	::-webkit-scrollbar-track {
+			background: #fff;
+			border-radius : 7px;
+	}
+
+	/* Handle */
+	::-webkit-scrollbar-thumb {
+			background: darkgray;;
+			border-radius : 10px;
+			border : 4px solid #fff;
+	}
+	::-webkit-scrollbar-thumb:hover {
+			background: #0e1346;
+	}
     main {
         width : 100%;
         height : 100%;
@@ -581,6 +629,41 @@
             font-size : 16px;
         }
     }
+    .votersContainer {
+		max-width : 60%;
+		text-align : center;
+		margin : 0px auto;
+	}
+    .votersHeading {
+        font-family : 'Padauk';
+        font-weight : 700;
+        color : #fff;
+		padding : 0.5rem;
+		font-size : 0.5rem;
+    }
+    .allvoters {
+		display : flex;
+		max-width : 100%;
+		overflow-x : scroll;
+		margin : auto;
+		background : #fff;
+		border-radius : 5px;
+		align-items : center;
+	}
+	.voterContainer {
+		display : flex;
+        background: #333333;
+		color : #fff;
+		align-items : center;
+		margin : 4px 4px 0rem;
+		padding : 0.1rem 0.5rem;
+		border-radius : 5px;
+	}
+	.voterName {
+		margin-right : 0.5rem;
+        font-family : 'Padauk';
+        font-size : 0.65rem;
+	}
     
     .container {
         width : 60%;

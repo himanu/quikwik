@@ -64,7 +64,7 @@
 </script>
 <div class="container">
     <div class="heading">
-        Players answers status.
+        Players who have answered.
     </div>
     <div class="playerContainer">
         {#if users}

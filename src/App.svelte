@@ -85,7 +85,7 @@
                             info('You are reconnected','Reconnected',5000);
                         }
                         else {
-                            info(`${users[id]['userName']} is reconnected`,'Reconnected',50000);
+                            info(`${users[id]['userName']} is reconnected`,'Reconnected',5000);
                         }
                     }
                     usersOnlineStatus[id] = true;

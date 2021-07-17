@@ -2,7 +2,7 @@
 	export let btnText;
 	export let disableBtn;
 </script>
-<button class:startBtn = {!disableBtn} class:disabledBtn = {disableBtn} on:click title = "Do you want to continue without complete voting" >
+<button class:startBtn = {!disableBtn} class:disabledBtn = {disableBtn} style = "opacity : {btnText === 'Next Question'?"0.8":"1"}" on:click title = "Do you want to continue without complete voting" >
     <div class = "text">{btnText} </div>
     <div class = "btnArrow">
         <svg width="23" height="15" viewBox="0 0 23 15" fill="none" xmlns="http://www.w3.org/2000/svg">
