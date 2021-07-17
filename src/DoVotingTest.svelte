@@ -483,7 +483,7 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
     {/if}
     <QuikWikSmallIcon/>
     <ScorecardIcon score = {myScore*10} />
-        <RoundIndicatorAndTimer message = {message} timerType = {'votingScreenTimer'} isThisLastQuestion = {isThisLastQuestion}/>
+        <RoundIndicatorAndTimer message = {message} round = {questionNumber + 1} timerType = {'votingScreenTimer'} isThisLastQuestion = {isThisLastQuestion}/>
         {#if votingTimerHasStarted || noOfVotersRemaining === 0}
             <div class="leaderMsg">
                 {leadingMsg}
@@ -564,7 +564,11 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
         <div class="buttonContainer">
             {#if voter}
                 {#if !isThisVoted}
-                    <CustomButton disableBtn = {!firstAnswerVoted && !secondAnswerVoted} btnText = {"Vote"} on:click = {registerVote}/>
+                    {#if firstAnswerVoted || secondAnswerVoted}
+                        <CustomButton disableBtn = {false} btnText = {"Vote"} on:click = {registerVote}/>
+                    {:else}
+                        <CustomButton disableBtn = {true} btnText = {"Vote"} on:click = {registerVote}/>
+                    {/if}
                 {/if}
             {/if}
             {#if isHost === true && noOfVotersRemaining}
@@ -631,6 +635,7 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
     }
     .votersContainer {
 		max-width : 60%;
+        min-width : 30%;
 		text-align : center;
 		margin : 0px auto;
 	}
@@ -649,6 +654,7 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
 		background : #fff;
 		border-radius : 5px;
 		align-items : center;
+        justify-content: center;
 	}
 	.voterContainer {
 		display : flex;

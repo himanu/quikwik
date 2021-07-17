@@ -3,10 +3,13 @@
 	export let disableBtn;
 	export let btnType = "";
 </script>
-<button class:startBtn = {!disableBtn} class:disabledBtn = {disableBtn}  on:click>
+<button class:startBtn = {!disableBtn} class:disabledBtn = {disableBtn} disabled = {disableBtn === true} on:click>
 	{#if btnType === 'Next Question'}
 		<div class="tooltip">
 			All voters have not voted. Do you still want to continue? 
+		</div>
+		<div class="tooltip1">
+			You need to vote first. 
 		</div>
 	{/if}
     <div class = "text">{btnText} </div>
@@ -58,6 +61,7 @@
 		margin-top : 0;
 		position : relative;
 	}
+
 	.startBtn:hover {
 		box-shadow: 0px 4px 4px#98C8E2;
 	}
@@ -72,8 +76,13 @@
 	}
 	.startBtn:hover .tooltip {
 		opacity: 1;
+		visibility: visible;
 	}
-	.tooltip {
+	.disabledBtn:hover .tooltip1 {
+		opacity: 1;
+		visibility: visible;
+	}
+	.tooltip,.tooltip1 {
 		position : absolute;
 		bottom : 130%;
 		background : #fff;
@@ -84,8 +93,9 @@
 		border-radius : 10px;
 		opacity : 0;
 		transition : opacity 0.3s;
+		visibility: hidden;
 	}
-	.tooltip::after {
+	.tooltip::after,.tooltip::after {
 		content: "";
 		position: absolute;
 		top: 100%;

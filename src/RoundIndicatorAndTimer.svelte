@@ -5,6 +5,7 @@
     export let message;
     export let timerType;
     export let isThisLastQuestion;
+    export let round;
     let roundValue;
     let timer;
     let interval;
@@ -26,6 +27,9 @@
             return;
         }
         roundValue = snap.val();
+        // if(timerType === 'votingScreenTimer') {
+        //     roundValue = round;
+        // }
     })
     let timerExists = false;
     let leftTimeString;
@@ -87,7 +91,7 @@
             ROUND {roundValue} | {message}
         </div>
     {/if}
-    
+
 </div>
 {/key}
 <style>
