@@ -43,6 +43,9 @@
             timerExists = true;
             timer = snap.val();
             leftTime = Math.floor((timer - Date.now())/1000);
+            if(leftTime > maxTimeValue) {
+                leftTime = maxTimeValue;
+            }
             leftTimeString = leftTime.toString() + 's';
             strokeDashOffset = ((113*(maxTimeValue - leftTime))/maxTimeValue).toString() + 'px';
             interval = setInterval(()=>{
@@ -154,7 +157,6 @@
     }
     .timerCircle {
         stroke-dasharray: 113px;
-        stroke-dashoffset: 0px;
         stroke-linecap: round;
         stroke-width: 3px;
         stroke: #3FAB8B;
