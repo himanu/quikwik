@@ -771,8 +771,9 @@ exports.startTimer = functions.runWith(runtimeOpts).https.onRequest((req, res) =
   round.update({
     allQuestions : allQuestionObject,
     noOfUsersWhoHaveNotAnswered : numberOfUser,
-    timer : Date.now() + 65000,
-    noOfOnlinePlayers : numberOfUser
+    timer : Date.now() + 65500,
+    noOfOnlinePlayers : numberOfUser,
+    currentQuestionNumber : 0
   }).then(()=>{
     console.log('All the required values are set');
   })
@@ -780,9 +781,6 @@ exports.startTimer = functions.runWith(runtimeOpts).https.onRequest((req, res) =
   setTimeout(() => {
     page.set('Do Voting');
     round.child('timer').remove();
-    round.update({
-    currentQuestionNumber : 0
-    })
     res.set('Access-Control-Allow-Origin', '*');
     if (req.method === 'OPTIONS') {
       // Send response to OPTIONS requests
@@ -793,7 +791,7 @@ exports.startTimer = functions.runWith(runtimeOpts).https.onRequest((req, res) =
     } else {
       res.json({'text':'Hello World!'});
     }
-  },65000);
+  },65500);
 
 });
 
