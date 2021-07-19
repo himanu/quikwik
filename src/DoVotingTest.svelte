@@ -499,13 +499,14 @@
     <ScorecardIcon/>
     {#if voter || spectator}
         <RoundIndicatorAndTimer message = {message}  timerType = {'votingScreenTimer'} isThisLastQuestion = {isThisLastQuestion}/>
+
+        {#if votingTimerHasStarted || noOfVotersRemaining === 0}
+            <div class="leaderMsg">
+                {leadingMsg}
+            </div>
+        {/if}
     {/if}
     
-    {#if votingTimerHasStarted || noOfVotersRemaining === 0}
-        <div class="leaderMsg">
-            {leadingMsg}
-        </div>
-    {/if}
     {#if isThisVoted || spectator}
         <div class = "votersContainer">
             <div class="votersHeading">
