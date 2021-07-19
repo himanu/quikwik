@@ -1,6 +1,5 @@
 <script>
-    import { onMount } from 'svelte';
-    import {fade,scale,fly} from 'svelte/transition';
+    import {fly} from 'svelte/transition';
     import {dbGameSessionRoundValue,listenFirebaseKey,dbTimer,dbVoteTimer,dbCurrentQuestionNumber,dbAllAnswers} from './database';
     export let message;
     export let timerType;
@@ -18,7 +17,7 @@
         dbCurrentTimer = dbTimer;
     }
     else {
-        maxTimeValue = 5;
+        maxTimeValue = 30;
         dbCurrentTimer = dbVoteTimer;
     }
     
@@ -27,13 +26,11 @@
             return;
         }
         roundValue = snap.val();
-        // if(timerType === 'votingScreenTimer') {
-        //     roundValue = round;
-        // }
     })
     let timerExists = false;
     let leftTimeString;
     let strokeDashOffset
+    let leftTimeReal;
     listenFirebaseKey(dbCurrentTimer,(dbTimerRef)=>{
         dbTimerRef.on('value',(snap)=>{
             if(!snap.exists()) {
@@ -42,14 +39,15 @@
             }
             timerExists = true;
             timer = snap.val();
-            leftTime = Math.floor((timer - Date.now())/1000);
+            leftTimeReal = ((timer - Date.now())/1000);
+            leftTime = Math.floor(leftTimeReal);
             if(leftTime > maxTimeValue) {
                 leftTime = maxTimeValue;
             }
             leftTimeString = leftTime.toString() + 's';
-            strokeDashOffset = ((113*(maxTimeValue - leftTime))/maxTimeValue).toString() + 'px';
+            strokeDashOffset = '0px';
             interval = setInterval(()=>{
-                let leftTimeReal = ((timer - Date.now())/1000);
+                leftTimeReal = ((timer - Date.now())/1000);
                 strokeDashOffset = ((113*(maxTimeValue - leftTimeReal))/maxTimeValue).toString() + 'px';
                 leftTime = Math.floor(leftTimeReal);
                 leftTimeString = leftTime.toString() + 's';
@@ -75,30 +73,30 @@
    
 </script>
 {#key message}
-<div class = 'roundIndicatorAndTimer' style = '--strokeDashOffset : {strokeDashOffset}' in:fly ="{{ y: -20, duration: 1000 }}">
-    {#if timerExists}
-        <div class = 'timer'>
-            <div id="countdown-number">{ leftTime }</div>
-            <svg  style = '--leftTimeString : {leftTimeString}'>
-                <circle class = 'timerCircle' r="18" cx="20" cy="20"></circle>
-            </svg>
-        </div>
-        {#if timerType === 'votingScreenTimer'}
-            <div class = "round">
-                ROUND {roundValue} | {nextQuestionIndicatorMsg} {leftTime}
+    <div class = 'roundIndicatorAndTimer' style = '--strokeDashOffset : {strokeDashOffset}' in:fly ="{{ y: -20, duration: 1000 }}">
+        {#if timerExists}
+            <div class = 'timer'>
+                <div id="countdown-number">{ leftTime }</div>
+                <svg  style = '--leftTimeString : {leftTimeString}'>
+                    <circle class = 'timerCircle' r="18" cx="20" cy="20"></circle>
+                </svg>
             </div>
-        {:else if timerType === 'GameScreenTimer'}
+            {#if timerType === 'votingScreenTimer'}
+                <div class = "round">
+                    ROUND {roundValue} | {nextQuestionIndicatorMsg} {leftTime}
+                </div>
+            {:else if timerType === 'GameScreenTimer'}
+                <div class="round">
+                    ROUND {roundValue} | {message}
+                </div>
+            {/if}
+        {:else}
             <div class="round">
                 ROUND {roundValue} | {message}
             </div>
         {/if}
-    {:else}
-        <div class="round">
-            ROUND {roundValue} | {message}
-        </div>
-    {/if}
 
-</div>
+    </div>
 {/key}
 <style>
     :global(html) {

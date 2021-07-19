@@ -6,8 +6,8 @@
     import {getParams} from './utils';
     import CustomButton from './CustomButton.svelte';
     import RoundIndicator from './RoundIndicator.svelte';
-import Tick from './Tick.svelte';
-import LoadingSvg from './svg/LoadingSvg.svelte';
+    import SmallTick from './svg/SmallTick.svelte';
+    import LoadingSvg from './svg/LoadingSvg.svelte';
 
     let allAnswers;
     let questionNumber;
@@ -15,7 +15,7 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
     let allQuikWikQuestions;
     let currentQuestionId;
     let currentQuestion = 'Loading ...';
-    let spectator = true;
+    let spectator = false;
     let voter = false;
     let users;
     let userId = getParams('userId');
@@ -325,15 +325,18 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
             })
         }
     }
-    function processName(user) {
+    function processName(user,isOnlyYouRequired) {
         let name = user['userName'];
         let fname = name?.split(" ")[0];
-        if(fname?.length > 8)
+        if(fname?.length > 10)
         {
-            fname = fname.slice(0,5) + "...";
+            fname = fname.slice(0,9) + "...";
         }
         if(user.id === userId) {
-            fname += " (You)";
+            if(isOnlyYouRequired) {
+                return ('You');
+            }
+            fname += "(You)";
         }
         return fname;
     }
@@ -450,17 +453,18 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
         
         console.log('leadingMsg ',leadingMsg);
         listenFirebaseKey(dbVoteTimer,(dbVoteTimerRef)=>{
-            dbVoteTimerRef.set(Date.now() + 6000).then(()=>{
+            dbVoteTimerRef.set(Date.now() + 30000).then(()=>{
                 votingTimerHasStarted = true;
             });
+            // setTimeout(()=>{
+                
+            // },30000);
             setTimeout(()=>{
                 votingTimerHasStarted = false;
                 noOfVotersRemaining = 1;
-            },5000)
-            setTimeout(()=>{
                 updateScore();
                 dbVoteTimerRef.remove();
-            },6000);
+            },30000);
         })
     }
     
@@ -482,7 +486,7 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
         <RoundIndicator roundValue = {questionNumber + 1}/>
     {/if}
     <QuikWikSmallIcon/>
-    <ScorecardIcon score = {myScore*10} />
+    <ScorecardIcon/>
         <RoundIndicatorAndTimer message = {message}  timerType = {'votingScreenTimer'} isThisLastQuestion = {isThisLastQuestion}/>
         {#if votingTimerHasStarted || noOfVotersRemaining === 0}
             <div class="leaderMsg">
@@ -496,15 +500,15 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
                 </div> 
                 <div class="allvoters">
                     {#each currentQuestionVotersArray as voter}
-                        <div class="voterContainer" title = "{currentQuestionVoters[voter] === true?"Have Voted":"Have not voted"}">
+                        <div class="voterContainer" title = "{currentQuestionVoters[voter] === true? `${processName(users[voter],true)} have Voted` : `${processName(users[voter],true)} have not voted`}">
                             <div class = "voterName">
-                                {processName(users[voter])}
+                                { processName(users[voter]) }
                             </div>
-                            <div class = "votingStatus">
-                                {#if currentQuestionVoters[voter]}
-                                    <Tick/>
-                                {/if}
-                            </div>
+                            {#if currentQuestionVoters[voter]}
+                                <div class = "votingStatus">
+                                    <SmallTick/> 
+                                </div>
+                            {/if}
                         </div>
                     {/each}
                 </div>
@@ -543,15 +547,25 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
                     {#if users && firstAnswerVoters}
                         <div class="firstAnswerVoters">
                             {#each firstAnswerVoters as voter}
-                                <div class="voter" class:disabledVoter = {!currentQuestionVoters[voter]}>
-                                    {processName(users[voter])}
+                                <div class="voterContainer" title = "{currentQuestionVoters[voter] === true? `${processName(users[voter],true)} have voted the first Answer`: `have not voted`}">
+                                    <div class = "voterName">
+                                        {processName(users[voter])}
+                                    </div>
+                                    <div class = "votingStatus">
+                                        <SmallTick/> 
+                                    </div>
                                 </div>
                             {/each}
                         </div>
                         <div class="secondAnswerVoters">
                             {#each secondAnswerVoters as voter}
-                                <div class="voter" class:disabledVoter = {!currentQuestionVoters[voter]}>
-                                    {processName(users[voter])}
+                                <div class="voterContainer" title = "{currentQuestionVoters[voter] === true? `${processName(users[voter],true)} have voted the first Answer`: `have not voted`}">
+                                    <div class = "voterName">
+                                        {processName(users[voter])}
+                                    </div>
+                                    <div class = "votingStatus">
+                                        <SmallTick/> 
+                                    </div>
                                 </div>
                             {/each}
                         </div>
@@ -601,7 +615,7 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
 	::-webkit-scrollbar-thumb {
 			background: darkgray;;
 			border-radius : 10px;
-			border : 4px solid transparent;
+			border : 4px solid #0C0030;
 	}
 	::-webkit-scrollbar-thumb:hover {
 			background: #333;
@@ -647,11 +661,11 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
     .allvoters {
 		display : flex;
 		max-width : 100%;
-		overflow-x : scroll;
+		overflow-x : auto;
 		margin : auto;
 		background : transparent;
 		border-radius : 5px;
-		align-items : center;
+		align-items : stretch;
         justify-content: center;
 	}
 	.voterContainer {
@@ -659,16 +673,17 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
         background: #333333;
 		color : #fff;
 		align-items : center;
-		margin : 4px 4px 0rem;
+		margin : 4px;
 		padding : 0.1rem 0.5rem;
 		border-radius : 5px;
 	}
 	.voterName {
-		margin-right : 0.5rem;
         font-family : 'Padauk';
         font-size : 0.65rem;
 	}
-    
+    .votingStatus {
+        margin-left : 0.5rem;
+    }
     .container {
         width : 60%;
         margin : auto;
@@ -776,8 +791,9 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
     .firstAnswerVoters,.secondAnswerVoters {
         flex : 1;
         display : flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
+        justify-content: center;
+        align-items : stretch;
+        overflow-x : auto;
         margin : 1rem;
     }
     .voter {
@@ -786,8 +802,8 @@ import LoadingSvg from './svg/LoadingSvg.svelte';
         font-size : 0.65rem;
         border-radius : 5px;
         color : #fff;
-        padding : 10px;
-        margin : 5px;
+        padding : 0.5rem;
+        margin : 4px;
     }
     .disabledVoter {
         opacity : 0.8;

@@ -72,7 +72,7 @@
 </script>
 <main>
     <QuikWikSmallIcon/>
-    <ScorecardIcon score = {scoreOfUser}/>
+    <ScorecardIcon/>
     <div class = 'gameStates'>
         {#if leftTime === 65}
             <div class = 'gameState' transition:fly="{{ y: -100, duration: 1000 } }">Ready</div>

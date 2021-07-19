@@ -96,9 +96,9 @@
     }
     function processName(name) {
         let fname = name?.split(" ")[0];
-        if(fname?.length > 8)
+        if(fname?.length > 10)
         {
-            fname = fname.slice(0,5) + "...";
+            fname = fname.slice(0,9) + "...";
         }
         return fname;
     }
@@ -123,7 +123,7 @@
         <RoundIndicator roundValue = {roundValue}/>
     {/if}
     <QuikWikSmallIcon/>
-    <ScorecardIcon score = {myScore} />
+    <ScorecardIcon/>
     <div class = 'leaderBoard'>
         LEADERBOARD
     </div>

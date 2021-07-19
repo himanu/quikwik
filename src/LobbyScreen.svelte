@@ -172,11 +172,11 @@
             fname = name?.split(" ")[0].toUpperCase() + name?.split(" ")[0].toUpperCase();
         }
         if(user.id === hostId) {
-            fname = fname + " (Host)";
+            fname = fname + "(Host)";
         }
         else if(user.id === userId) {
             if(!isHost) {
-                fname = fname + " (You)";
+                fname = fname + "(You)";
             }
         }
         return fname;
@@ -219,7 +219,7 @@
 </script>
 <main>
     <QuikWikSmallIcon/>
-    <ScorecardIcon score = {scoreOfUser}/>
+    <ScorecardIcon/>
     <div class = 'preJoinMsg'>
         {#if noOfRequiredUser > 0}
             <pre> Need { mapToStringNumber[noOfRequiredUser] } more  </pre>
@@ -321,9 +321,9 @@
         margin : 2rem;
     }
     .usersContainer{
-        width : 25%;
+        width : 30%;
         min-height : 100px;
-        max-height : 30%;
+        max-height : 40%;
         border-radius : 18px;
         background-color: #fff;
         margin : auto;

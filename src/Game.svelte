@@ -171,7 +171,7 @@
 </script>
 <main>
     <QuikWikSmallIcon/>
-    <ScorecardIcon score = {scoreOfUser}/>
+    <ScorecardIcon/>
     <RoundIndicatorAndTimer message = {'ANSWER NOW'} timerType = {'GameScreenTimer'} />
 
     {#if !isThisUserHaveAnswered && !isVisitor}
@@ -206,7 +206,7 @@
                 Players are submitting their answers. <br/>
                 Get ready to vote!
             {:else}
-                You are are spectator.<br/>Players are submitting their answers. <br/>
+                You are spectator.<br/>Players are submitting their answers. <br/>
                 Get ready to vote!
             {/if}
         </div>

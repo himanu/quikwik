@@ -405,7 +405,7 @@
         <RoundIndicator roundValue = {roundValue}/>
     {/if}
     <QuikWikSmallIcon/>
-    <ScorecardIcon score = {myScore*10} />
+    <ScorecardIcon/>
     <RoundIndicatorAndTimer message = {message} timerType = {'votingScreenTimer'} isThisLastQuestion = {isThisLastQuestion}/>
     <div class="container" style = 'opacity : {opacityOfContainer}'>
         <div class="question">

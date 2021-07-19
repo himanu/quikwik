@@ -556,7 +556,7 @@ exports.updateQuestionNumberOnCompleteVoting = functions.database.ref('/quikwik/
     console.log('No of Voters Remaining ',noOfVotersRemaining);
     if(noOfVotersRemaining === 0) {
       let votingTimerRef = change.after.ref.parent.child('voteTimer');
-      votingTimerRef.set(Date.now() + 6000).then(()=>{
+      votingTimerRef.set(Date.now() + 30000).then(()=>{
         console.log('Voting timer is set');
       });
       //Now we give the points to winner of current question
@@ -689,7 +689,7 @@ exports.updateQuestionNumberOnCompleteVoting = functions.database.ref('/quikwik/
               console.log('Some error occure while updating the score of users');
               resolve();
             })
-          },6000);
+          },30000);
         })
         .catch(()=>{
           console.log('Unable to get allAnswers or currentQuestionNumber');
