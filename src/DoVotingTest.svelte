@@ -505,29 +505,31 @@
                 {leadingMsg}
             </div>
         {/if}
+
+        {#if isThisVoted || spectator}
+            <div class = "votersContainer">
+                <div class="votersHeading">
+                    Voter List
+                </div> 
+                <div class="allvoters">
+                    {#each currentQuestionVotersArray as voter}
+                        <div class="voterContainer" title = "{currentQuestionVoters[voter] === true? `${processName(users[voter],true)} have Voted` : `${processName(users[voter],true)} have not voted`}">
+                            <div class = "voterName">
+                                { processName(users[voter]) }
+                            </div>
+                            {#if currentQuestionVoters[voter]}
+                                <div class = "votingStatus">
+                                    <SmallTick/> 
+                                </div>
+                            {/if}
+                        </div>
+                    {/each}
+                </div>
+            </div>
+        {/if}
     {/if}
     
-    {#if isThisVoted || spectator}
-        <div class = "votersContainer">
-            <div class="votersHeading">
-                Voter List
-            </div> 
-            <div class="allvoters">
-                {#each currentQuestionVotersArray as voter}
-                    <div class="voterContainer" title = "{currentQuestionVoters[voter] === true? `${processName(users[voter],true)} have Voted` : `${processName(users[voter],true)} have not voted`}">
-                        <div class = "voterName">
-                            { processName(users[voter]) }
-                        </div>
-                        {#if currentQuestionVoters[voter]}
-                            <div class = "votingStatus">
-                                <SmallTick/> 
-                            </div>
-                        {/if}
-                    </div>
-                {/each}
-            </div>
-        </div>
-    {/if}
+    
     <div class="container" style = 'opacity : {opacityOfContainer}'>
         <div class="question">
             {currentQuestion}
