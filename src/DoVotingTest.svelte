@@ -310,7 +310,7 @@
         }
         isThisVoted = true;
         if(noOfVotersRemaining === 1) {
-            noOfVotersRemaining = 0;
+            // noOfVotersRemaining = 0;
             // setTimeout(()=>{
             //     votingTimerHasStarted = false;
             //     noOfVotersRemaining = 1;
