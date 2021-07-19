@@ -311,12 +311,12 @@
         isThisVoted = true;
         if(noOfVotersRemaining === 1) {
             noOfVotersRemaining = 0;
-            setTimeout(()=>{
-                votingTimerHasStarted = false;
-                noOfVotersRemaining = 1;
-                voter = false;
-                spectator = false;
-            },30000)
+            // setTimeout(()=>{
+            //     votingTimerHasStarted = false;
+            //     noOfVotersRemaining = 1;
+            //     voter = false;
+            //     spectator = false;
+            // },30000)
         }
         listenFirebaseKey(dbCurrentQuestionVoters,(dbCurrentQuestionVotersRef)=>{
             dbCurrentQuestionVotersRef.child(userId).set(true);
