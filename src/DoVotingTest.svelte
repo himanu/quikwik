@@ -78,6 +78,7 @@
                 votingTimerHasStarted = false;
                 spectator = false;
                 voter = false;
+                isThisVoted = false;
             },30000);
         })
     })
@@ -462,16 +463,17 @@
         console.log('leadingMsg ',leadingMsg);
         listenFirebaseKey(dbVoteTimer,(dbVoteTimerRef)=>{
             dbVoteTimerRef.set(Date.now() + 30000).then(()=>{
-                votingTimerHasStarted = true;
+                // votingTimerHasStarted = true;
+                console.log('Voting timer is set success');
             });
             setTimeout(()=>{
-                votingTimerHasStarted = false;
-                noOfVotersRemaining = 1;
-                voter = false;
-                spectator = false;
-                isThisVoted = false;
+                // votingTimerHasStarted = false;
+                // noOfVotersRemaining = 1;
+                // voter = false;
+                // spectator = false;
+                // isThisVoted = false;
                 updateScore();
-                dbVoteTimerRef.remove();
+                // dbVoteTimerRef.remove();
             },30000);
         })
     }
