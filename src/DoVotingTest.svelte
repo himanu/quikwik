@@ -459,7 +459,6 @@
         if(isHost !== true) {
             return ;
         }
-        
         console.log('leadingMsg ',leadingMsg);
         listenFirebaseKey(dbVoteTimer,(dbVoteTimerRef)=>{
             dbVoteTimerRef.set(Date.now() + 30000).then(()=>{
@@ -808,18 +807,7 @@
         overflow-x : auto;
         margin : 1rem;
     }
-    .voter {
-        background: #333333;
-        font-family : 'Padauk';
-        font-size : 0.65rem;
-        border-radius : 5px;
-        color : #fff;
-        padding : 0.5rem;
-        margin : 4px;
-    }
-    .disabledVoter {
-        opacity : 0.8;
-    }
+    
     .waitingForOtherAnswer {
         color : #fff;
         font-family : 'Padauk';
