@@ -98,9 +98,6 @@
     listenFirebaseKey(dbCurrentQuestionNumber,(dbCurrentQuestionNumberRef)=>{
         dbCurrentQuestionNumberRef.on('value',(snap)=>{
             if(!snap.exists()) {
-                currentQuestion = 0;
-                dbCurrentQuestionNumberRef.set(0);
-                questionNumberHasChanged = false;
                 return;
             }
             questionNumber = snap.val();
