@@ -699,6 +699,31 @@
         width : 60%;
         margin : auto;
     }
+    @media screen and (max-width : 1000px) {
+        .container {
+            width : 65%;
+        }
+    }
+    @media screen and (max-width : 900px) {
+        .container {
+            width : 70%;
+        }
+    }
+    @media screen and (max-width : 800px) {
+        .container {
+            width : 75%;
+        }
+    }
+    @media screen and (max-width : 700) {
+        .container {
+            width : 80%;
+        }
+    }
+    @media screen and (max-width : 600) {
+        .container {
+            width : 85%;
+        }
+    }
     .question {
         color : #fff;
         font-family : 'Manrope';
