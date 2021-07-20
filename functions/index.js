@@ -603,7 +603,7 @@ exports.updateQuestionNumberOnCompleteVoting = functions.database.ref('/quikwik/
             console.log('Total Number Of question ',totalNumberOfQuestions);
 
             setTimeout(async()=>{
-              votingTimerRef.remove();
+              await votingTimerRef.remove();
               i = 0;
               //Get the votes of first user and second user
               allAnswersSnap = await allAnswersRef.get();
