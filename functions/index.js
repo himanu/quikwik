@@ -70,7 +70,7 @@ exports.updateNumberOfUsersWhoHaveNotAnswered = functions.database.ref('/quikwik
     
           if(noOfUsersWhoHaveNotAnswered === 1) {
             console.log('Change the page to do Voting and remove the timer');
-            promiseArray = [ ...promiseArray, pageRef.set('Do Voting'), roundRef.child('timer').remove() ];
+            promiseArray = [ ...promiseArray, pageRef.set('Do Voting'), roundRef.child('timer').remove(),roundRef.update({ currentQuestionNumber : 0}) ];
           }
           Promise.all(promiseArray).then(()=>{
             console.log('Page is set do voting and timer is removed');
@@ -772,15 +772,18 @@ exports.startTimer = functions.runWith(runtimeOpts).https.onRequest((req, res) =
     allQuestions : allQuestionObject,
     noOfUsersWhoHaveNotAnswered : numberOfUser,
     timer : Date.now() + 65500,
-    noOfOnlinePlayers : numberOfUser,
-    currentQuestionNumber : 0
+    noOfOnlinePlayers : numberOfUser
   }).then(()=>{
     console.log('All the required values are set');
   })
 
   setTimeout(() => {
+    
     page.set('Do Voting');
     round.child('timer').remove();
+    round.update({
+      currentQuestionNumber : 0
+    })
     res.set('Access-Control-Allow-Origin', '*');
     if (req.method === 'OPTIONS') {
       // Send response to OPTIONS requests

@@ -4,6 +4,7 @@
     export let message;
     export let timerType;
     export let isThisLastQuestion;
+    export let noOfVotersRemaining;
     // export let round;
     let roundValue;
     let timer;
@@ -90,7 +91,7 @@
                     ROUND {roundValue} | {message}
                 </div>
             {/if}
-        {:else}
+        {:else if noOfVotersRemaining}
             <div class="round">
                 ROUND {roundValue} | {message}
             </div>

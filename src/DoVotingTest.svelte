@@ -7,6 +7,7 @@
     import CustomButton from './CustomButton.svelte';
     import RoundIndicator from './RoundIndicator.svelte';
     import SmallTick from './svg/SmallTick.svelte';
+    import {fly} from 'svelte/transition';
 
     let allAnswers;
     let questionIds = [];
@@ -75,11 +76,11 @@
             }
             votingTimerHasStarted = true;
             setTimeout(()=>{
-                votingTimerHasStarted = false;
+                // votingTimerHasStarted = false;
                 spectator = false;
                 voter = false;
                 isThisVoted = false;
-            },30000);
+            },29500);
         })
     })
     dbScoreOfUser.on('value',(snap)=>{
@@ -151,6 +152,7 @@
 
     listenFirebaseKey(dbCurrentQuestionVoters,(dbCurrentQuestionVotersRef)=>{
         dbCurrentQuestionVotersRef.on('value',(snap)=>{
+            console.log('Hey i am called currentQuestionVoters');
             if(!snap.exists()) {
                 return;
             }
@@ -189,21 +191,22 @@
                 if(temp === 1) {
                     currentQuestionFirstUser = id;
                     firstAnswer = currentQuestionUsers[id]['ansText'];
+                    firstAnswerVoters = currentQuestionUsers[id]['votedBy'];
+                    currentQuestionFirstUserName = processName( users[currentQuestionFirstUser]);
                 }
                 else if(temp === 2) {
                     currentQuestionSecondUser = id;
                     secondAnswer = currentQuestionUsers[id]['ansText'];
+                    secondAnswerVoters = currentQuestionUsers[id]['votedBy'];
+                    currentQuestionSecondUserName = processName( users[currentQuestionSecondUser]);
                 }
                 temp += 1;
             }
-            firstAnswerVoters = currentQuestionUsers[currentQuestionFirstUser]['votedBy'];
-            secondAnswerVoters = currentQuestionUsers[currentQuestionSecondUser]['votedBy'];
+            
             if(firstAnswerVoters)
-            firstUserVotes = firstAnswerVoters.length;
+                firstUserVotes = firstAnswerVoters.length;
             if(secondAnswerVoters)
-            secondUserVotes = secondAnswerVoters.length;
-            currentQuestionFirstUserName = processName( users[currentQuestionFirstUser]);
-            currentQuestionSecondUserName = processName( users[currentQuestionSecondUser]);
+                secondUserVotes = secondAnswerVoters.length;
             if(firstUserVotes > secondUserVotes) {
                 leadingMsg = `${currentQuestionFirstUserName} got the most votes`;
             }
@@ -310,7 +313,7 @@
         }
         isThisVoted = true;
         if(noOfVotersRemaining === 1) {
-            // noOfVotersRemaining = 0;
+            noOfVotersRemaining = 0;
             // setTimeout(()=>{
             //     votingTimerHasStarted = false;
             //     noOfVotersRemaining = 1;
@@ -498,16 +501,16 @@
     <QuikWikSmallIcon/>
     <ScorecardIcon/>
     {#if voter || spectator}
-        <RoundIndicatorAndTimer message = {message}  timerType = {'votingScreenTimer'} isThisLastQuestion = {isThisLastQuestion}/>
+        <RoundIndicatorAndTimer message = {message} noOfVotersRemaining = {noOfVotersRemaining} timerType = {'votingScreenTimer'} isThisLastQuestion = {isThisLastQuestion}/>
 
-        {#if votingTimerHasStarted || noOfVotersRemaining === 0}
-            <div class="leaderMsg">
+        {#if votingTimerHasStarted}
+            <div class="leaderMsg" in:fly ="{{ y: -20, duration: 1000 }}">
                 {leadingMsg}
             </div>
         {/if}
 
         {#if isThisVoted || spectator}
-            <div class = "votersContainer">
+            <div class = "votersContainer" in:fly ="{{ y: -20, duration: 1000 }}">
                 <div class="votersHeading">
                     Voter List
                 </div> 
@@ -527,7 +530,7 @@
                 </div>
             </div>
         {/if}
-        <div class="container" style = 'opacity : {opacityOfContainer}'>
+        <div class="container" style = 'opacity : {opacityOfContainer}' in:fly ="{{ y: -20, duration: 1000 }}">
             <div class="question">
                 {currentQuestion}
             </div>
@@ -587,7 +590,7 @@
             {/if}
         </div>
         
-        <div class="buttonContainer">
+        <div class="buttonContainer" in:fly ="{{ y: -20, duration: 1000 }}">
             {#if voter}
                 {#if !isThisVoted}
                     {#if firstAnswerVoted || secondAnswerVoted}
@@ -602,13 +605,13 @@
             {/if}
         </div>
         {#if voter && !isThisVoted}
-            <div class = 'waitingForOtherAnswer'>
+            <div class = 'waitingForOtherAnswer' in:fly ="{{ y: -20, duration: 1000 }}">
                 Vote the answer which you like the most
             </div>
         {/if}
         {#if (voter && isThisVoted) || (spectator)}
             {#if noOfVotersRemaining}
-                <div class = 'waitingForOtherAnswer'>
+                <div class = 'waitingForOtherAnswer' in:fly ="{{ y: -20, duration: 1000 }}">
                     All voters have not voted.
                 </div>
             {/if}
