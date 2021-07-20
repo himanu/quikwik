@@ -45,6 +45,7 @@
             if(leftTime > maxTimeValue) {
                 leftTime = maxTimeValue;
             }
+            
             leftTimeString = leftTime.toString() + 's';
             strokeDashOffset = '0px';
             interval = setInterval(()=>{

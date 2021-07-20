@@ -21,6 +21,7 @@
     import QuikWikSmallIcon from './QuikWikSmallIcon.svelte';
     import CustomButton from './CustomButton.svelte';
     import ScorecardIcon from './ScorecardIcon.svelte';
+    import {fly} from 'svelte/transition';
 
     // addNotification()
     let mapToStringNumber = {
@@ -220,7 +221,7 @@
 <main>
     <QuikWikSmallIcon/>
     <ScorecardIcon/>
-    <div class = 'preJoinMsg'>
+    <div class = 'preJoinMsg' in:fly ="{{ y: -20, duration: 1000 }}">
         {#if noOfRequiredUser > 0}
             <pre> Need { mapToStringNumber[noOfRequiredUser] } more  </pre>
             <pre> Wait for others to join... </pre>
@@ -235,7 +236,7 @@
             {/if}
         {/if}
     </div>
-    <div class = 'usersContainer'>
+    <div class = 'usersContainer' in:fly ="{{ y: -20, duration: 1000 }}">
         <div class="usersList">
             <div class="users">
                 {#each usersArray as currUser}
@@ -271,11 +272,13 @@
         </div>
     </div>
     {#if isHost}
-        {#if noOfRequiredUser > 0}
-            <CustomButton on:click = {handleStartGameBtn} btnText = {'Start Game'} disableBtn = {true}/>
-        {:else}
-            <CustomButton on:click = {handleStartGameBtn} btnText = {'Start Game'} disableBtn = {false}/>
-        {/if}
+        <div class="btnDiv" in:fly ="{{ y: -20, duration: 1000 }}">
+            {#if noOfRequiredUser > 0}
+                <CustomButton on:click = {handleStartGameBtn} btnText = {'Start Game'} disableBtn = {true}/>
+            {:else}
+                <CustomButton on:click = {handleStartGameBtn} btnText = {'Start Game'} disableBtn = {false}/>
+            {/if}
+        </div>
     {/if}
     
 </main>

@@ -10,6 +10,7 @@
     import LeaderBoard from './LeaderBoard.svelte';
     import Notifications from './Notification.svelte';
     import {info} from './Notifier';
+    import {fly} from 'svelte/transition';
 
 	let page ;
 	var dbGameSessionRound;
@@ -164,7 +165,7 @@
             return;
         }
         roundValue = snap.val();
-        page = 'Welcome';
+        // page = 'Welcome';
         if(dbGameSessionRound){
             dbGameSessionRound.off('value',snapFun);
         }
@@ -177,8 +178,10 @@
 </script>
 {#if page === 'Welcome'}
 	<div class = 'welcomeScreen'>
-		<QuikWikIcon/>
-        <CustomButton on:click = {handleClick} btnText = {"Start Game "} disableBtn = {false}/>
+        <div class="container" in:fly ="{{ y: -20, duration: 1000 }}">
+            <QuikWikIcon/>
+            <CustomButton on:click = {handleClick} btnText = {"Start Game "} disableBtn = {false}/>
+        </div>
 	</div>
 {:else if page === 'Lobby Screen'}
 	<LobbyScreen />
@@ -207,10 +210,17 @@
 		width : 100%;
 		height : 100%;
 		background-color: #532D71;
+        padding : 1rem;
         display : flex;
         flex-direction: column;
         align-items : center;
-        padding : 1rem;
 	}
+    .container {
+		width : 100%;
+		height : 100%;
+        display : flex;
+        flex-direction: column;
+        align-items : center;
+    }
     
 </style>

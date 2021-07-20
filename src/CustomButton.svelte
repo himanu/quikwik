@@ -2,8 +2,9 @@
 	export let btnText;
 	export let disableBtn;
 	export let btnType = "";
+	import {fly} from 'svelte/transition';
 </script>
-<button class:startBtn = {!disableBtn} class:disabledBtn = {disableBtn} disabled = {disableBtn === true} on:click>
+<button class:startBtn = {!disableBtn} class:disabledBtn = {disableBtn} disabled = {disableBtn === true} on:click> 
 	{#if btnType === 'Next Question'}
 		<div class="tooltip">
 			All voters have not voted. Do you still want to continue? 

@@ -5,6 +5,8 @@
     import {listenFirebaseKey,dbScoreOfUsers,dbUsers,dbGameSession,dbGameSessionRoundValue,dbHost} from './database';
     import CustomButton from './CustomButton.svelte';
     import RoundIndicator from './RoundIndicator.svelte';
+    import {fly} from 'svelte/transition';
+
     let myScore;
     let scoreOfUsers;
     let scoreOfUsersArray = [];
@@ -124,13 +126,13 @@
     {/if}
     <QuikWikSmallIcon/>
     <ScorecardIcon/>
-    <div class = 'leaderBoard'>
+    <div class = 'leaderBoard' in:fly ="{{ y: -20, duration: 1000 }}">
         LEADERBOARD
     </div>
-    <div class = 'leaderBoardLeader'>
+    <div class = 'leaderBoardLeader' in:fly ="{{ y: -20, duration: 1000 }}">
         {processName(leaderBoardLeader)} is leading!
     </div>
-    <div class = 'usersContainer' style = 'opacity : {opacityOfContainer}'>
+    <div class = 'usersContainer' style = 'opacity : {opacityOfContainer}' in:fly ="{{ y: -20, duration: 1000 }}">
         <div class="usersList">
             <div class="users">
                 {#if users}
@@ -160,9 +162,11 @@
         </div>
     </div>
     {#if isHost === true}
-        <CustomButton btnText = 'Next Round' disableBtn = {false} on:click = {handleNextRoundBtn}/>
+        <div class="btnDiv" in:fly ="{{ y: -20, duration: 1000 }}">
+            <CustomButton btnText = 'Next Round' disableBtn = {false} on:click = {handleNextRoundBtn}/>
+        </div>
     {:else}
-        <div class = 'waitingForOtherAnswer'>
+        <div class = 'waitingForOtherAnswer' in:fly ="{{ y: -20, duration: 1000 }}">
             Waiting for host to continue the game.
         </div>
     {/if}

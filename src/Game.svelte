@@ -6,6 +6,8 @@
     import {getParams} from './utils'; 
     import RoundIndicatorAndTimer from './RoundIndicatorAndTimer.svelte';
     import PlayerContainer from './PlayerContainer.svelte';
+    import {fly} from 'svelte/transition';
+
     let ans1,ans2;
     let users;
     let allQuikWikQuestions;
@@ -175,7 +177,7 @@
     <RoundIndicatorAndTimer message = {'ANSWER NOW'} timerType = {'GameScreenTimer'} />
 
     {#if !isThisUserHaveAnswered && !isVisitor}
-        <div class = 'formBox'>
+        <div class = 'formBox' in:fly ="{{ y: -20, duration: 1000 }}">
             <form class = 'form'>
                 <label for = 'input1'>
                     {#if !firstQuestion}
@@ -195,13 +197,16 @@
                 <input placeholder = 'Write your witty answer ...' id = 'input2' on:keyup = {dbounceReturnFun2} bind:value = {ans2} autocomplete = "off">
             </form>
         </div>
-        {#if ans1 && ans2}
-            <CustomButton on:click = {handleAnswerBtn} btnText = {`Answer`} disableBtn = {false}/>
-        {:else}
-            <CustomButton on:click = {handleAnswerBtn} btnText = {`Answer`} disableBtn = {true}/>
-        {/if}
+        <div class="btnDiv" in:fly ="{{ y: -20, duration: 1000 }}">
+            {#if ans1 && ans2}
+                <CustomButton on:click = {handleAnswerBtn} btnText = {`Answer`} disableBtn = {false}/>
+            {:else}
+                <CustomButton on:click = {handleAnswerBtn} btnText = {`Answer`} disableBtn = {true}/>
+            {/if}
+        </div>
+        
     {:else}
-        <div class = 'waitingForOtherAnswer'>
+        <div class = 'waitingForOtherAnswer' in:fly ="{{ y: -20, duration: 1000 }}">
             {#if !isVisitor}
                 Players are submitting their answers. <br/>
                 Get ready to vote!

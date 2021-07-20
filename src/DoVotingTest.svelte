@@ -17,6 +17,7 @@
     let totalNumberOfQuestion;
     let hostId;
     let isHost = false;
+    let handleNextQuestionClicked;
 
     let questionNumber;
     let currentQuestionId; // depends on question number
@@ -71,16 +72,21 @@
         dbVoteTimerRef.on('value',(snap)=>{
             if(!snap.exists()) {
                 votingTimerHasStarted = false;
+                console.log('voter and spectator set to false');
+                spectator = false;
+                voter = false;
+                isThisVoted = false;
                 console.log('TImer not exists ',snap.val());
                 return;
             }
             votingTimerHasStarted = true;
-            setTimeout(()=>{
-                // votingTimerHasStarted = false;
-                spectator = false;
-                voter = false;
-                isThisVoted = false;
-            },29500);
+            // setTimeout(()=>{
+            //     console.log('voter and spectator set to false');
+            //     votingTimerHasStarted = false;
+            //     spectator = false;
+            //     voter = false;
+            //     isThisVoted = false;
+            // },29850);
         })
     })
     dbScoreOfUser.on('value',(snap)=>{
@@ -311,7 +317,7 @@
         if(!firstAnswerVoted && !secondAnswerVoted) {
             return ;
         }
-        isThisVoted = true;
+        // isThisVoted = true;
         if(noOfVotersRemaining === 1) {
             noOfVotersRemaining = 0;
             // setTimeout(()=>{
@@ -463,6 +469,7 @@
         if(isHost !== true) {
             return ;
         }
+        handleNextQuestion = true;
         console.log('leadingMsg ',leadingMsg);
         listenFirebaseKey(dbVoteTimer,(dbVoteTimerRef)=>{
             dbVoteTimerRef.set(Date.now() + 30000).then(()=>{
@@ -476,7 +483,7 @@
                 // spectator = false;
                 // isThisVoted = false;
                 updateScore();
-                // dbVoteTimerRef.remove();
+                dbVoteTimerRef.remove();
             },30000);
         })
     }
@@ -500,7 +507,7 @@
     {/if}
     <QuikWikSmallIcon/>
     <ScorecardIcon/>
-    {#if voter || spectator}
+    {#if (voter || spectator) && questionNumberHasChanged}
         <RoundIndicatorAndTimer message = {message} noOfVotersRemaining = {noOfVotersRemaining} timerType = {'votingScreenTimer'} isThisLastQuestion = {isThisLastQuestion}/>
 
         {#if votingTimerHasStarted}
@@ -530,80 +537,82 @@
                 </div>
             </div>
         {/if}
-        <div class="container" style = 'opacity : {opacityOfContainer}' in:fly ="{{ y: -20, duration: 1000 }}">
-            <div class="question">
-                {currentQuestion}
-            </div>
-            <div class = 'answers'>
-                <div class:firstAnswerContainer = {voter && !isThisVoted} style="--backgroundColor: {firstAnswerContainerBackground}" class:disabledFirstAnswerContainer = {spectator || isThisVoted} on:click = {voteFirstAnswer}>                      
-                    <svg class = 'upperSvg' width="32" height="26" viewBox="0 0 32 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 25.5L20 0L31.5 13.5L0 25.5Z" fill={firstAnswerContainerBackground}/>
-                    </svg>
-
-                    <div class="firstAnswer" style = "--textColor : {firstAnswerTextColor}"> {firstAnswer} </div>
-                    {#if isThisVoted || spectator}
-                        <div class = 'author' style = "color: {isThisVoted === true && firstAnswerVoted === true?"#fff":"#000"}" >- {currentQuestionFirstUserName}</div>
-                    {/if}
+        {#key isThisVoted}
+            <div class="container" style = 'opacity : {opacityOfContainer}' in:fly ="{{ y: -20, duration: 1000 }}">
+                <div class="question">
+                    {currentQuestion}
                 </div>
-                
-                <div class:secondAnswerContainer = {voter && !isThisVoted} style="--backgroundColor: {secondAnswerContainerBackground}" class:disabledSecondAnswerContainer = {spectator || isThisVoted} on:click = {voteSecondAnswer}>  
+                <div class = 'answers'>
+                    <div class:firstAnswerContainer = {voter && !isThisVoted} style="--backgroundColor: {firstAnswerContainerBackground}" class:disabledFirstAnswerContainer = {spectator || isThisVoted} on:click = {voteFirstAnswer}>                      
+                        <svg class = 'upperSvg' width="32" height="26" viewBox="0 0 32 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 25.5L20 0L31.5 13.5L0 25.5Z" fill={firstAnswerContainerBackground}/>
+                        </svg>
+
+                        <div class="firstAnswer" style = "--textColor : {firstAnswerTextColor}"> {firstAnswer} </div>
+                        {#if isThisVoted || spectator}
+                            <div class = 'author' style = "color: {isThisVoted === true && firstAnswerVoted === true?"#fff":"#000"}" >- {currentQuestionFirstUserName}</div>
+                        {/if}
+                    </div>
                     
-                    <svg class = 'downSvg' width="32" height="26" viewBox="0 0 32 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M31.5 25.5L11.5 0L0 13.5L31.5 25.5Z" fill={secondAnswerContainerBackground}/>
-                    </svg>
+                    <div class:secondAnswerContainer = {voter && !isThisVoted} style="--backgroundColor: {secondAnswerContainerBackground}" class:disabledSecondAnswerContainer = {spectator || isThisVoted} on:click = {voteSecondAnswer}>  
+                        
+                        <svg class = 'downSvg' width="32" height="26" viewBox="0 0 32 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M31.5 25.5L11.5 0L0 13.5L31.5 25.5Z" fill={secondAnswerContainerBackground}/>
+                        </svg>
 
-                    <div class="secondAnswer" style = "--textColor : {secondAnswerTextColor}"> {secondAnswer} </div>
-                    {#if isThisVoted || spectator}
-                        <div class = 'author' style = "color: {isThisVoted === true && secondAnswerVoted === true?"#fff":"#000"}" >- {currentQuestionSecondUserName}</div>
-                    {/if}
+                        <div class="secondAnswer" style = "--textColor : {secondAnswerTextColor}"> {secondAnswer} </div>
+                        {#if isThisVoted || spectator}
+                            <div class = 'author' style = "color: {isThisVoted === true && secondAnswerVoted === true?"#fff":"#000"}" >- {currentQuestionSecondUserName}</div>
+                        {/if}
+                    </div>
                 </div>
+                {#if isThisVoted || spectator}
+                    <div class="voters">
+                        {#if users && firstAnswerVoters}
+                            <div class="firstAnswerVoters">
+                                {#each firstAnswerVoters as voter}
+                                    <div class="voterContainer" title = "{currentQuestionVoters[voter] === true? `${processName(users[voter],true)} have voted the first Answer`: `have not voted`}">
+                                        <div class = "voterName">
+                                            {processName(users[voter])}
+                                        </div>
+                                        <div class = "votingStatus">
+                                            <SmallTick/> 
+                                        </div>
+                                    </div>
+                                {/each}
+                            </div>
+                            <div class="secondAnswerVoters">
+                                {#each secondAnswerVoters as voter}
+                                    <div class="voterContainer" title = "{currentQuestionVoters[voter] === true? `${processName(users[voter],true)} have voted the first Answer`: `have not voted`}">
+                                        <div class = "voterName">
+                                            {processName(users[voter])}
+                                        </div>
+                                        <div class = "votingStatus">
+                                            <SmallTick/> 
+                                        </div>
+                                    </div>
+                                {/each}
+                            </div>
+                        {/if}
+                    </div>
+                {/if}
             </div>
-            {#if isThisVoted || spectator}
-                <div class="voters">
-                    {#if users && firstAnswerVoters}
-                        <div class="firstAnswerVoters">
-                            {#each firstAnswerVoters as voter}
-                                <div class="voterContainer" title = "{currentQuestionVoters[voter] === true? `${processName(users[voter],true)} have voted the first Answer`: `have not voted`}">
-                                    <div class = "voterName">
-                                        {processName(users[voter])}
-                                    </div>
-                                    <div class = "votingStatus">
-                                        <SmallTick/> 
-                                    </div>
-                                </div>
-                            {/each}
-                        </div>
-                        <div class="secondAnswerVoters">
-                            {#each secondAnswerVoters as voter}
-                                <div class="voterContainer" title = "{currentQuestionVoters[voter] === true? `${processName(users[voter],true)} have voted the first Answer`: `have not voted`}">
-                                    <div class = "voterName">
-                                        {processName(users[voter])}
-                                    </div>
-                                    <div class = "votingStatus">
-                                        <SmallTick/> 
-                                    </div>
-                                </div>
-                            {/each}
-                        </div>
-                    {/if}
-                </div>
-            {/if}
-        </div>
-        
-        <div class="buttonContainer" in:fly ="{{ y: -20, duration: 1000 }}">
-            {#if voter}
-                {#if !isThisVoted}
-                    {#if firstAnswerVoted || secondAnswerVoted}
-                        <CustomButton disableBtn = {false} btnText = {"Vote"} on:click = {registerVote}/>
-                    {:else}
-                        <CustomButton disableBtn = {true} btnText = {"Vote"} on:click = {registerVote}/>
+            
+            <div class="buttonContainer" in:fly ="{{ y: -20, duration: 1000 }}">
+                {#if voter}
+                    {#if !isThisVoted}
+                        {#if firstAnswerVoted || secondAnswerVoted}
+                            <CustomButton disableBtn = {false} btnText = {"Vote"} on:click = {registerVote}/>
+                        {:else}
+                            <CustomButton disableBtn = {true} btnText = {"Vote"} on:click = {registerVote}/>
+                        {/if}
                     {/if}
                 {/if}
-            {/if}
-            {#if isHost === true && noOfVotersRemaining}
-                <CustomButton disableBtn = {(voter === true && !isThisVoted)?true:false} btnText = {btnText} on:click = {handleNextQuestion} btnType = "Next Question"/>
-            {/if}
-        </div>
+                {#if isHost === true && noOfVotersRemaining}
+                    <CustomButton disableBtn = {(voter === true && !isThisVoted)?true:false} btnText = {btnText} on:click = {handleNextQuestion} btnType = "Next Question"/>
+                {/if}
+            </div>
+        {/key}
         {#if voter && !isThisVoted}
             <div class = 'waitingForOtherAnswer' in:fly ="{{ y: -20, duration: 1000 }}">
                 Vote the answer which you like the most

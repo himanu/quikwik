@@ -1,6 +1,7 @@
 <script>
     import {listenFirebaseKey,dbAllQuestions,dbUsersWhoAnswered,dbUsers,dbUser} from './database';
-    
+    import {fly} from 'svelte/transition';
+
     let playerId = [];
     let usersWhoHaveNotAnsweredArray = [];
     let usersWhoHaveAnsweredArray = [];
@@ -62,7 +63,7 @@
         }
     }
 </script>
-<div class="container">
+<div class="container" in:fly ="{{ y: -20, duration: 1000 }}">
     <div class="heading">
         Players who have answered.
     </div>

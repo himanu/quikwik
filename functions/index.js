@@ -556,146 +556,151 @@ exports.updateQuestionNumberOnCompleteVoting = functions.database.ref('/quikwik/
     console.log('No of Voters Remaining ',noOfVotersRemaining);
     if(noOfVotersRemaining === 0) {
       let votingTimerRef = change.after.ref.parent.child('voteTimer');
-      votingTimerRef.set(Date.now() + 30000).then(()=>{
-        console.log('Voting timer is set');
-      });
-      //Now we give the points to winner of current question
-      let currentQuestionNumberRef = change.after.ref.parent.child('currentQuestionNumber');
-      let currentQuestionNumber,currentQuestionNumberSnap;
-      let totalNumberOfQuestions = 0;
-      let allAnswersRef;
-      let allAnswers,allAnswersSnap;
-      let currentQuestionId;
-      let firstUserScore,secondUserScore,firstUserVotes = 0,secondUserVotes = 0;
-      let scoreOfUsersRef = change.after.ref.parent.parent.parent.child('scoreOfUsers');
-      let scoreOfUsers,scoreOfUsersSnap;
-      let firstUserId,secondUserId;
-      allAnswersRef = currentQuestionNumberRef.parent.child('allAnswers');
-      return new Promise((resolve,reject)=>{
-        Promise.all([ currentQuestionNumberRef.get(), allAnswersRef.get(),scoreOfUsersRef.get() ])
-        .then((snapshotArray)=>{
-          currentQuestionNumberSnap = snapshotArray[0];
-          allAnswersSnap = snapshotArray[1];
-          scoreOfUsersSnap = snapshotArray[2];
+      let votingTimerSnap = await votingTimerRef.get();
+      if(votingTimerSnap.exists()) {
+        return null;
+      }
+      else {
+        votingTimerRef.set(Date.now() + 31000).then(()=>{
+          console.log('Voting timer is set');
+        });
+        let currentQuestionNumberRef = change.after.ref.parent.child('currentQuestionNumber');
+        let currentQuestionNumber,currentQuestionNumberSnap;
+        let totalNumberOfQuestions = 0;
+        let allAnswersRef;
+        let allAnswers,allAnswersSnap;
+        let currentQuestionId;
+        let firstUserScore,secondUserScore,firstUserVotes = 0,secondUserVotes = 0;
+        let scoreOfUsersRef = change.after.ref.parent.parent.parent.child('scoreOfUsers');
+        let scoreOfUsers,scoreOfUsersSnap;
+        let firstUserId,secondUserId;
+        allAnswersRef = currentQuestionNumberRef.parent.child('allAnswers');
+        return new Promise((resolve,reject)=>{
+          Promise.all([ currentQuestionNumberRef.get(), allAnswersRef.get(),scoreOfUsersRef.get() ])
+          .then((snapshotArray)=>{
+            currentQuestionNumberSnap = snapshotArray[0];
+            allAnswersSnap = snapshotArray[1];
+            scoreOfUsersSnap = snapshotArray[2];
 
-          currentQuestionNumber = currentQuestionNumberSnap.val();
-          console.log('Current Question Number ',currentQuestionNumber);
+            currentQuestionNumber = currentQuestionNumberSnap.val();
+            console.log('Current Question Number ',currentQuestionNumber);
 
-          allAnswers = allAnswersSnap.val();
-          console.log('Allanswers ',allAnswers);
-
-          scoreOfUsers = scoreOfUsersSnap.val();
-          console.log('Score of users ',scoreOfUsers);
-
-          totalNumberOfQuestions = 0;
-          let i = 0;
-          for(const questionId in allAnswers) {
-            if(i === currentQuestionNumber) {
-              currentQuestionId = questionId;
-            }
-            totalNumberOfQuestions += 1;
-            i += 1;
-          }
-          console.log('Total Number Of question ',totalNumberOfQuestions);
-
-          setTimeout(async()=>{
-            votingTimerRef.remove();
-            i = 0;
-            //Get the votes of first user and second user
-            allAnswersSnap = await allAnswersRef.get();
             allAnswers = allAnswersSnap.val();
             console.log('Allanswers ',allAnswers);
 
-            console.log('Allanswers of current questionId', allAnswers[currentQuestionId]);
-            for(const userId in allAnswers[currentQuestionId]) {
-              if(i === 0){
-                firstUserId = userId;
-                console.log('firstUserId ',firstUserId);
-                if(allAnswers[currentQuestionId][userId]['votedBy']) {
-                  firstUserVotes = allAnswers[currentQuestionId][userId]['votedBy'].length;
-                  console.log('FirstUserVotes ',firstUserVotes);
-                }
-                firstUserScore = scoreOfUsers[firstUserId];
+            scoreOfUsers = scoreOfUsersSnap.val();
+            console.log('Score of users ',scoreOfUsers);
+
+            totalNumberOfQuestions = 0;
+            let i = 0;
+            for(const questionId in allAnswers) {
+              if(i === currentQuestionNumber) {
+                currentQuestionId = questionId;
               }
-              else if(i === 1) {
-                secondUserId = userId;
-                console.log('SecondUserId ',secondUserId);
-                if(allAnswers[currentQuestionId][userId]['votedBy']) {
-                  secondUserVotes = allAnswers[currentQuestionId][userId]['votedBy'].length;
-                  console.log('SecondUserVotes ',secondUserVotes);
-                }
-                secondUserScore = scoreOfUsers[secondUserId];
-              }
-              i++;
+              totalNumberOfQuestions += 1;
+              i += 1;
             }
-            console.log('FirstUserScore ',firstUserScore);
-            console.log('SecondUserScore ',secondUserScore);
-            console.log('Change the question');
-            new Promise((res,rej)=>{
-              if(firstUserVotes > secondUserVotes) {
-                firstUserScore += 1;
-                scoreOfUsersRef.child(firstUserId).set(firstUserScore)
-                .then(()=>{
-                  console.log('First users score is set');
+            console.log('Total Number Of question ',totalNumberOfQuestions);
+
+            setTimeout(async()=>{
+              votingTimerRef.remove();
+              i = 0;
+              //Get the votes of first user and second user
+              allAnswersSnap = await allAnswersRef.get();
+              allAnswers = allAnswersSnap.val();
+              console.log('Allanswers ',allAnswers);
+
+              console.log('Allanswers of current questionId', allAnswers[currentQuestionId]);
+              for(const userId in allAnswers[currentQuestionId]) {
+                if(i === 0){
+                  firstUserId = userId;
+                  console.log('firstUserId ',firstUserId);
+                  if(allAnswers[currentQuestionId][userId]['votedBy']) {
+                    firstUserVotes = allAnswers[currentQuestionId][userId]['votedBy'].length;
+                    console.log('FirstUserVotes ',firstUserVotes);
+                  }
+                  firstUserScore = scoreOfUsers[firstUserId];
+                }
+                else if(i === 1) {
+                  secondUserId = userId;
+                  console.log('SecondUserId ',secondUserId);
+                  if(allAnswers[currentQuestionId][userId]['votedBy']) {
+                    secondUserVotes = allAnswers[currentQuestionId][userId]['votedBy'].length;
+                    console.log('SecondUserVotes ',secondUserVotes);
+                  }
+                  secondUserScore = scoreOfUsers[secondUserId];
+                }
+                i++;
+              }
+              console.log('FirstUserScore ',firstUserScore);
+              console.log('SecondUserScore ',secondUserScore);
+              console.log('Change the question');
+              new Promise((res,rej)=>{
+                if(firstUserVotes > secondUserVotes) {
+                  firstUserScore += 1;
+                  scoreOfUsersRef.child(firstUserId).set(firstUserScore)
+                  .then(()=>{
+                    console.log('First users score is set');
+                    res();
+                  })
+                  .catch(()=>{
+                    console.log('First user score cannot be set');
+                    res();
+                  })
+                }
+                else if(secondUserVotes > firstUserVotes) {
+                  secondUserScore += 1;
+                  scoreOfUsersRef.child(secondUserId).set(secondUserScore)
+                  .then(()=>{
+                    console.log('Second users score is set');
+                    res();
+                  })
+                  .catch(()=>{
+                    console.log('Second user score cannot be set');
+                    res();
+                  });
+                }
+                else {
                   res();
-                })
-                .catch(()=>{
-                  console.log('First user score cannot be set');
-                  res();
-                })
-              }
-              else if(secondUserVotes > firstUserVotes) {
-                secondUserScore += 1;
-                scoreOfUsersRef.child(secondUserId).set(secondUserScore)
-                .then(()=>{
-                  console.log('Second users score is set');
-                  res();
-                })
-                .catch(()=>{
-                  console.log('Second user score cannot be set');
-                  res();
-                });
-              }
-              else {
-                res();
-              }
-            })
-            .then(()=>{
-              if(currentQuestionNumber < (totalNumberOfQuestions - 1)){
-                currentQuestionNumberRef.set(currentQuestionNumber + 1)
-                .then(()=>{
-                  console.log('Question number is incremented');
-                  resolve();
-                })
-                .catch(()=>{
-                  console.log('Error occur in Question number incrementation');
-                  resolve();
-                });
-              }
-              else {
-                console.log('LeaderBoard screen is set');
-                currentQuestionNumberRef.parent.child('page').set('Leaderboard Screen')
-                .then(()=>{
-                  console.log('Page changed to leaderboard');
-                  resolve();
-                })
-                .catch(()=>{
-                  console.log('Error occure on changing Page to leaderboard');
-                  resolve();
-                });
-              }
-            })
-            .catch(()=>{
-              console.log('Some error occure while updating the score of users');
-              resolve();
-            })
-          },30000);
+                }
+              })
+              .then(()=>{
+                if(currentQuestionNumber < (totalNumberOfQuestions - 1)){
+                  currentQuestionNumberRef.set(currentQuestionNumber + 1)
+                  .then(()=>{
+                    console.log('Question number is incremented');
+                    resolve();
+                  })
+                  .catch(()=>{
+                    console.log('Error occur in Question number incrementation');
+                    resolve();
+                  });
+                }
+                else {
+                  console.log('LeaderBoard screen is set');
+                  currentQuestionNumberRef.parent.child('page').set('Leaderboard Screen')
+                  .then(()=>{
+                    console.log('Page changed to leaderboard');
+                    resolve();
+                  })
+                  .catch(()=>{
+                    console.log('Error occure on changing Page to leaderboard');
+                    resolve();
+                  });
+                }
+              })
+              .catch(()=>{
+                console.log('Some error occure while updating the score of users');
+                resolve();
+              })
+            },31000);
+          })
+          .catch(()=>{
+            console.log('Unable to get allAnswers or currentQuestionNumber');
+            resolve();
+          })
         })
-        .catch(()=>{
-          console.log('Unable to get allAnswers or currentQuestionNumber');
-          resolve();
-        })
-      })
+      }
     }
     else {
       console.log('No of voters remaining is non zero')
@@ -777,23 +782,41 @@ exports.startTimer = functions.runWith(runtimeOpts).https.onRequest((req, res) =
     console.log('All the required values are set');
   })
 
-  setTimeout(() => {
-    
-    page.set('Do Voting');
-    round.child('timer').remove();
-    round.update({
-      currentQuestionNumber : 0
-    })
-    res.set('Access-Control-Allow-Origin', '*');
-    if (req.method === 'OPTIONS') {
-      // Send response to OPTIONS requests
-      res.set('Access-Control-Allow-Methods', 'GET');
-      res.set('Access-Control-Allow-Headers', 'Content-Type');
-      res.set('Access-Control-Max-Age', '3600');
-      res.status(204).json({'text': ''});
-    } else {
-      res.json({'text':'Hello World!'});
+  setTimeout(async() => {
+    let roundSnap = await round.child('timer').get();
+    let promiseArray = [];
+    if(roundSnap.exists()) {
+      promiseArray = [round.child('timer').remove(), round.update({
+        currentQuestionNumber : 0,
+        page : 'Do Voting'
+      })];
     }
+
+    Promise.all(promiseArray).then(()=>{
+      res.set('Access-Control-Allow-Origin', '*');
+      if (req.method === 'OPTIONS') {
+        // Send response to OPTIONS requests
+        res.set('Access-Control-Allow-Methods', 'GET');
+        res.set('Access-Control-Allow-Headers', 'Content-Type');
+        res.set('Access-Control-Max-Age', '3600');
+        res.status(204).json({'text': ''});
+      } else {
+        res.json({'text':'Hello World!'});
+      }
+    }).catch(()=>{
+      res.set('Access-Control-Allow-Origin', '*');
+      if (req.method === 'OPTIONS') {
+        // Send response to OPTIONS requests
+        res.set('Access-Control-Allow-Methods', 'GET');
+        res.set('Access-Control-Allow-Headers', 'Content-Type');
+        res.set('Access-Control-Max-Age', '3600');
+        res.status(204).json({'text': ''});
+      } else {
+        res.json({'text':'Hello World!'});
+      }
+    })
+    
+    
   },65500);
 
 });
