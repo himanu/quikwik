@@ -1,5 +1,7 @@
 <script>
     import {dbScoreOfUser} from './database';
+    import {fly} from 'svelte/transition';
+
     let score;
     let prevScore = false;
     let doAnimation = false;
@@ -22,7 +24,7 @@
     })
 </script>
 {#if scoreHasLoaded}
-    <div class="scoreBox">
+    <div class="scoreBox" in:fly ="{{ y: -20, duration: 1000 }}">
         <div class="outerCircle">
             <div class="innerCircle"></div>
         </div>

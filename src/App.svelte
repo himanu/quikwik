@@ -12,7 +12,7 @@
     import {info} from './Notifier';
     import {fly} from 'svelte/transition';
 
-	let page ;
+	let page;
 	var dbGameSessionRound;
 	let roundValue;
     let userId = getParams('userId');
@@ -20,6 +20,7 @@
     let user;
     let hostId;
     let noOfOnlineUsers;
+    let clicked = false;
 
     const isHost = getParams("isHost") === "true";
 	if (getParams("isHost") === "true") {
@@ -146,18 +147,19 @@
         }
     })
 	function handleClick() {
+        clicked = true;
         listenFirebaseKey(dbPage,(dbPageRef)=>{
             dbPageRef.set('Lobby Screen')
         })
     }
 	const snapFun = function(snap){
         if(!snap.exists()) {
-            page = 'Welcome';
+            page = 'Welcome'
             return;
         }
         page = snap.val().page;
-        if(!page) {
-            page = 'Welcome';
+        if(page) {
+            clicked = true;
         }
     }
     dbGameSessionRoundValue.on('value',(snap)=>{
@@ -165,18 +167,22 @@
             return;
         }
         roundValue = snap.val();
-        // page = 'Welcome';
         if(dbGameSessionRound){
             dbGameSessionRound.off('value',snapFun);
         }
 
         dbGameSessionRound = dbGameSessionRounds.child(roundValue);
+        if(roundValue !== 1) {
+            dbGameSessionRound.update({
+                page : 'Lobby Screen'
+            });
+        }
         dbGameSessionRound.on('value',snapFun);
     })
 	$: console.log('Page ',page);
     
 </script>
-{#if page === 'Welcome'}
+{#if clicked === false && page === 'Welcome'}
 	<div class = 'welcomeScreen'>
         <div class="container" in:fly ="{{ y: -20, duration: 1000 }}">
             <QuikWikIcon/>

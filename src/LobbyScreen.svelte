@@ -41,18 +41,6 @@
         if(hostId) {
             const oldHostName = usersArray.find(user => user.id === hostId)?.userName;
 			const newHostName = usersArray.find(user => user.id === snap.val())?.userName;
-            // let message = '';
-            // if (snap.val() === getParams('userId')) {
-			// 	message = `${oldHostName || "Old Host"} has left the game and you are the new host`;
-			// } 
-            // else {
-			// 	if (newHostName) {
-			// 		message = `${oldHostName || "Old Host"} has left the game and new host is ${newHostName}`;
-			// 	} else {
-			// 		message = `${oldHostName || "Old Host"} has left the game and new host has been assigned`;
-			// 	}
-			// }
-            // info(message);
         }
         if(usersArray) {
             usersArray = usersArray;
@@ -107,7 +95,11 @@
                 let fname = name?.split(" ")[0];
                 if(fname?.length > 10)
                 {
-                    fname = name?.split(" ")[0].toUpperCase() + name?.split(" ")[0].toUpperCase();
+                    fname = name?.split(" ")[0].toUpperCase()
+                    
+                    if( name?.split(" ")[1].toUpperCase() ) {
+                        fname += name?.split(" ")[1].toUpperCase();
+                    }
                 }
                 hostName = fname + " (Host)";
             }
@@ -170,14 +162,17 @@
         let fname = name?.split(" ")[0];
         if(fname?.length > 10)
         {
-            fname = name?.split(" ")[0].toUpperCase() + name?.split(" ")[0].toUpperCase();
+            fname = name?.split(" ")[0].toUpperCase();
+            if(name?.split(" ")[1].toUpperCase()) {
+                fname += name?.split(" ")[0].toUpperCase();
+            }
         }
         if(user.id === hostId) {
-            fname = fname + "(Host)";
+            fname = fname + " (Host)";
         }
         else if(user.id === userId) {
             if(!isHost) {
-                fname = fname + "(You)";
+                fname = fname + " (You)";
             }
         }
         return fname;
@@ -217,20 +212,31 @@
             })
         })
     }
+    let disableBtn;
+    let tooltipMsg
+    $: {
+        if(noOfRequiredUser > 0) {
+            disableBtn = true;
+            tooltipMsg = 'Need minimum 3 players to start the game'
+        }
+        else {
+            disableBtn = false;
+        }
+    }
 </script>
 <main>
     <QuikWikSmallIcon/>
     <ScorecardIcon/>
     <div class = 'preJoinMsg' in:fly ="{{ y: -20, duration: 1000 }}">
         {#if noOfRequiredUser > 0}
-            <pre> Need { mapToStringNumber[noOfRequiredUser] } more  </pre>
-            <pre> Wait for others to join... </pre>
+            <pre> Need { mapToStringNumber[noOfRequiredUser] } more player</pre>
+            <pre> Waiting for others to join</pre>
         {:else}
             {#if isHost}
                 <pre> Start the game </pre>
             {:else}
                 <div>
-                    <div> Wait for host </div> 
+                    <div> Waiting for host </div> 
                     <div> to start the game </div>
                 </div>
             {/if}
@@ -273,11 +279,7 @@
     </div>
     {#if isHost}
         <div class="btnDiv" in:fly ="{{ y: -20, duration: 1000 }}">
-            {#if noOfRequiredUser > 0}
-                <CustomButton on:click = {handleStartGameBtn} btnText = {'Start Game'} disableBtn = {true}/>
-            {:else}
-                <CustomButton on:click = {handleStartGameBtn} btnText = {'Start Game'} disableBtn = {false}/>
-            {/if}
+            <CustomButton on:click = {handleStartGameBtn} btnText = {'Start Game'} disableBtn = {disableBtn}/>
         </div>
     {/if}
     
@@ -319,7 +321,7 @@
         font-weight : 700;
         font-size : 1.20rem;
         color : #fff;
-        line-height : 1.25rem;
+        line-height : 1.60rem;
         text-align: center;
         margin : 2rem;
     }
@@ -348,6 +350,19 @@
     @media screen and (max-width : 900px) {
         :global(html) {
             font-size : 16px;
+        }
+        .usersContainer {
+            width : 40%;
+        }
+    }
+    @media screen and (max-width : 800px) {
+        .usersContainer {
+            width : 45%;
+        }
+    }
+    @media screen and (max-width : 700px) {
+        .usersContainer {
+            width : 50%;
         }
     }
     .usersList {

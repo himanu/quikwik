@@ -1,4 +1,7 @@
-<div class="quikWikIconBox">
+<script>
+    import {fly} from 'svelte/transition';
+</script>
+<div class="quikWikIconBox" in:fly ="{{ y: -20, duration: 1000 }}">
     <svg width="108" height="48" viewBox="0 0 108 48" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_d)">
         <rect x="3.8075" y="10.0031" width="57.4014" height="29" transform="rotate(-5.6975 3.8075 10.0031)" fill="#6C44A8"/>

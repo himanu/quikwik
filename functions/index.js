@@ -52,41 +52,41 @@ exports.updateIsOnlineKey = functions.database.ref('/quikwik/{gameSessionId}/use
   })
 
 exports.updateNumberOfUsersWhoHaveNotAnswered = functions.database.ref('/quikwik/{gameSessionId}/rounds/{roundValue}/usersWhoAnswered/{bar}')
-    .onCreate((snapshot, context) => {
-      let noOfUsersWhoHaveNotAnsweredRef = snapshot.ref.parent.parent.child('noOfUsersWhoHaveNotAnswered');
-      let pageRef = snapshot.ref.parent.parent.child('page');
-      let roundRef = snapshot.ref.parent.parent;
-      let noOfUsersWhoHaveNotAnswered;
-      return new Promise(async(resolve,reject)=>{
-        noOfUsersWhoHaveNotAnsweredRef.get().then((snap)=>{
+  .onCreate((snapshot, context) => {
+    let noOfUsersWhoHaveNotAnsweredRef = snapshot.ref.parent.parent.child('noOfUsersWhoHaveNotAnswered');
+    let pageRef = snapshot.ref.parent.parent.child('page');
+    let roundRef = snapshot.ref.parent.parent;
+    let noOfUsersWhoHaveNotAnswered;
+    return new Promise(async(resolve,reject)=>{
+      noOfUsersWhoHaveNotAnsweredRef.get().then((snap)=>{
 
-          if(!snap.exists()) {
-            resolve();
-          }
-          noOfUsersWhoHaveNotAnswered = snap.val();
-          let promiseArray = [noOfUsersWhoHaveNotAnsweredRef.transaction((count)=>{
-            return count - 1;
-          })];
-    
-          if(noOfUsersWhoHaveNotAnswered === 1) {
-            console.log('Change the page to do Voting and remove the timer');
-            promiseArray = [ ...promiseArray, pageRef.set('Do Voting'), roundRef.child('timer').remove(),roundRef.update({ currentQuestionNumber : 0}) ];
-          }
-          Promise.all(promiseArray).then(()=>{
-            console.log('Page is set do voting and timer is removed');
-            resolve()
-          })
-          .catch(()=>{
-            console.log('Some error has occured');
-            resolve();
-          })
+        if(!snap.exists()) {
+          resolve();
+        }
+        noOfUsersWhoHaveNotAnswered = snap.val();
+        let promiseArray = [noOfUsersWhoHaveNotAnsweredRef.transaction((count)=>{
+          return count - 1;
+        })];
+  
+        if(noOfUsersWhoHaveNotAnswered === 1) {
+          console.log('Change the page to do Voting, remove the timer and set the currentQuestionNumber 0');
+          promiseArray = [ ...promiseArray, roundRef.child('timer').remove(), roundRef.update({ currentQuestionNumber : 0, page : 'Do Voting'}) ];
+        }
+        Promise.all(promiseArray).then(()=>{
+          console.log('Page is set do voting and timer is removed');
+          resolve()
         })
         .catch(()=>{
-          console.log('No of users who have not answered not exist');
+          console.log('Some error has occured');
           resolve();
         })
       })
-});
+      .catch(()=>{
+        console.log('No of users who have not answered not exist');
+        resolve();
+      })
+    })
+  });
 
 exports.updateVotersOnChangeOfQuestion = functions.database.ref('/quikwik/{gameSessionId}/rounds/{roundValue}/currentQuestionNumber/')
   .onWrite((change,context)=>{
@@ -815,8 +815,7 @@ exports.startTimer = functions.runWith(runtimeOpts).https.onRequest((req, res) =
         res.json({'text':'Hello World!'});
       }
     })
-    
-    
+      
   },65500);
 
 });
