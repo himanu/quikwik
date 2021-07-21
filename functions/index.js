@@ -744,6 +744,10 @@ exports.hostDelete = functions.database.ref("/quikwik/{gameSessionId}/host")
             resolve();
           });
         }
+        else {
+          console.log('No online users');
+          resolve();
+        }
       }
       catch {
         console.log('Something went wrong');
@@ -815,7 +819,7 @@ exports.startTimer = functions.runWith(runtimeOpts).https.onRequest((req, res) =
         res.json({'text':'Hello World!'});
       }
     })
-      
+
   },65500);
 
 });
