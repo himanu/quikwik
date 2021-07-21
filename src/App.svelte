@@ -154,7 +154,15 @@
     }
 	const snapFun = function(snap){
         if(!snap.exists()) {
-            page = 'Welcome'
+            clicked = false;
+            if(roundValue !== 1) {
+                dbGameSessionRound.update({
+                    page : 'Lobby Screen'
+                })
+            }
+            else {
+                page = 'Welcome'
+            }
             return;
         }
         page = snap.val().page;
@@ -172,11 +180,6 @@
         }
 
         dbGameSessionRound = dbGameSessionRounds.child(roundValue);
-        if(roundValue !== 1) {
-            dbGameSessionRound.update({
-                page : 'Lobby Screen'
-            });
-        }
         dbGameSessionRound.on('value',snapFun);
     })
 	$: console.log('Page ',page);

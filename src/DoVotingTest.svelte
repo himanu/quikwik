@@ -80,13 +80,6 @@
                 return;
             }
             votingTimerHasStarted = true;
-            // setTimeout(()=>{
-            //     console.log('voter and spectator set to false');
-            //     votingTimerHasStarted = false;
-            //     spectator = false;
-            //     voter = false;
-            //     isThisVoted = false;
-            // },29850);
         })
     })
     dbScoreOfUser.on('value',(snap)=>{
@@ -317,15 +310,9 @@
         if(!firstAnswerVoted && !secondAnswerVoted) {
             return ;
         }
-        // isThisVoted = true;
+
         if(noOfVotersRemaining === 1) {
             noOfVotersRemaining = 0;
-            // setTimeout(()=>{
-            //     votingTimerHasStarted = false;
-            //     noOfVotersRemaining = 1;
-            //     voter = false;
-            //     spectator = false;
-            // },30000)
         }
         listenFirebaseKey(dbCurrentQuestionVoters,(dbCurrentQuestionVotersRef)=>{
             dbCurrentQuestionVotersRef.child(userId).set(true);
@@ -381,75 +368,6 @@
         }
     }
     
-    function incrementFirstUserScore() {
-        console.log('increment first user score');
-        return new Promise((resolve,reject)=>{
-                let firstUserScore = scoreOfUsers[currentQuestionFirstUser];
-                firstUserScore +=  1;
-                dbScoreOfUsers.child(currentQuestionFirstUser).set(firstUserScore)
-                .then(()=>{
-                    console.log('First user score is incremented');
-                    resolve()
-                })
-                .catch(()=>{
-                    console.log('Some error occur in incrementing first user score');
-                    resolve();
-                });
-        })
-    }
-    function incrementSecondUserScore() {
-        console.log('increment second user score');
-        return new Promise((resolve,reject)=>{
-            let secondUserScore  = scoreOfUsers[currentQuestionSecondUser];
-            secondUserScore += 1;
-            dbScoreOfUsers.child(currentQuestionSecondUser).set(secondUserScore)
-            .then(()=>{
-                console.log('Second user score is increased')
-                resolve();
-            })
-            .catch(()=>{
-                console.log('Some error occur in incrementing second user score');
-                resolve(); 
-            })
-            
-        })
-    }
-
-    function updateScore() {
-        console.log('I am called');
-        firstUserVotes = firstAnswerVoters.length;
-        secondUserVotes = secondAnswerVoters.length;
-        console.log('firstUserVotes ',firstUserVotes);
-        console.log('secondUserVotes ',secondUserVotes);
-        if(firstUserVotes > secondUserVotes) {
-            incrementFirstUserScore()
-            .then(()=>{
-                nextQuestion();
-            })
-        }
-        else if(firstUserVotes < secondUserVotes) {
-            incrementSecondUserScore()
-            .then(()=>{
-                nextQuestion();
-            })
-        }
-        else {
-            nextQuestion();
-        }
-    }
-    function nextQuestion() {
-        console.log('Next question should come');
-        if(questionNumber < (totalNumberOfQuestion - 1)) {
-            listenFirebaseKey(dbCurrentQuestionNumber,(dbCurrentQuestionNumberRef)=>{
-                dbCurrentQuestionNumberRef.set(questionNumber + 1);
-            })
-        }
-        else {
-            listenFirebaseKey(dbPage,(dbPageRef)=>{
-                dbPageRef.set('Leaderboard Screen');
-            })
-        }
-    }
     $: {
         if(firstAnswerVoters && secondAnswerVoters) {
             firstUserVotes = firstAnswerVoters.length;
@@ -469,22 +387,15 @@
         if(isHost !== true) {
             return ;
         }
-        handleNextQuestion = true;
         console.log('leadingMsg ',leadingMsg);
         listenFirebaseKey(dbVoteTimer,(dbVoteTimerRef)=>{
             dbVoteTimerRef.set(Date.now() + 31000).then(()=>{
-                // votingTimerHasStarted = true;
                 console.log('Voting timer is set success');
             });
-            setTimeout(()=>{
-                // votingTimerHasStarted = false;
-                // noOfVotersRemaining = 1;
-                // voter = false;
-                // spectator = false;
-                // isThisVoted = false;
-                updateScore();
-                dbVoteTimerRef.remove();
-            },30000);
+            // setTimeout(()=>{
+            //     updateScore();
+            //     dbVoteTimerRef.remove();
+            // },30000);
         })
     }
     
@@ -500,6 +411,18 @@
         }
         roundValue = snap.val();
     })
+    let disableBtn;
+    let tooltipMsg;
+    $: {
+        if( voter === true && !isThisVoted ) {
+            disableBtn = true;
+            tooltipMsg = "You need to vote first.";
+        }
+        else {
+            disableBtn = false;
+            tooltipMsg = "All voters have not voted. Do you still want to continue?";
+        }
+    }
 </script>
 <main>
     {#if time === 0} 
@@ -609,7 +532,7 @@
                     {/if}
                 {/if}
                 {#if isHost === true && noOfVotersRemaining && !votingTimerHasStarted}
-                    <CustomButton disableBtn = {(voter === true && !isThisVoted)?true:false} btnText = {btnText} on:click = {handleNextQuestion} btnType = "Next Question"/>
+                    <CustomButton disableBtn = {disableBtn} tooltipMsg = {tooltipMsg} btnText = {btnText} on:click = {handleNextQuestion} btnType = "Next Question"/>
                 {/if}
             </div>
         {/key}

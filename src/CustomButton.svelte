@@ -1,16 +1,12 @@
 <script>
 	export let btnText;
 	export let disableBtn;
-	export let btnType = "";
-	import {fly} from 'svelte/transition';
+	export let tooltipMsg;
 </script>
-<button class:startBtn = {!disableBtn} class:disabledBtn = {disableBtn} disabled = {disableBtn === true} on:click> 
-	{#if btnType === 'Next Question'}
+<button class = "startBtn" class:disabledBtn = {disableBtn} disabled = {disableBtn === true} on:click> 
+	{#if tooltipMsg}
 		<div class="tooltip">
-			All voters have not voted. Do you still want to continue? 
-		</div>
-		<div class="tooltip1">
-			You need to vote first. 
+			{tooltipMsg}
 		</div>
 	{/if}
     <div class = "text">{btnText} </div>
@@ -57,7 +53,7 @@
 		justify-content: center;
 		align-items: center;
 		cursor : not-allowed;
-		opacity: 0.5;
+		opacity: 0.8;
 		margin : 1rem;
 		margin-top : 0;
 		position : relative;
@@ -79,11 +75,7 @@
 		opacity: 1;
 		visibility: visible;
 	}
-	.disabledBtn:hover .tooltip1 {
-		opacity: 1;
-		visibility: visible;
-	}
-	.tooltip,.tooltip1 {
+	.tooltip {
 		position : absolute;
 		bottom : 130%;
 		background : #fff;
@@ -96,7 +88,7 @@
 		transition : opacity 0.3s;
 		visibility: hidden;
 	}
-	.tooltip::after,.tooltip::after {
+	.tooltip::after {
 		content: "";
 		position: absolute;
 		top: 100%;

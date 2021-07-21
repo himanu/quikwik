@@ -205,6 +205,9 @@
             console.log('postData ',data);
             return;
         })
+        .catch(()=> {
+            console.log('some error occured');
+        });
         // startTimer({gameSessionId,roundValue,usersArray,questionId});
         listenFirebaseKey(dbGameSessionRound,(dbGameSessionRoundRef)=>{
             dbGameSessionRoundRef.update({
@@ -221,6 +224,7 @@
         }
         else {
             disableBtn = false;
+            tooltipMsg = '';
         }
     }
 </script>
@@ -279,7 +283,7 @@
     </div>
     {#if isHost}
         <div class="btnDiv" in:fly ="{{ y: -20, duration: 1000 }}">
-            <CustomButton on:click = {handleStartGameBtn} btnText = {'Start Game'} disableBtn = {disableBtn}/>
+            <CustomButton on:click = {handleStartGameBtn} btnText = {'Start Game'} disableBtn = {disableBtn} tooltipMsg = {tooltipMsg}/>
         </div>
     {/if}
     

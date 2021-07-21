@@ -74,6 +74,7 @@
     }
    
 </script>
+
 {#key message}
     <div class = 'roundIndicatorAndTimer' style = '--strokeDashOffset : {strokeDashOffset}' in:fly ="{{ y: -20, duration: 1000 }}">
         {#if timerExists}
@@ -100,6 +101,7 @@
 
     </div>
 {/key}
+
 <style>
     :global(html) {
         font-size : 20px;
