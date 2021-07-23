@@ -26,6 +26,7 @@
     let voter = false;
     let myScore;
     let votingTimerHasStarted = false;
+    let currentQuestionVotersIsLoaded = false;
     let scoreOfUsers;
     let time; //For round animation
     let roundValue;
@@ -68,7 +69,9 @@
             noOfVotersRemaining = snap.val();
         })
     })
+    
     listenFirebaseKey(dbVoteTimer,(dbVoteTimerRef)=>{
+        
         dbVoteTimerRef.on('value',(snap)=>{
             if(!snap.exists()) {
                 votingTimerHasStarted = false;
@@ -77,11 +80,13 @@
                 voter = false;
                 isThisVoted = false;
                 console.log('TImer not exists ',snap.val());
+                currentQuestionVotersIsLoaded = false;
                 return;
             }
             votingTimerHasStarted = true;
         })
     })
+    
     dbScoreOfUser.on('value',(snap)=>{
         if(!snap.exists()) {
             myScore = 0;
@@ -148,7 +153,7 @@
             console.log('All answers ',allAnswers);
         })
     })
-
+    
     listenFirebaseKey(dbCurrentQuestionVoters,(dbCurrentQuestionVotersRef)=>{
         dbCurrentQuestionVotersRef.on('value',(snap)=>{
             console.log('Hey i am called currentQuestionVoters');
@@ -156,6 +161,7 @@
                 return;
             }
             currentQuestionVoters = snap.val();
+            currentQuestionVotersIsLoaded = true;
             currentQuestionVotersArray = [];
             for(const id in currentQuestionVoters) {
                 currentQuestionVotersArray.push(id);
@@ -173,7 +179,17 @@
             }
         })
     })
-    
+    $: {
+        if(!voter && !spectator && currentQuestionVotersIsLoaded) {
+            voter = (getParams('userId') in currentQuestionVoters);
+            if(voter === true) {
+                spectator = false;
+            }
+            else {
+                spectator = true;
+            }
+        }
+    }
     $:{
         if(allAnswers) {
             questionIds = [];
