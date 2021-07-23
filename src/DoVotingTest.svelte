@@ -301,7 +301,7 @@
     }
     
     function voteFirstAnswer() {
-        if(spectator || isThisVoted) {
+        if(spectator || isThisVoted || votingTimerHasStarted) {
             return;
         }
         firstAnswerVoted = true;
@@ -312,7 +312,7 @@
         secondAnswerContainerBackground = "#fff";
     }
     function voteSecondAnswer() {
-        if(spectator || isThisVoted) {
+        if(spectator || isThisVoted || votingTimerHasStarted) {
             return true;
         }
         secondAnswerVoted = true;
