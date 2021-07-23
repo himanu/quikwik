@@ -18,7 +18,7 @@
         dbCurrentTimer = dbTimer;
     }
     else {
-        maxTimeValue = 30;
+        maxTimeValue = 15;
         dbCurrentTimer = dbVoteTimer;
     }
     

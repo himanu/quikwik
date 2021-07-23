@@ -553,7 +553,7 @@ exports.updateNoOfVotersRemainingWhenSomeUserWentOffline = functions.runWith(run
       }
     })
   })
-exports.updateQuestionNumberAndScoreAfte30SecOfVotingTimer = functions.database.ref('/quikwik/{gameSessionId}/rounds/{currentRoundValue}/voteTimer')
+exports.updateQuestionNumberAndScoreAfte15SecOfVotingTimer = functions.database.ref('/quikwik/{gameSessionId}/rounds/{currentRoundValue}/voteTimer')
   .onCreate(async(snapshot,context)=>{
     let votingTimerRef = snapshot.ref;
     let votingTimerSnap = await votingTimerRef.get();
@@ -686,7 +686,7 @@ exports.updateQuestionNumberAndScoreAfte30SecOfVotingTimer = functions.database.
             console.log('Some error occure while updating the score of users');
             resolve();
           })
-        },31000);
+        },16000);
       })
       .catch(()=>{
         console.log('Unable to get allAnswers or currentQuestionNumber');
@@ -705,7 +705,7 @@ exports.setVotingTimerOnCompleteVoting = functions.database.ref('/quikwik/{gameS
         return null;
       }
       else {
-        votingTimerRef.set(Date.now() + 31000).then(()=>{
+        votingTimerRef.set(Date.now() + 16000).then(()=>{
           console.log('Voting timer is set');
         });
       }
