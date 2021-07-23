@@ -30,7 +30,7 @@
     })
     let timerExists = false;
     let leftTimeString;
-    let strokeDashOffset
+    let strokeDashOffset = '0px'
     let leftTimeReal;
     listenFirebaseKey(dbCurrentTimer,(dbTimerRef)=>{
         dbTimerRef.on('value',(snap)=>{
