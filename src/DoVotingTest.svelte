@@ -505,7 +505,7 @@
                         {/if}
                     </div>
                 </div>
-                {#if isThisVoted || spectator}
+                {#if isThisVoted || spectator || votingTimerHasStarted}
                     <div class="voters">
                         {#if users && firstAnswerVoters}
                             <div class="firstAnswerVoters">
@@ -552,13 +552,20 @@
                 {/if}
             </div>
         {/key}
+        {#if !isHost && noOfVotersRemaining && votingTimerHasStarted} 
+            <div class = 'waitingForOtherAnswer' in:fly ="{{ y: -20, duration: 1000 }}">
+                Host has pressed next question button.
+            </div>
+        {/if}
         {#if voter && !isThisVoted}
             <div class = 'waitingForOtherAnswer' in:fly ="{{ y: -20, duration: 1000 }}">
-                Vote the answer which you like the most
+                {#if !votingTimerHasStarted}
+                    Vote the answer which you like the most
+                {/if}
             </div>
         {/if}
         {#if (voter && isThisVoted) || (spectator)}
-            {#if noOfVotersRemaining}
+            {#if noOfVotersRemaining && !votingTimerHasStarted}
                 <div class = 'waitingForOtherAnswer' in:fly ="{{ y: -20, duration: 1000 }}">
                     All voters have not voted.
                 </div>
