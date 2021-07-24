@@ -610,15 +610,13 @@
     <div class="full-screen" style = "display : {displayOfPopUpScreen}">
         <div class = "popUpcontainer" in:fly ="{{ y: -20, duration: 1000 }}">
             <QuikWikSmallIcon/>
-            <div class = "popUpHeading"> Game can't be continued </div>
+            <div class = "popUpHeading">
+                Oops!<br>
+                Looks like someone disconnected
+            </div>
             <div class = "popUpMsg">
                 Number of online players are less than 3 <br>
-                Wait for players to join or
-                {#if isHost}
-                    ends the game
-                {:else}
-                    ask the host to ends the game 
-                {/if}
+                Need {3 - noOfOnlineUsers} more player to continue
             </div>
             {#if users && usersIdArray.length}
                 <div class = "onlinePlayersContainer">
@@ -627,8 +625,8 @@
                     </div>
                     <div class="allOnlinePlayer">
                         {#each usersIdArray as playerId}
-                            <div class="playerContainer">
-                                <div class = "playerName" title = "{users[playerId].isOnline?"Online":"Offline"}">
+                            <div class="playerContainer" title = "{users[playerId].isOnline?"Online":"Offline"}" class:offlinePlayer = {!users[playerId].isOnline}>
+                                <div class = "playerName" >
                                     { processName(users[playerId]) }
                                 </div>
                                 {#if users[playerId].isOnline}
@@ -929,7 +927,6 @@
         font-family : 'Padauk';
         font-size : 1rem;
         margin : 1rem;
-        font-weight : 700;
     }
     .onlinePlayersContainer {
         margin-bottom : 1rem;
@@ -955,6 +952,9 @@
 		border-radius : 5px;
         font-family : 'Padauk';
         font-size : 0.65rem;
+    }
+    .offlinePlayer {
+        background : #828282;
     }
     .onlineStatus {
         margin-left : 0.5rem;
