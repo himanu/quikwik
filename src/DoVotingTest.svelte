@@ -2,7 +2,7 @@
     import QuikWikSmallIcon from './QuikWikSmallIcon.svelte';
     import RoundIndicatorAndTimer from './RoundIndicatorAndTimer.svelte';
     import ScorecardIcon from './ScorecardIcon.svelte';
-    import {listenFirebaseKey,dbAllAnswers,dbQuestions,dbUsers,dbPage,dbScoreOfUsers,dbScoreOfUser,dbCurrentQuestionNumber,dbCurrentQuestionVoters,dbVoteTimer,dbGameSessionRoundValue,dbHost,dbNoOfVotersRemaining} from './database';
+    import {listenFirebaseKey,dbAllAnswers,dbQuestions,dbUsers,dbPage,dbScoreOfUsers,dbScoreOfUser,dbCurrentQuestionNumber,dbCurrentQuestionVoters,dbVoteTimer,dbGameSessionRoundValue,dbHost,dbNoOfVotersRemaining,dbNoOfOnlineUsers,dbGameSession} from './database';
     import {getParams} from './utils';
     import CustomButton from './CustomButton.svelte';
     import RoundIndicator from './RoundIndicator.svelte';
@@ -18,6 +18,7 @@
     let hostId;
     let isHost = false;
     let handleNextQuestionClicked;
+    let noOfOnlineUsers;
 
     let questionNumber;
     let currentQuestionId; // depends on question number
@@ -47,7 +48,39 @@
     let firstAnswerTextColor = "#343E98", secondAnswerTextColor = "#343E98";
     let secondAnswerContainerBackground = "#fff",firstAnswerContainerBackground = "#fff";
     let btnText;
-    let isThisLastQuestion
+    let isThisLastQuestion;
+    let usersIdArray = [];
+
+    dbNoOfOnlineUsers.on('value',(snap)=>{
+        if(!snap.exists()) {
+            return;
+        }
+        noOfOnlineUsers = snap.val();
+    })
+
+    let displayOfPopUpScreen = "none";
+    $: {
+        if(noOfOnlineUsers >= 3) {
+            displayOfPopUpScreen = "none";
+        }
+        else {
+            displayOfPopUpScreen = "flex";
+        }
+    }
+    dbGameSessionRoundValue.on('value',(snap)=>{
+        if(!snap.exists()) {
+            return;
+        }
+        roundValue = snap.val();
+    })
+    function endGamePopUpScreen() {
+        if(noOfOnlineUsers>= 3) {
+            return;
+        }
+        dbGameSession.update({
+            roundValue : roundValue + 1,
+        })
+    }
 
     dbHost.on('value',(snap)=>{
         if(!snap.exists()) {
@@ -142,15 +175,21 @@
             return;
         }
         users = snap.val();
-        console.log(users);
     })
+    $: {
+        if(users) {
+            usersIdArray = [];
+            for(const id in users) {
+                usersIdArray.push(id);
+            }
+        }
+    }
     listenFirebaseKey(dbAllAnswers,(dbAllAnswersRef)=>{
         dbAllAnswersRef.on('value',(snap)=>{
             if(!snap.exists()) {
                 return;
             }
             allAnswers = snap.val();
-            console.log('All answers ',allAnswers);
         })
     })
     
@@ -170,7 +209,6 @@
             console.log("voter ",voter);
             if(voter === true)
             {
-                console.log('he is voter');
                 isThisVoted = currentQuestionVoters[userId];
                 spectator = false;
             }
@@ -197,7 +235,6 @@
                 questionIds.push(id);
             }
             questionIds = questionIds;
-            console.log('Question Id ',questionIds);
             totalNumberOfQuestion = questionIds.length;
             currentQuestionId = questionIds[questionNumber];
             currentQuestionUsers = allAnswers[currentQuestionId];
@@ -295,10 +332,6 @@
             secondUserVotes = secondAnswerVoters.length;
         }
     }
-    $: {
-        console.log('First Answer Voters ',firstAnswerVoters);
-        console.log('second Answer Voters ',secondAnswerVoters)
-    }
     
     function voteFirstAnswer() {
         if(spectator || isThisVoted || votingTimerHasStarted) {
@@ -335,14 +368,12 @@
         })
         if( firstAnswerVoted ){
             firstAnswerVoters.push(userId);
-            console.log('First Answer voters in register vote ',firstAnswerVoters);
             listenFirebaseKey(dbAllAnswers,(dbAllAnswersRef)=>{
                 dbAllAnswersRef.child(currentQuestionId).child(currentQuestionFirstUser).child('votedBy').set(firstAnswerVoters);
             })
         }
         else if(secondAnswerVoted) {
             secondAnswerVoters.push(userId);
-            console.log('second Answer voters in register vote ',secondAnswerVoters);
             listenFirebaseKey(dbAllAnswers,(dbAllAnswersRef)=>{
                 dbAllAnswersRef.child(currentQuestionId).child(currentQuestionSecondUser).child('votedBy').set(secondAnswerVoters);
             })
@@ -353,13 +384,19 @@
         let fname = name?.split(" ")[0];
         if(fname?.length > 10)
         {
-            fname = fname.slice(0,9) + "...";
+            fname = name?.split(" ")[0].toUpperCase();
+            if(name?.split(" ")[1].toUpperCase()) {
+                fname += name?.split(" ")[1].toUpperCase();
+            }
         }
         if(user.id === userId) {
             if(isOnlyYouRequired) {
                 return ('You');
             }
-            fname += "(You)";
+            fname += " (You)";
+        }
+        else if(user.id === hostId) {
+            fname = fname + " (Host)";
         }
         return fname;
     }
@@ -421,12 +458,7 @@
         }
     }
     
-    dbGameSessionRoundValue.on('value',(snap)=>{
-        if(!snap.exists()) {
-            return;
-        }
-        roundValue = snap.val();
-    })
+    
     let disableBtn;
     let tooltipMsg;
     $: {
@@ -441,14 +473,15 @@
     }
 </script>
 <main>
-    {#if time === 0} 
+    {#if time === 0 && noOfOnlineUsers >= 3} 
         <RoundIndicator roundValue = {questionNumber + 1}/>
     {/if}
     <QuikWikSmallIcon/>
     <ScorecardIcon/>
     {#if (voter || spectator) && questionNumberHasChanged}
-        <RoundIndicatorAndTimer message = {message} noOfVotersRemaining = {noOfVotersRemaining} timerType = {'votingScreenTimer'} isThisLastQuestion = {isThisLastQuestion}/>
-
+        {#if noOfOnlineUsers >= 3}
+            <RoundIndicatorAndTimer message = {message} noOfVotersRemaining = {noOfVotersRemaining} timerType = {'votingScreenTimer'} isThisLastQuestion = {isThisLastQuestion}/>
+        {/if}
         {#if votingTimerHasStarted}
             <div class="leaderMsg" in:fly ="{{ y: -20, duration: 1000 }}">
                 {leadingMsg}
@@ -572,6 +605,47 @@
             {/if}
         {/if}
     {/if}
+
+    <!-- Popup screen when there are online players < 3 -->
+    <div class="full-screen" style = "display : {displayOfPopUpScreen}">
+        <div class = "popUpcontainer" in:fly ="{{ y: -20, duration: 1000 }}">
+            <QuikWikSmallIcon/>
+            <div class = "popUpHeading"> Game can't be continued </div>
+            <div class = "popUpMsg">
+                Number of online players are less than 3 <br>
+                Wait for players to join or
+                {#if isHost}
+                    ends the game
+                {:else}
+                    ask the host to ends the game 
+                {/if}
+            </div>
+            {#if users && usersIdArray.length}
+                <div class = "onlinePlayersContainer">
+                    <div class = "onlinePlayersContainerHeading">
+                        Players
+                    </div>
+                    <div class="allOnlinePlayer">
+                        {#each usersIdArray as playerId}
+                            <div class="playerContainer">
+                                <div class = "playerName" title = "{users[playerId].isOnline?"Online":"Offline"}">
+                                    { processName(users[playerId]) }
+                                </div>
+                                {#if users[playerId].isOnline}
+                                    <div class = "onlineStatus">
+                                        <SmallTick/> 
+                                    </div>
+                                {/if}
+                            </div>
+                        {/each}
+                    </div>
+                </div>
+            {/if}
+            {#if isHost}
+                <CustomButton btnText = "End Game" on:click = {endGamePopUpScreen} disableBtn = {false} tooltipMsg = "Other Players can still join the game, Are you sure to end the game?"/>
+            {/if}
+        </div>
+    </div>
     
 </main>
 <style>
@@ -818,5 +892,71 @@
         position : absolute;
         top : 70%;
         right : -0.7rem;
+    }
+
+    .full-screen {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: rgba(9, 0, 37,0.9);;
+        displaY: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items:center;
+    }
+    .popUpcontainer {
+        background: linear-gradient(45deg, #6C44A8, #A84480);
+        padding : 1rem;
+        display : flex;
+        flex-direction : column;
+        justify-content : space-between;
+        align-items : center;
+        border-radius : 15px;
+        text-align : center;
+        color : #fff;
+        padding-bottom : 0rem;
+        min-width : 45%;
+    }
+    .popUpHeading {
+        font-family : 'Manrope';
+        font-size : 1.5rem;
+        font-weight : 700;
+        margin-top : 0.5rem;
+    }
+    .popUpMsg {
+        font-family : 'Padauk';
+        font-size : 1rem;
+        margin : 1rem;
+        font-weight : 700;
+    }
+    .onlinePlayersContainer {
+        margin-bottom : 1rem;
+    }
+    .onlinePlayersContainerHeading {
+        font-family : 'Padauk';
+        font-weight : 700;
+        color : #fff;
+		padding : 0.5rem;
+		font-size : 0.5rem;
+    }
+    .allOnlinePlayer{
+        display : flex;
+        flex-wrap: wrap;
+    }
+    .playerContainer {
+        display : flex;
+        background: #333333;
+		color : #fff;
+		align-items : center;
+		margin : 4px;
+		padding : 0.2rem 0.5rem;
+		border-radius : 5px;
+        font-family : 'Padauk';
+        font-size : 0.65rem;
+    }
+    .onlineStatus {
+        margin-left : 0.5rem;
     }
 </style>

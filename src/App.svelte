@@ -185,7 +185,7 @@
 	$: console.log('Page ',page);
     
 </script>
-{#if clicked === false && page === 'Welcome'}
+{#if  page === 'Welcome'}
 	<div class = 'welcomeScreen'>
         <div class="container" in:fly ="{{ y: -20, duration: 1000 }}">
             <QuikWikIcon/>

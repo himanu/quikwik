@@ -57,6 +57,8 @@ exports.updateNumberOfUsersWhoHaveNotAnswered = functions.database.ref('/quikwik
     let pageRef = snapshot.ref.parent.parent.child('page');
     let roundRef = snapshot.ref.parent.parent;
     let noOfUsersWhoHaveNotAnswered;
+    // let noOfOnlinePlayers,noOfOnlinePlayersRef,noOfOnlinePlayersSnap;
+    // noOfOnlinePlayersRef = snapshot.ref.parent.parent.child('noOfOnlinePlayers');
     return new Promise(async(resolve,reject)=>{
       noOfUsersWhoHaveNotAnsweredRef.get().then((snap)=>{
 
@@ -70,6 +72,7 @@ exports.updateNumberOfUsersWhoHaveNotAnswered = functions.database.ref('/quikwik
   
         if(noOfUsersWhoHaveNotAnswered === 1) {
           console.log('Change the page to do Voting, remove the timer and set the currentQuestionNumber 0');
+          // noOfOnlinePlayersSnap = await noOfOnlinePlayersRef.get();
           promiseArray = [ ...promiseArray, roundRef.child('timer').remove(), roundRef.update({ currentQuestionNumber : 0, page : 'Do Voting'}) ];
         }
         Promise.all(promiseArray).then(()=>{
@@ -241,109 +244,109 @@ exports.addNewUserToVoterListAndIncrementNumberOfVotersLeft = functions.database
       return null;
     }
   })
-exports.changeRoundWhenThereAreLessThanThreeUsersInVotingScreen = functions.database.ref('/quikwik/{gameSessionId}/noOfOnlineUsers')
-  .onUpdate(async(change,context) => {
-    let noOfOnlineUsers = change.after.val();
-    console.log('noOfOnlineUsers ',noOfOnlineUsers);
-    if(noOfOnlineUsers >= 3) {
-      console.log('No of online users are greater than 2');
-      return null;
-    }
-    let currentRoundValueRef = change.after.ref.parent.child('roundValue');
-    let roundValue,roundValueSnap;
-    let pageRef,pageSnap,page;
-    try {
-      roundValueSnap = await currentRoundValueRef.get();
-      if(!(roundValueSnap).exists()) {
-        console.log('Current round value not exists');
-        return null;
-      } 
-      roundValue = roundValueSnap.val();
-      roundValue = parseInt(roundValue);
-      console.log('roundValue',roundValue);
+// exports.changeRoundWhenThereAreLessThanThreeUsersInVotingScreen = functions.database.ref('/quikwik/{gameSessionId}/noOfOnlineUsers')
+//   .onUpdate(async(change,context) => {
+//     let noOfOnlineUsers = change.after.val();
+//     console.log('noOfOnlineUsers ',noOfOnlineUsers);
+//     if(noOfOnlineUsers >= 3) {
+//       console.log('No of online users are greater than 2');
+//       return null;
+//     }
+//     let currentRoundValueRef = change.after.ref.parent.child('roundValue');
+//     let roundValue,roundValueSnap;
+//     let pageRef,pageSnap,page;
+//     try {
+//       roundValueSnap = await currentRoundValueRef.get();
+//       if(!(roundValueSnap).exists()) {
+//         console.log('Current round value not exists');
+//         return null;
+//       } 
+//       roundValue = roundValueSnap.val();
+//       roundValue = parseInt(roundValue);
+//       console.log('roundValue',roundValue);
 
-      pageRef = change.after.ref.parent.child('rounds').child(roundValue).child('page');
-      pageSnap = await pageRef.get();
-      if(!(pageSnap).exists()) {
-        console.log('page not exists');
-        return null;
-      }
-      page = pageSnap.val();
-      console.log('Page ',page);
-      if(page === 'Do Voting' && noOfOnlineUsers < 3) {
-        console.log('Change round value');
-        return currentRoundValueRef.set(roundValue + 1)
-        .then(()=>{
-          console.log('Round Value is incremented');
-        })
-        .catch(()=>{
-          console.log('Some error occur while incrementing round value');
-        })
-      }
-      else if(page === 'Leaderboard Screen' && !noOfOnlineUsers) {
-        console.log('Change round value when no online users in leaderboard screen');
-        return currentRoundValueRef.set(roundValue + 1)
-        .then(()=>{
-          console.log('Round Value is incremented');
-        })
-        .catch(()=>{
-          console.log('Some error occur while incrementing round value');
-        })
-      }
-      else {
-        console.log('Nothing to change');
-        return null;
-      }
-    }
-    catch{
-      console.log('Something went wrong');
-      return null;
-    }
-  })
-exports.changeRoundWhenThereAreLessThanThreeOnlinePlayerInGameScreen = functions.database.ref('/quikwik/{gameSessionId}/rounds/{roundValue}/noOfOnlinePlayers')
-  .onUpdate(async(change,context)=>{
-    let noOfOnlinePlayers = change.after.val();
-    console.log('NoOfOnlinePlayers ',noOfOnlinePlayers);
-    let pageRef = change.after.ref.parent.child('page');
-    let page;
-    let roundRef = change.after.ref.parent.parent.parent.child('roundValue');
-    let roundValue;
-    return new Promise((resolve,reject)=>{
-      Promise.all([pageRef.get(),roundRef.get()])
-      .then((snapshot)=>{
+//       pageRef = change.after.ref.parent.child('rounds').child(roundValue).child('page');
+//       pageSnap = await pageRef.get();
+//       if(!(pageSnap).exists()) {
+//         console.log('page not exists');
+//         return null;
+//       }
+//       page = pageSnap.val();
+//       console.log('Page ',page);
+//       if(page === 'Do Voting' && noOfOnlineUsers < 3) {
+//         console.log('Change round value');
+//         return currentRoundValueRef.set(roundValue + 1)
+//         .then(()=>{
+//           console.log('Round Value is incremented');
+//         })
+//         .catch(()=>{
+//           console.log('Some error occur while incrementing round value');
+//         })
+//       }
+//       else if(page === 'Leaderboard Screen' && !noOfOnlineUsers) {
+//         console.log('Change round value when no online users in leaderboard screen');
+//         return currentRoundValueRef.set(roundValue + 1)
+//         .then(()=>{
+//           console.log('Round Value is incremented');
+//         })
+//         .catch(()=>{
+//           console.log('Some error occur while incrementing round value');
+//         })
+//       }
+//       else {
+//         console.log('Nothing to change');
+//         return null;
+//       }
+//     }
+//     catch{
+//       console.log('Something went wrong');
+//       return null;
+//     }
+//   })
+// exports.changeRoundWhenThereAreLessThanThreeOnlinePlayerInGameScreen = functions.database.ref('/quikwik/{gameSessionId}/rounds/{roundValue}/noOfOnlinePlayers')
+//   .onUpdate(async(change,context)=>{
+//     let noOfOnlinePlayers = change.after.val();
+//     console.log('NoOfOnlinePlayers ',noOfOnlinePlayers);
+//     let pageRef = change.after.ref.parent.child('page');
+//     let page;
+//     let roundRef = change.after.ref.parent.parent.parent.child('roundValue');
+//     let roundValue;
+//     return new Promise((resolve,reject)=>{
+//       Promise.all([pageRef.get(),roundRef.get()])
+//       .then((snapshot)=>{
 
-        if(!snapshot[0].exists() || !snapshot[1].exists()) {
-          console.log('Page or roundValue not exist');
-          resolve();
-          return ;
-        }
-        page = snapshot[0].val();
-        roundValue = snapshot[1].val();
-        console.log('page ',page, ' roundValue ',roundValue);
+//         if(!snapshot[0].exists() || !snapshot[1].exists()) {
+//           console.log('Page or roundValue not exist');
+//           resolve();
+//           return ;
+//         }
+//         page = snapshot[0].val();
+//         roundValue = snapshot[1].val();
+//         console.log('page ',page, ' roundValue ',roundValue);
 
-        if(page === 'Game Screen' && noOfOnlinePlayers < 3) {
-          console.log('Game screen cannot have less than 3 online player and hence round Value is incremented');
+//         if(page === 'Game Screen' && noOfOnlinePlayers < 3) {
+//           console.log('Game screen cannot have less than 3 online player and hence round Value is incremented');
           
-          return roundRef.set(roundValue + 1).then(()=>{
-            resolve();
-            console.log('round Value is incremented');
-          })
-          .catch((e)=>{
-            resolve();
-            console.log('round Value can not be incremented');
-          })
-        }
-        else {
-          console.log('Nothing to change');
-          resolve();
-        }
-      })
-      .catch(()=>{
-        console.log('Some problem occur');
-        resolve();
-      })
-    })
-  })
+//           return roundRef.set(roundValue + 1).then(()=>{
+//             resolve();
+//             console.log('round Value is incremented');
+//           })
+//           .catch((e)=>{
+//             resolve();
+//             console.log('round Value can not be incremented');
+//           })
+//         }
+//         else {
+//           console.log('Nothing to change');
+//           resolve();
+//         }
+//       })
+//       .catch(()=>{
+//         console.log('Some problem occur');
+//         resolve();
+//       })
+//     })
+//   })
 exports.removeHostWhenOffline = functions.database.ref('/quikwik/{gameSessionId}/users/{id}/isOnline')
   .onUpdate(async(change,context)=>{
     let userOnlineStatus = change.after.val();

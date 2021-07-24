@@ -54,7 +54,6 @@
                 leftTime = Math.floor(leftTimeReal);
                 leftTimeString = leftTime.toString() + 's';
                 if(leftTime <= 0) {
-                    console.log('Clear the interval');
                     leftTime = 0;
                     clearInterval(interval);
                 }

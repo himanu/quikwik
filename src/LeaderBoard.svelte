@@ -73,7 +73,6 @@
                return  b[1] - a[1];
             })
             scoreOfUsersArray = scoreOfUsersArray;
-            console.log('scoreOfUsersArray ',scoreOfUsersArray);
         }
     }
     let users;
@@ -87,7 +86,6 @@
     
     $: {
         if(users && scoreOfUsersArray.length) {
-            console.log('users ',users, ' socreofUsersArray ',scoreOfUsersArray)
             leaderBoardLeader = users[scoreOfUsersArray[0][0]]['userName'];
         }
     }

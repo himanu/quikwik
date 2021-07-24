@@ -2,11 +2,12 @@
     import CustomButton from './CustomButton.svelte';
     import QuikWikSmallIcon from './QuikWikSmallIcon.svelte';
     import ScorecardIcon from './ScorecardIcon.svelte';
-    import {dbUsers, dbQuestions, dbAllQuestions, dbUser, dbAllAnswers, listenFirebaseKey, dbUsersWhoAnswered,dbScoreOfUser,dbHost} from './database';
+    import {dbUsers, dbQuestions, dbAllQuestions, dbUser, dbAllAnswers, listenFirebaseKey, dbUsersWhoAnswered,dbScoreOfUser,dbHost,dbNoOfOnlinePlayers, dbGameSessionRoundValue,dbGameSession,dbNoOfOnlineUsers} from './database';
     import {getParams} from './utils'; 
     import RoundIndicatorAndTimer from './RoundIndicatorAndTimer.svelte';
     import PlayerContainer from './PlayerContainer.svelte';
     import {fly} from 'svelte/transition';
+    import SmallTick from './svg/SmallTick.svelte';
 
     let ans1,ans2;
     let users;
@@ -19,6 +20,7 @@
     let isThisUserHaveAnswered = false;
     let usersWhoAnswered = {};
     let scoreOfUser = 0;
+    let noOfOnlinePlayers;
 
     let hostId;
     let isHost = false;
@@ -31,6 +33,33 @@
             isHost = true;
         }
     })
+    $: {
+        if(hostId === userId) {
+            isHost = true;
+        }
+        else {
+            isHost = false;
+        }
+    }
+    
+
+    listenFirebaseKey(dbNoOfOnlinePlayers,(dbNoOfOnlinePlayersRef)=>{
+        dbNoOfOnlinePlayersRef.on('value',(snap)=>{
+            if(!snap.exists()) {
+                return;
+            }
+            noOfOnlinePlayers = snap.val();
+        })
+    })
+    let displayOfPopUpScreen = "none";
+    $: {
+        if(noOfOnlinePlayers >= 3) {
+            displayOfPopUpScreen = "none";
+        }
+        else {
+            displayOfPopUpScreen = "flex";
+        }
+    }
     dbScoreOfUser.on('value',(snap)=>{
         if(!snap.exists()) {
             scoreOfUser = 0;
@@ -69,6 +98,7 @@
         user = snap.val();
     })
    let isVisitor = false; 
+   let playersIdArray = [];
     listenFirebaseKey(dbAllQuestions,(dbAllQuestionsRef)=>{
         dbAllQuestionsRef.on('value',(snap)=>{
             if(!snap.exists()) {
@@ -84,6 +114,14 @@
             }
         })
     })
+    $: {
+        if(allQuestions) {
+            playersIdArray = [];
+            for(const id in allQuestions) {
+                playersIdArray.push(id);
+            }
+        }
+    }
     $: {
         if(firstQuestionId) {
             listenFirebaseKey(dbAllAnswers,(dbAllAnswersRef)=>{
@@ -137,6 +175,7 @@
         listenFirebaseKey(dbUsersWhoAnswered,(dbUsersWhoAnsweredRef)=>{
             dbUsersWhoAnsweredRef.child(userId).set(true);
         })
+        console.log('Handle answer btn');
         updateAllAnswers();
     }
     function updateAnswer1(e) {
@@ -167,6 +206,41 @@
             timeout = setTimeout(()=>executor(...args),wait);
         }
     }
+    let roundValue;
+    dbGameSessionRoundValue.on('value',(snap)=>{
+        if(!snap.exists()) {
+            return;
+        }
+        roundValue = snap.val();
+    })
+    function endGamePopUpScreen() {
+        if(noOfOnlinePlayers>= 3) {
+            return;
+        }
+        dbGameSession.update({
+            roundValue : roundValue + 1,
+        })
+    }
+    function processName(user){
+        let name = user.userName;
+        let fname = name?.split(" ")[0];
+        if(fname?.length > 10)
+        {
+            fname = name?.split(" ")[0].toUpperCase();
+            if(name?.split(" ")[1].toUpperCase()) {
+                fname += name?.split(" ")[1].toUpperCase();
+            }
+        }
+        if(user.id === hostId) {
+            fname = fname + " (Host)";
+        }
+        else if(user.id === userId) {
+            if(!isHost) {
+                fname = fname + " (You)";
+            }
+        }
+        return fname;
+    }
     
     var dbounceReturnFun1 = dbounce1((e)=>updateAnswer1(e),500);
     var dbounceReturnFun2 = dbounce2((e)=>updateAnswer2(e),500);
@@ -174,8 +248,9 @@
 <main>
     <QuikWikSmallIcon/>
     <ScorecardIcon/>
-    <RoundIndicatorAndTimer message = {'ANSWER NOW'} timerType = {'GameScreenTimer'} />
-
+    {#if noOfOnlinePlayers >= 3}
+        <RoundIndicatorAndTimer message = {'ANSWER NOW'} timerType = {'GameScreenTimer'} />
+    {/if}
     {#if !isThisUserHaveAnswered && !isVisitor}
         <div class = 'formBox' in:fly ="{{ y: -20, duration: 1000 }}">
             <form class = 'form'>
@@ -217,6 +292,47 @@
         </div>
         <PlayerContainer/>
     {/if}
+    
+    <!-- Popup screen when there are online players < 3 -->
+    <div class="full-screen" style = "display : {displayOfPopUpScreen}">
+        <div class = "container" in:fly ="{{ y: -20, duration: 1000 }}">
+            <QuikWikSmallIcon/>
+            <div class = "popUpHeading"> Game can't be continued </div>
+            <div class = "popUpMsg">
+                Number of online players are less than 3 <br>
+                Wait for players to join or
+                {#if isHost}
+                    ends the game
+                {:else}
+                    ask the host to ends the game 
+                {/if}
+            </div>
+            {#if users && playersIdArray.length}
+                <div class = "onlinePlayersContainer">
+                    <div class = "onlinePlayersContainerHeading">
+                        Players
+                    </div>
+                    <div class="allOnlinePlayer">
+                        {#each playersIdArray as playerId}
+                            <div class="playerContainer">
+                                <div class = "playerName" title = "{users[playerId].isOnline?"Online":"Offline"}">
+                                    { processName(users[playerId]) }
+                                </div>
+                                {#if users[playerId].isOnline}
+                                    <div class = "onlineStatus">
+                                        <SmallTick/> 
+                                    </div>
+                                {/if}
+                            </div>
+                        {/each}
+                    </div>
+                </div>
+            {/if}
+            {#if isHost}
+                <CustomButton btnText = "End Game" on:click = {endGamePopUpScreen} disableBtn = {false} tooltipMsg = "Other Players can still join the game, Are you sure to end the game?"/>
+            {/if}
+        </div>
+    </div>
 </main>
 <style>
     :global(html) {
@@ -304,5 +420,71 @@
         letter-spacing: 1.25px;
         line-height: 1.5rem;
         margin : auto;
+    }
+
+    .full-screen {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: rgba(9, 0, 37,0.9);;
+        displaY: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items:center;
+    }
+    .container {
+        background: linear-gradient(45deg, #6C44A8, #A84480);
+        padding : 1rem;
+        display : flex;
+        flex-direction : column;
+        justify-content : space-between;
+        align-items : center;
+        border-radius : 15px;
+        text-align : center;
+        color : #fff;
+        padding-bottom : 0rem;
+        min-width : 45%;
+    }
+    .popUpHeading {
+        font-family : 'Manrope';
+        font-size : 1.5rem;
+        font-weight : 700;
+        margin-top : 0.5rem;
+    }
+    .popUpMsg {
+        font-family : 'Padauk';
+        font-size : 1rem;
+        margin : 1rem;
+        font-weight : 700;
+    }
+    .onlinePlayersContainer {
+        margin-bottom : 1rem;
+    }
+    .onlinePlayersContainerHeading {
+        font-family : 'Padauk';
+        font-weight : 700;
+        color : #fff;
+		padding : 0.5rem;
+		font-size : 0.5rem;
+    }
+    .allOnlinePlayer{
+        display : flex;
+        flex-wrap: wrap;
+    }
+    .playerContainer {
+        display : flex;
+        background: #333333;
+		color : #fff;
+		align-items : center;
+		margin : 4px;
+		padding : 0.2rem 0.5rem;
+		border-radius : 5px;
+        font-family : 'Padauk';
+        font-size : 0.65rem;
+    }
+    .onlineStatus {
+        margin-left : 0.5rem;
     }
 </style>

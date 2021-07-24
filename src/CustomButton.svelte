@@ -3,7 +3,7 @@
 	export let disableBtn;
 	export let tooltipMsg;
 </script>
-<button class = "startBtn" class:disabledBtn = {disableBtn} disabled = {disableBtn === true} on:click> 
+<button class = "startBtn" class:scaleBtn = {!disableBtn} class:disabledBtn = {disableBtn} disabled = {disableBtn === true} on:click> 
 	{#if tooltipMsg}
 		<div class="tooltip">
 			{tooltipMsg}
@@ -59,16 +59,16 @@
 		position : relative;
 	}
 
-	.startBtn:hover {
+	.scaleBtn:hover {
 		box-shadow: 0px 4px 4px#98C8E2;
 	}
-	.startBtn:hover .text{
+	.scaleBtn:hover .text{
 		transform: scale3d(1.05,1.05,1.25);
 	}
-	.startBtn:hover .btnArrow{
+	.scaleBtn:hover .btnArrow{
 		transform: scale3d(1.05,1.05,1.25);
 	}
-	.startBtn:active{
+	.scaleBtn:active{
 		box-shadow: 0px 0px 0px;
 	}
 	.startBtn:hover .tooltip {
