@@ -574,7 +574,7 @@
                 {#if voter && !votingTimerHasStarted}
                     {#if !isThisVoted}
                         {#if firstAnswerVoted || secondAnswerVoted}
-                            <CustomButton disableBtn = {false} btnText = {"Vote"} on:click = {registerVote}/>
+                            <CustomButton disableBtn = {false} btnText = {"Vote"} tooltipMsg = {"Are you sure to vote the selected answer?"} on:click = {registerVote}/>
                         {:else}
                             <CustomButton disableBtn = {true} tooltipMsg = {"Vote(Click) one of the answer first"} btnText = {"Vote"} on:click = {registerVote}/>
                         {/if}
