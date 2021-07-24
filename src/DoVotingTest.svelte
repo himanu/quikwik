@@ -576,7 +576,7 @@
                         {#if firstAnswerVoted || secondAnswerVoted}
                             <CustomButton disableBtn = {false} btnText = {"Vote"} on:click = {registerVote}/>
                         {:else}
-                            <CustomButton disableBtn = {true} btnText = {"Vote"} on:click = {registerVote}/>
+                            <CustomButton disableBtn = {true} tooltipMsg = {"Vote(Click) one of the answer first"} btnText = {"Vote"} on:click = {registerVote}/>
                         {/if}
                     {/if}
                 {/if}
