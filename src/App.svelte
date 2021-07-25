@@ -1,6 +1,6 @@
 <script>
-    import {getParams} from './utils';
-	import { dbGameSessionRoundValue,dbGameSessionRounds,listenFirebaseKey, dbPage,dbScoreOfUsers,dbUsers,dbUser, dbHost,dbAllQuestions,dbNoOfOnlinePlayers,dbNoOfOnlineUsers} from './database';
+    import {getGameSessionId,getParams} from './utils';
+	import { dbGameSessionRoundValue,dbGameSessionRounds,listenFirebaseKey, dbPage,dbScoreOfUsers,dbUsers,dbUser, dbHost,dbAllQuestions,dbNoOfOnlinePlayers,dbNoOfOnlineUsers,dbQuestionsId} from './database';
 	import QuikWikIcon from './QuikWikIcon.svelte';
 	import CustomButton from './CustomButton.svelte';
 	import LobbyScreen from './LobbyScreen.svelte';
@@ -21,6 +21,9 @@
     let hostId;
     let noOfOnlineUsers;
     let clicked = false;
+    let gameSessionId = getGameSessionId();
+    let onlineUsersArray = [];
+    let questionId = [];
 
     const isHost = getParams("isHost") === "true";
 	if (getParams("isHost") === "true") {
@@ -70,8 +73,12 @@
     })
     $: {
         if(users) {
+            onlineUsersArray = [];
             for(const id in users) {
-                
+                let currUser = users[id];
+                if(currUser.isOnline) {
+                    onlineUsersArray.push(currUser);
+                }
                 if(users[id].isOnline === false) {
                     if(id === userId) {
                         info('You have been disconnected, please check your internet connection','Disconnected',5000);
@@ -152,12 +159,48 @@
             dbPageRef.set('Lobby Screen')
         })
     }
+    dbQuestionsId.on('value',(snap)=>{
+        if(!snap.exists()) {
+            return;
+        }
+        questionId = snap.val();
+    })
+    async function postData(url = '', data = {}) {
+    // Default options are marked with *
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
+    function handleNextRoundBtn() {
+        postData('/startTimer', {gameSessionId,roundValue,onlineUsersArray,questionId})
+        .then((data)=>{
+            console.log('postData ',data);
+            return;
+        })
+        .catch(()=> {
+            console.log('some error occured');
+        });
+        
+    }
+    
 	const snapFun = function(snap){
         if(!snap.exists()) {
             clicked = false;
             if(roundValue !== 1) {
+                handleNextRoundBtn();
                 dbGameSessionRound.update({
-                    page : 'Lobby Screen'
+                    page : 'Ready Set Go'
                 })
             }
             else {
@@ -183,7 +226,7 @@
         dbGameSessionRound.on('value',snapFun);
     })
 	$: console.log('Page ',page);
-    
+    $: console.log('RoundValue ',roundValue);
 </script>
 {#if  page === 'Welcome'}
 	<div class = 'welcomeScreen'>

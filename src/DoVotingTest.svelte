@@ -474,7 +474,7 @@
 </script>
 <main>
     {#if time === 0 && noOfOnlineUsers >= 3} 
-        <RoundIndicator roundValue = {questionNumber + 1}/>
+        <RoundIndicator roundValue = {questionNumber + 1} msg = {"Question"}/>
     {/if}
     <QuikWikSmallIcon/>
     <ScorecardIcon/>
@@ -720,7 +720,7 @@
 		color : #fff;
 		align-items : center;
 		margin : 4px;
-		padding : 0.1rem 0.5rem;
+		padding : 0.25rem 0.5rem;
 		border-radius : 5px;
 	}
 	.voterName {

@@ -1,13 +1,14 @@
 <script>
     import { fly } from "svelte/transition";
 	export let roundValue;
+	export let msg = "Round";
 </script>
 <div class = 'roundContainer'  transition:fly="{{ y: -100, duration: 1000 } }">
 	<svg class = 'svg' width="15" height="18" viewBox="0 0 15 18" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M2.74648 4.34071e-05L14.7461 17.4932L-0.000272989 14.7464L2.74648 4.34071e-05Z" fill="#A84480"/>
 	</svg>
 	<div class = 'round'>
-		Round {roundValue}
+		{msg} {roundValue}
 	</div>
 </div>
 <style>

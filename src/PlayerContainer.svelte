@@ -65,7 +65,7 @@
 </script>
 <div class="container" in:fly ="{{ y: -20, duration: 1000 }}">
     <div class="heading">
-        Players who have answered.
+        Players who have answered
     </div>
     <div class="playerContainer">
         {#if users}
