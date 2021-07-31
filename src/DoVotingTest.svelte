@@ -788,7 +788,7 @@
     .voters {
         display : flex;
         justify-content: center;
-        align-items : center;
+        align-items : flex-start;
     }
     .disabledFirstAnswerContainer,.disabledSecondAnswerContainer {
         cursor : text;

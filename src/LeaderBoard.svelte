@@ -62,7 +62,7 @@
         scoreOfUsers = snap.val();
         myScore = scoreOfUsers[getParams('userId')]*10;
     })
-    
+    let isItDraw = false;
     $: {
         if(scoreOfUsers) {
             scoreOfUsersArray = [];
@@ -72,6 +72,11 @@
             scoreOfUsersArray.sort( (a,b)=>{
                return  b[1] - a[1];
             })
+            if(scoreOfUsersArray.length > 1) {
+                if(scoreOfUsersArray[0][1] == scoreOfUsersArray[1][1]) {
+                    isItDraw = true;
+                }
+            }
             scoreOfUsersArray = scoreOfUsersArray;
         }
     }
@@ -128,7 +133,11 @@
         LEADERBOARD
     </div>
     <div class = 'leaderBoardLeader' in:fly ="{{ y: -20, duration: 1000 }}">
-        {processName(leaderBoardLeader)} is leading!
+        {#if isItDraw}
+            It is a draw!
+        {:else}
+            {processName(leaderBoardLeader)} is leading!
+        {/if}
     </div>
     <div class = 'usersContainer' style = 'opacity : {opacityOfContainer}' in:fly ="{{ y: -20, duration: 1000 }}">
         <div class="usersList">
