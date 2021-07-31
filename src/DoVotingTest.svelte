@@ -699,6 +699,9 @@
         min-width : 30%;
 		text-align : center;
 		margin : 0px auto;
+        display : flex;
+        flex-direction: column;
+        align-items : center;
 	}
     .votersHeading {
         font-family : 'Padauk';
