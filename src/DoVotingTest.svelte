@@ -780,10 +780,15 @@
         max-width : 50%;
         margin : 1rem;
     }
-    .answers,.voters {
+    .answers {
         display : flex;
         justify-content: center;
         align-items: stretch;
+    }
+    .voters {
+        display : flex;
+        justify-content: center;
+        align-items : center;
     }
     .disabledFirstAnswerContainer,.disabledSecondAnswerContainer {
         cursor : text;
