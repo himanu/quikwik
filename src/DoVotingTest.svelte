@@ -729,6 +729,7 @@
 	.voterName {
         font-family : 'Padauk';
         font-size : 0.65rem;
+        white-space : nowrap
 	}
     .votingStatus {
         margin-left : 0.5rem;
