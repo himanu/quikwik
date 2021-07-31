@@ -715,7 +715,6 @@
 		background : transparent;
 		border-radius : 5px;
 		align-items : stretch;
-        justify-content: center;
 	}
 	.voterContainer {
 		display : flex;
@@ -866,7 +865,6 @@
     .firstAnswerVoters,.secondAnswerVoters {
         flex : 1;
         display : flex;
-        justify-content: center;
         align-items : stretch;
         overflow-x : auto;
         margin : 1rem;
