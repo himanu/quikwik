@@ -20,7 +20,6 @@
     let user;
     let hostId;
     let noOfOnlineUsers;
-    let clicked = false;
     let gameSessionId = getGameSessionId();
     let onlineUsersArray = [];
     let questionId = [];
@@ -154,7 +153,6 @@
         }
     })
 	function handleClick() {
-        clicked = true;
         listenFirebaseKey(dbPage,(dbPageRef)=>{
             dbPageRef.set('Lobby Screen')
         })
@@ -196,7 +194,6 @@
     
 	const snapFun = function(snap){
         if(!snap.exists()) {
-            clicked = false;
             if(roundValue !== 1) {
                 handleNextRoundBtn();
                 dbGameSessionRound.update({
@@ -209,9 +206,6 @@
             return;
         }
         page = snap.val().page;
-        if(page) {
-            clicked = true;
-        }
     }
     dbGameSessionRoundValue.on('value',(snap)=>{
         if(!snap.exists()) {

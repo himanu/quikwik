@@ -384,19 +384,22 @@
         let fname = name?.split(" ")[0];
         if(fname?.length > 10)
         {
-            fname = name?.split(" ")[0].toUpperCase();
+            fname = fname[0].toUpperCase();
             if(name?.split(" ")[1].toUpperCase()) {
-                fname += name?.split(" ")[1].toUpperCase();
+                fname += name?.split(" ")[1][0].toLowerCase();
             }
         }
-        if(user.id === userId) {
+        if(user.id === hostId) {
+            if(user.id === userId) {
+                fname = "You";
+            }
             if(isOnlyYouRequired) {
-                return ('You');
+                return fname;
             }
-            fname += " (You)";
-        }
-        else if(user.id === hostId) {
             fname = fname + " (Host)";
+        }
+        else if(user.id === userId) {
+            fname += " (You)";
         }
         return fname;
     }

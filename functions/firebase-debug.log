@@ -1,0 +1,174 @@
+[debug] [2021-07-30T11:15:30.892Z] ----------------------------------------------------------------------
+[debug] [2021-07-30T11:15:30.895Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Dell\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js functions:config:set app.url=https://dev.app.letsdive.io app.id=dapp_0ac85ebb05be4d36be762d88a1b419a1 app.secret=3c396ce388187ca3821d5a3cda0e2a692ce4ff6f97f3e69e7b5522c6c84a530b
+[debug] [2021-07-30T11:15:30.896Z] CLI Version:   9.16.0
+[debug] [2021-07-30T11:15:30.896Z] Platform:      win32
+[debug] [2021-07-30T11:15:30.896Z] Node Version:  v15.0.1
+[debug] [2021-07-30T11:15:30.897Z] Time:          Fri Jul 30 2021 16:45:30 GMT+0530 (India Standard Time)
+[debug] [2021-07-30T11:15:30.898Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-07-30T11:15:30.956Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-07-30T11:15:30.956Z] > authorizing via signed-in user (himanshu.yadav@letsdive.io)
+[debug] [2021-07-30T11:15:30.957Z] [iam] checking project da-quikwik-dev for permissions ["firebase.projects.get","runtimeconfig.configs.create","runtimeconfig.configs.delete","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.configs.update","runtimeconfig.variables.create","runtimeconfig.variables.delete","runtimeconfig.variables.get","runtimeconfig.variables.list","runtimeconfig.variables.update"]
+[debug] [2021-07-30T11:15:30.959Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-07-30T11:15:30.959Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-07-30T11:15:31.756Z] <<< HTTP RESPONSE 200 {"date":"Fri, 30 Jul 2021 11:15:30 GMT","expires":"Mon, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","pragma":"no-cache","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:15:31.768Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/da-quikwik-dev:testIamPermissions  
+ {"permissions":["firebase.projects.get","runtimeconfig.configs.create","runtimeconfig.configs.delete","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.configs.update","runtimeconfig.variables.create","runtimeconfig.variables.delete","runtimeconfig.variables.get","runtimeconfig.variables.list","runtimeconfig.variables.update"]}
+[debug] [2021-07-30T11:15:33.660Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:15:32 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=1395","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:15:33.663Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/da-quikwik-dev/services/runtimeconfig.googleapis.com  
+ 
+[debug] [2021-07-30T11:15:55.921Z] Error: connect ETIMEDOUT 142.250.195.10:443
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1129:16)
+[error] 
+[error] Error: Server Error. connect ETIMEDOUT 142.250.195.10:443
+[debug] [2021-07-30T11:16:01.900Z] ----------------------------------------------------------------------
+[debug] [2021-07-30T11:16:01.902Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Dell\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js functions:config:set app.url=https://dev.app.letsdive.io app.id=dapp_0ac85ebb05be4d36be762d88a1b419a1 app.secret=3c396ce388187ca3821d5a3cda0e2a692ce4ff6f97f3e69e7b5522c6c84a530b
+[debug] [2021-07-30T11:16:01.902Z] CLI Version:   9.16.0
+[debug] [2021-07-30T11:16:01.902Z] Platform:      win32
+[debug] [2021-07-30T11:16:01.902Z] Node Version:  v15.0.1
+[debug] [2021-07-30T11:16:01.903Z] Time:          Fri Jul 30 2021 16:46:01 GMT+0530 (India Standard Time)
+[debug] [2021-07-30T11:16:01.903Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-07-30T11:16:01.967Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-07-30T11:16:01.968Z] > authorizing via signed-in user (himanshu.yadav@letsdive.io)
+[debug] [2021-07-30T11:16:01.970Z] [iam] checking project da-quikwik-dev for permissions ["firebase.projects.get","runtimeconfig.configs.create","runtimeconfig.configs.delete","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.configs.update","runtimeconfig.variables.create","runtimeconfig.variables.delete","runtimeconfig.variables.get","runtimeconfig.variables.list","runtimeconfig.variables.update"]
+[debug] [2021-07-30T11:16:01.972Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/da-quikwik-dev:testIamPermissions  
+ {"permissions":["firebase.projects.get","runtimeconfig.configs.create","runtimeconfig.configs.delete","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.configs.update","runtimeconfig.variables.create","runtimeconfig.variables.delete","runtimeconfig.variables.get","runtimeconfig.variables.list","runtimeconfig.variables.update"]}
+[debug] [2021-07-30T11:16:23.042Z] [iam] error while checking permissions, command may fail: FirebaseError: Server Error. connect ETIMEDOUT 142.250.193.74:443
+[debug] [2021-07-30T11:16:23.044Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/da-quikwik-dev/services/runtimeconfig.googleapis.com  
+ 
+[debug] [2021-07-30T11:16:25.255Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:16:23 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:25.259Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables/url  
+ 
+[debug] [2021-07-30T11:16:25.260Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables/id  
+ 
+[debug] [2021-07-30T11:16:25.260Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables/secret  
+ 
+[debug] [2021-07-30T11:16:26.322Z] <<< HTTP RESPONSE 404 {"vary":"X-Origin, Referer, Origin,Accept-Encoding","content-type":"application/json; charset=UTF-8","date":"Fri, 30 Jul 2021 11:16:24 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:26.323Z] <<< HTTP RESPONSE BODY {"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND"}}
+[debug] [2021-07-30T11:16:26.326Z] >>> HTTP REQUEST POST https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables  
+ {"name":"projects/da-quikwik-dev/configs/app/variables/id","text":"dapp_0ac85ebb05be4d36be762d88a1b419a1"}
+[debug] [2021-07-30T11:16:26.328Z] <<< HTTP RESPONSE 404 {"vary":"X-Origin, Referer, Origin,Accept-Encoding","content-type":"application/json; charset=UTF-8","date":"Fri, 30 Jul 2021 11:16:25 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:26.328Z] <<< HTTP RESPONSE BODY {"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND"}}
+[debug] [2021-07-30T11:16:26.330Z] >>> HTTP REQUEST POST https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables  
+ {"name":"projects/da-quikwik-dev/configs/app/variables/url","text":"https://dev.app.letsdive.io"}
+[debug] [2021-07-30T11:16:26.333Z] <<< HTTP RESPONSE 404 {"vary":"X-Origin, Referer, Origin,Accept-Encoding","content-type":"application/json; charset=UTF-8","date":"Fri, 30 Jul 2021 11:16:24 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:26.333Z] <<< HTTP RESPONSE BODY {"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND"}}
+[debug] [2021-07-30T11:16:26.334Z] >>> HTTP REQUEST POST https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables  
+ {"name":"projects/da-quikwik-dev/configs/app/variables/secret","text":"3c396ce388187ca3821d5a3cda0e2a692ce4ff6f97f3e69e7b5522c6c84a530b"}
+[debug] [2021-07-30T11:16:27.349Z] <<< HTTP RESPONSE 404 {"vary":"X-Origin, Referer, Origin,Accept-Encoding","content-type":"application/json; charset=UTF-8","date":"Fri, 30 Jul 2021 11:16:25 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:27.350Z] <<< HTTP RESPONSE BODY {"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND"}}
+[debug] [2021-07-30T11:16:27.354Z] >>> HTTP REQUEST POST https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs  
+ {"name":"projects/da-quikwik-dev/configs/app"}
+[debug] [2021-07-30T11:16:27.356Z] <<< HTTP RESPONSE 404 {"vary":"X-Origin, Referer, Origin,Accept-Encoding","content-type":"application/json; charset=UTF-8","date":"Fri, 30 Jul 2021 11:16:25 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:27.356Z] <<< HTTP RESPONSE BODY {"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND"}}
+[debug] [2021-07-30T11:16:27.358Z] >>> HTTP REQUEST POST https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs  
+ {"name":"projects/da-quikwik-dev/configs/app"}
+[debug] [2021-07-30T11:16:27.359Z] <<< HTTP RESPONSE 404 {"vary":"X-Origin, Referer, Origin,Accept-Encoding","content-type":"application/json; charset=UTF-8","date":"Fri, 30 Jul 2021 11:16:25 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:27.359Z] <<< HTTP RESPONSE BODY {"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND"}}
+[debug] [2021-07-30T11:16:27.361Z] >>> HTTP REQUEST POST https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs  
+ {"name":"projects/da-quikwik-dev/configs/app"}
+[debug] [2021-07-30T11:16:28.579Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:16:27 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:28.580Z] >>> HTTP REQUEST POST https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables  
+ {"name":"projects/da-quikwik-dev/configs/app/variables/url","text":"https://dev.app.letsdive.io"}
+[debug] [2021-07-30T11:16:28.963Z] <<< HTTP RESPONSE 409 {"vary":"X-Origin, Referer, Origin,Accept-Encoding","content-type":"application/json; charset=UTF-8","date":"Fri, 30 Jul 2021 11:16:27 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:28.963Z] <<< HTTP RESPONSE BODY {"error":{"code":409,"message":"Requested entity already exists","status":"ALREADY_EXISTS"}}
+[debug] [2021-07-30T11:16:28.965Z] >>> HTTP REQUEST POST https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables  
+ {"name":"projects/da-quikwik-dev/configs/app/variables/id","text":"dapp_0ac85ebb05be4d36be762d88a1b419a1"}
+[debug] [2021-07-30T11:16:29.761Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:16:28 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:30.492Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:16:29 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:48.910Z] Error: connect ETIMEDOUT 172.217.167.202:443
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1129:16)
+[error] 
+[error] Error: Server Error. connect ETIMEDOUT 172.217.167.202:443
+[debug] [2021-07-30T11:16:54.390Z] ----------------------------------------------------------------------
+[debug] [2021-07-30T11:16:54.391Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Dell\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js functions:config:set app.url=https://dev.app.letsdive.io app.id=dapp_0ac85ebb05be4d36be762d88a1b419a1 app.secret=3c396ce388187ca3821d5a3cda0e2a692ce4ff6f97f3e69e7b5522c6c84a530b
+[debug] [2021-07-30T11:16:54.392Z] CLI Version:   9.16.0
+[debug] [2021-07-30T11:16:54.392Z] Platform:      win32
+[debug] [2021-07-30T11:16:54.392Z] Node Version:  v15.0.1
+[debug] [2021-07-30T11:16:54.393Z] Time:          Fri Jul 30 2021 16:46:54 GMT+0530 (India Standard Time)
+[debug] [2021-07-30T11:16:54.393Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-07-30T11:16:54.451Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-07-30T11:16:54.451Z] > authorizing via signed-in user (himanshu.yadav@letsdive.io)
+[debug] [2021-07-30T11:16:54.452Z] [iam] checking project da-quikwik-dev for permissions ["firebase.projects.get","runtimeconfig.configs.create","runtimeconfig.configs.delete","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.configs.update","runtimeconfig.variables.create","runtimeconfig.variables.delete","runtimeconfig.variables.get","runtimeconfig.variables.list","runtimeconfig.variables.update"]
+[debug] [2021-07-30T11:16:54.454Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/da-quikwik-dev:testIamPermissions  
+ {"permissions":["firebase.projects.get","runtimeconfig.configs.create","runtimeconfig.configs.delete","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.configs.update","runtimeconfig.variables.create","runtimeconfig.variables.delete","runtimeconfig.variables.get","runtimeconfig.variables.list","runtimeconfig.variables.update"]}
+[debug] [2021-07-30T11:16:56.312Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:16:55 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=1411","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:56.315Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/da-quikwik-dev/services/runtimeconfig.googleapis.com  
+ 
+[debug] [2021-07-30T11:16:58.305Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:16:57 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:58.309Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables/url  
+ 
+[debug] [2021-07-30T11:16:58.309Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables/id  
+ 
+[debug] [2021-07-30T11:16:58.310Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables/secret  
+ 
+[debug] [2021-07-30T11:16:59.022Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:16:57 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:59.023Z] >>> HTTP REQUEST PUT https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables/id  
+ {"name":"projects/da-quikwik-dev/configs/app/variables/id","text":"dapp_0ac85ebb05be4d36be762d88a1b419a1"}
+[debug] [2021-07-30T11:16:59.233Z] <<< HTTP RESPONSE 404 {"vary":"X-Origin, Referer, Origin,Accept-Encoding","content-type":"application/json; charset=UTF-8","date":"Fri, 30 Jul 2021 11:16:58 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:59.233Z] <<< HTTP RESPONSE BODY {"error":{"code":404,"message":"Requested entity was not found.","status":"NOT_FOUND"}}
+[debug] [2021-07-30T11:16:59.235Z] >>> HTTP REQUEST POST https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables  
+ {"name":"projects/da-quikwik-dev/configs/app/variables/secret","text":"3c396ce388187ca3821d5a3cda0e2a692ce4ff6f97f3e69e7b5522c6c84a530b"}
+[debug] [2021-07-30T11:16:59.882Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:16:58 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:16:59.986Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:16:58 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:17:19.685Z] Error: connect ETIMEDOUT 172.217.167.202:443
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1129:16)
+[error] 
+[error] Error: Server Error. connect ETIMEDOUT 172.217.167.202:443
+[debug] [2021-07-30T11:17:34.997Z] ----------------------------------------------------------------------
+[debug] [2021-07-30T11:17:34.999Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Dell\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js functions:config:set app.url=https://dev.app.letsdive.io app.id=dapp_0ac85ebb05be4d36be762d88a1b419a1 app.secret=3c396ce388187ca3821d5a3cda0e2a692ce4ff6f97f3e69e7b5522c6c84a530b
+[debug] [2021-07-30T11:17:34.999Z] CLI Version:   9.16.0
+[debug] [2021-07-30T11:17:34.999Z] Platform:      win32
+[debug] [2021-07-30T11:17:34.999Z] Node Version:  v15.0.1
+[debug] [2021-07-30T11:17:35.000Z] Time:          Fri Jul 30 2021 16:47:34 GMT+0530 (India Standard Time)
+[debug] [2021-07-30T11:17:35.000Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-07-30T11:17:35.062Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-07-30T11:17:35.062Z] > authorizing via signed-in user (himanshu.yadav@letsdive.io)
+[debug] [2021-07-30T11:17:35.063Z] [iam] checking project da-quikwik-dev for permissions ["firebase.projects.get","runtimeconfig.configs.create","runtimeconfig.configs.delete","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.configs.update","runtimeconfig.variables.create","runtimeconfig.variables.delete","runtimeconfig.variables.get","runtimeconfig.variables.list","runtimeconfig.variables.update"]
+[debug] [2021-07-30T11:17:35.065Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/da-quikwik-dev:testIamPermissions  
+ {"permissions":["firebase.projects.get","runtimeconfig.configs.create","runtimeconfig.configs.delete","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.configs.update","runtimeconfig.variables.create","runtimeconfig.variables.delete","runtimeconfig.variables.get","runtimeconfig.variables.list","runtimeconfig.variables.update"]}
+[debug] [2021-07-30T11:17:36.677Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:17:35 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=1330","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:17:36.680Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/da-quikwik-dev/services/runtimeconfig.googleapis.com  
+ 
+[debug] [2021-07-30T11:18:01.212Z] Error: connect ETIMEDOUT 142.250.195.10:443
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1129:16)
+[error] 
+[error] Error: Server Error. connect ETIMEDOUT 142.250.195.10:443
+[debug] [2021-07-30T11:18:06.247Z] ----------------------------------------------------------------------
+[debug] [2021-07-30T11:18:06.249Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Dell\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js functions:config:set app.url=https://dev.app.letsdive.io app.id=dapp_0ac85ebb05be4d36be762d88a1b419a1 app.secret=3c396ce388187ca3821d5a3cda0e2a692ce4ff6f97f3e69e7b5522c6c84a530b
+[debug] [2021-07-30T11:18:06.249Z] CLI Version:   9.16.0
+[debug] [2021-07-30T11:18:06.249Z] Platform:      win32
+[debug] [2021-07-30T11:18:06.249Z] Node Version:  v15.0.1
+[debug] [2021-07-30T11:18:06.250Z] Time:          Fri Jul 30 2021 16:48:06 GMT+0530 (India Standard Time)
+[debug] [2021-07-30T11:18:06.250Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-07-30T11:18:06.301Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-07-30T11:18:06.301Z] > authorizing via signed-in user (himanshu.yadav@letsdive.io)
+[debug] [2021-07-30T11:18:06.305Z] [iam] checking project da-quikwik-dev for permissions ["firebase.projects.get","runtimeconfig.configs.create","runtimeconfig.configs.delete","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.configs.update","runtimeconfig.variables.create","runtimeconfig.variables.delete","runtimeconfig.variables.get","runtimeconfig.variables.list","runtimeconfig.variables.update"]
+[debug] [2021-07-30T11:18:06.309Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/da-quikwik-dev:testIamPermissions  
+ {"permissions":["firebase.projects.get","runtimeconfig.configs.create","runtimeconfig.configs.delete","runtimeconfig.configs.get","runtimeconfig.configs.list","runtimeconfig.configs.update","runtimeconfig.variables.create","runtimeconfig.variables.delete","runtimeconfig.variables.get","runtimeconfig.variables.list","runtimeconfig.variables.update"]}
+[debug] [2021-07-30T11:18:08.524Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:18:06 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=1434","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:18:08.525Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/da-quikwik-dev/services/runtimeconfig.googleapis.com  
+ 
+[debug] [2021-07-30T11:18:10.575Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:18:09 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:18:10.578Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables/url  
+ 
+[debug] [2021-07-30T11:18:10.578Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables/id  
+ 
+[debug] [2021-07-30T11:18:10.579Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables/secret  
+ 
+[debug] [2021-07-30T11:18:11.186Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:18:09 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:18:11.188Z] >>> HTTP REQUEST PUT https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables/id  
+ {"name":"projects/da-quikwik-dev/configs/app/variables/id","text":"dapp_0ac85ebb05be4d36be762d88a1b419a1"}
+[debug] [2021-07-30T11:18:11.190Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:18:09 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:18:11.191Z] >>> HTTP REQUEST PUT https://runtimeconfig.googleapis.com/v1beta1/projects/da-quikwik-dev/configs/app/variables/url  
+ {"name":"projects/da-quikwik-dev/configs/app/variables/url","text":"https://dev.app.letsdive.io"}
+[debug] [2021-07-30T11:18:12.148Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Fri, 30 Jul 2021 11:18:10 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-30T11:18:32.072Z] Error: connect ETIMEDOUT 172.217.167.202:443
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1129:16)
+[error] 
+[error] Error: Server Error. connect ETIMEDOUT 172.217.167.202:443

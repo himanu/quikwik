@@ -221,23 +221,24 @@
             roundValue : roundValue + 1,
         })
     }
-    function processName(user){
-        let name = user.userName;
+    function processName(currUser) {
+        let name = currUser.userName;
         let fname = name?.split(" ")[0];
         if(fname?.length > 10)
         {
-            fname = name?.split(" ")[0].toUpperCase();
-            if(name?.split(" ")[1].toUpperCase()) {
-                fname += name?.split(" ")[1].toUpperCase();
+            fname = fname[0].toUpperCase();
+            if(name?.split(" ")[1]) {
+                fname += name?.split(" ")[1][0].toLowerCase();
             }
         }
-        if(user.id === hostId) {
+        if(currUser.id === hostId) {
+            if(currUser.id === userId) {
+                fname = "You";
+            }
             fname = fname + " (Host)";
         }
-        else if(user.id === userId) {
-            if(!isHost) {
-                fname = fname + " (You)";
-            }
+        else if(currUser.id === userId) {
+            fname += " (You)";
         }
         return fname;
     }

@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const axios = require('axios');
 const firebase = require('firebase');
 const { user } = require('firebase-functions/lib/providers/auth');
 admin.initializeApp();
@@ -560,6 +561,7 @@ exports.updateQuestionNumberAndScoreAfte15SecOfVotingTimer = functions.database.
   .onCreate(async(snapshot,context)=>{
     let votingTimerRef = snapshot.ref;
     let votingTimerSnap = await votingTimerRef.get();
+    let gameSessionId = context.params.gameSessionId;
     let currentQuestionNumberRef = snapshot.ref.parent.child('currentQuestionNumber');
     let currentQuestionNumber,currentQuestionNumberSnap;
     let totalNumberOfQuestions = 0;
@@ -634,6 +636,14 @@ exports.updateQuestionNumberAndScoreAfte15SecOfVotingTimer = functions.database.
           new Promise((res,rej)=>{
             if(firstUserVotes > secondUserVotes) {
               firstUserScore += 1;
+
+              updateLeaderBoard({gameSessionId,userId : firstUserId}).then(()=>{
+                console.log('update leader board is successful')
+              })
+              .catch(()=>{
+                console.log('update leader board failed')
+              });
+
               scoreOfUsersRef.child(firstUserId).set(firstUserScore)
               .then(()=>{
                 console.log('First users score is set');
@@ -646,6 +656,12 @@ exports.updateQuestionNumberAndScoreAfte15SecOfVotingTimer = functions.database.
             }
             else if(secondUserVotes > firstUserVotes) {
               secondUserScore += 1;
+              updateLeaderBoard({gameSessionId,userId : secondUserId}).then(()=>{
+                console.log('update leader board is successful')
+              })
+              .catch(()=>{
+                console.log('update leader board failed')
+              })
               scoreOfUsersRef.child(secondUserId).set(secondUserScore)
               .then(()=>{
                 console.log('Second users score is set');
@@ -685,8 +701,8 @@ exports.updateQuestionNumberAndScoreAfte15SecOfVotingTimer = functions.database.
               });
             }
           })
-          .catch(()=>{
-            console.log('Some error occure while updating the score of users');
+          .catch((err)=>{
+            console.log('Some error occurs while updating the score of users ', err);
             resolve();
           })
         },16000);
@@ -833,6 +849,38 @@ exports.startTimer = functions.runWith(runtimeOpts).https.onRequest((req, res) =
   },65500);
 
 });
+
+const updateLeaderBoard = (data) => {
+  const roomIdSessionId = data.gameSessionId;
+  console.log('gameSessionId ',roomIdSessionId);
+  const sessionId = roomIdSessionId.split("+")[1];
+  
+  return axios.post(
+    `${functions.config().app.url}/v1/api/dapp/extension/${
+      functions.config().app.id
+    }/leaderboard/save/`,
+    {
+      session_id: sessionId,
+      scores: [
+        {
+          userid: `${data.userId}`,
+          score: 10,
+        },
+      ],
+    },
+    {
+      headers: {
+        "X-APP-ACCESS-SECRET": `Token ${functions.config().app.secret}`,
+      },
+    }
+  )
+    .then(function (response) {
+      console.log('Updateleaderboard success response is ',response);
+    })
+    .catch((error) => {
+      console.log('Updateleaderboard error is ',error);
+    });
+};
 
 function compare( a, b ) {
   return Math.random > 0.5;
