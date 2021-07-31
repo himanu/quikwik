@@ -206,6 +206,9 @@
             return;
         }
         page = snap.val().page;
+        if(!page) {
+            page = 'Welcome'
+        }
     }
     dbGameSessionRoundValue.on('value',(snap)=>{
         if(!snap.exists()) {
