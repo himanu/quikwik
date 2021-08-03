@@ -1,4 +1,12 @@
 /node_modules/
 /public/build/
-.firebase
+.vscode
+
 .DS_Store
+.firebase
+
+*.log
+.env.development
+.env.development.emulate
+.env.prod
+.runtimeconfig.json
