@@ -445,7 +445,7 @@
         }
         console.log('leadingMsg ',leadingMsg);
         listenFirebaseKey(dbVoteTimer,(dbVoteTimerRef)=>{
-            dbVoteTimerRef.set(Date.now() + 16000).then(()=>{
+            dbVoteTimerRef.set(Date.now() + 11000).then(()=>{
                 console.log('Voting timer is set success');
             });
             // setTimeout(()=>{
