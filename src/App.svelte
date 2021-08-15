@@ -79,11 +79,13 @@
                     onlineUsersArray.push(currUser);
                 }
                 if(users[id].isOnline === false) {
-                    if(id === userId) {
-                        info('You have been disconnected, please check your internet connection','Disconnected',5000);
-                    }
-                    else {
-                        info(`${users[id]['userName']} is disconnected. Waiting for ${users[id]['userName']} to connect again`,'Disconnected',5000);
+                    if(id in usersOnlineStatus && usersOnlineStatus[id] === true) {
+                        if(id === userId) {
+                            info('You have been disconnected, please check your internet connection','Disconnected',5000);
+                        }
+                        else {
+                            info(`${users[id]['userName']} is disconnected. Waiting for ${users[id]['userName']} to connect again`,'Disconnected',5000);
+                        }
                     }
                     usersOnlineStatus[id] = false;
                 }

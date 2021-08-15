@@ -2,7 +2,18 @@ import firebase from "firebase/app";
 import "firebase/database";
 import 'firebase/functions';
 import { getGameSessionId, getParams,questionArray} from "./utils";
+import * as Sentry from "@sentry/browser";
+import { Integrations } from "@sentry/tracing";
 
+Sentry.init({
+  dsn: "https://c431e168cceb4a57b5c4f3d9bca125a8@o422923.ingest.sentry.io/5900043",
+  integrations: [new Integrations.BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
 const firebaseConfig = {
     apiKey: "AIzaSyCEGBePNguj6IVlDbRdp1Mo135AK7wXsKo",
     authDomain: "da-quikwik-dev.firebaseapp.com",

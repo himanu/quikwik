@@ -24,6 +24,8 @@
     "svelte-preprocess": "^4.7.4"
   },
   "dependencies": {
+    "@sentry/browser": "^6.11.0",
+    "@sentry/tracing": "^6.11.0",
     "env-cmd": "^10.1.0",
     "firebase": "^8.6.8",
     "firebase-admin": "^9.10.0",
